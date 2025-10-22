@@ -1,0 +1,44 @@
+# Core Scientific Computing
+numpy==2.2.3
+pandas==2.2.3
+scipy==1.15.2
+scikit-learn==1.6.1
+
+# Web Framework & Dashboard
+dash==3.2.0
+dash-bio==1.0.2
+flask==3.1.2
+
+# Visualization
+matplotlib==3.10.1
+plotly==5.24.1
+kaleido==0.2.1
+
+# Machine Learning & AI
+transformers==4.49.0
+accelerate==1.4.0
+huggingface-hub==0.29.2
+tokenizers==0.21.0
+sentencepiece==0.2.0
+bitsandbytes==0.45.3
+safetensors==0.5.3
+
+# AI APIs
+openai==1.65.5
+ollama==0.4.7
+
+# 3D/CAD Libraries
+ifcopenshell==0.8.1
+
+# Parsing & Logic
+clingo==5.8.0
+lark-parser==0.12.0
+geoparse==2.0.4
+
+# Utilities
+tqdm==4.67.1
+requests==2.32.3
+python-dotenv==1.0.1
+pyyaml==6.0.2
+openpyxl==3.1.5
+beautifulsoup4==4.13.4
