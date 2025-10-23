@@ -1,0 +1,79 @@
+[
+    {
+        "regulation_clause": "1007_1_1",
+        "core_component_type": "Conference Room",
+        "core_component_type_number": "306",
+        "core_component_GUID": "1W6yAWYtbDbPaMjexfopdL",
+        "checking_variable_name": "Required door separation",
+        "checking_variable_unit": "feet",
+        "required_variable_value": "20.82",
+        "actual_variable_value": "17.37",
+        "bcf_id": "df6a3d56-8685-4675-b5a2-7650e85088db"
+    },
+    {
+        "regulation_clause": "1007_1_1",
+        "core_component_type": "Conference Room",
+        "core_component_type_number": "307",
+        "core_component_GUID": "1W6yAWYtbDbPaMjexfopdJ",
+        "checking_variable_name": "Required door separation",
+        "checking_variable_unit": "feet",
+        "required_variable_value": "24.51",
+        "actual_variable_value": "17.40",
+        "bcf_id": "21a38776-fb87-4b71-b5c2-e92e23f2182a"
+    },
+    {
+        "regulation_clause": "1017_2",
+        "core_component_type": "Conference Room",
+        "core_component_type_number": "307",
+        "core_component_GUID": "1W6yAWYtbDbPaMjexfopdJ",
+        "checking_variable_name": "Travel distance to safe place",
+        "checking_variable_unit": "feet",
+        "required_variable_value": "250.0",
+        "actual_variable_value": "285.4",
+        "bcf_id": "d7ca856c-3cbc-4cbb-b4c3-95ac086337ef"
+    },
+    {
+        "regulation_clause": "1020_2",
+        "core_component_type": "Corridor",
+        "core_component_type_number": "126",
+        "core_component_GUID": "3O7NDSvVP7jhJX5Gt$LDEK",
+        "checking_variable_name": "width",
+        "checking_variable_unit": "feet",
+        "required_variable_value": "6.0",
+        "actual_variable_value": "5.083333333333333",
+        "bcf_id": "0ge58quh-9e73-493b-860d-dd2d9abdeee2"
+    },
+    {
+        "regulation_clause": "1020_2",
+        "core_component_type": "Corridor",
+        "core_component_type_number": "311",
+        "core_component_GUID": "3O7NDSvVP7jhJX5Gt$LDFz",
+        "checking_variable_name": "width",
+        "checking_variable_unit": "feet",
+        "required_variable_value": "6.0",
+        "actual_variable_value": "5.083333333333333",
+        "bcf_id": "0ge58quh-3beb-4953-ab5a-7891bb6c66ad"
+    },
+    {
+        "regulation_clause": "1020_2",
+        "core_component_type": "Corridor",
+        "core_component_type_number": "211",
+        "core_component_GUID": "3O7NDSvVP7jhJX5Gt$LDEJ",
+        "checking_variable_name": "width",
+        "checking_variable_unit": "feet",
+        "required_variable_value": "6.0",
+        "actual_variable_value": "5.083333333333333",
+        "bcf_id": "0ge58quh-7079-4e22-b0e1-f08287d894b3"
+    },
+    {
+        "regulation_clause": "1020_2",
+        "core_component_type": "Corridor",
+        "core_component_type_number": "022",
+        "core_component_GUID": "3O7NDSvVP7jhJX5Gt$LDET",
+        "checking_variable_name": "width",
+        "checking_variable_unit": "feet",
+        "required_variable_value": "6.0",
+        "actual_variable_value": "5.083333333333333",
+        "bcf_id": "0ge58quh-f8e8-4197-85f6-919997beb2a1"
+    }
+]

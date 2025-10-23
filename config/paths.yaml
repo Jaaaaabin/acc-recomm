@@ -12,6 +12,7 @@ data:
   processed:
     ifc: "data/processed/ifc"
     rvt: "data/processed/rvt"
+    rule: "data/processed/rule"
 
 # Configuration
 config:
