@@ -23,27 +23,21 @@ from Autodesk.Revit.DB import SaveAsOptions
 
 from UIFrameworkServices import QuickAccessToolBarService
 
+# =====================================================================================================
+# IMPORT - REVIT Batch UTILITIES
+import revit_script_util
+from revit_script_util import Output
+
+# =====================================================================================================
 # IMPORT - CUSTOM FUNCTIONS. 
-# =====================================================================================================
-# =====================================================================================================
-# =====================================================================================================
-#
 from Tools.ComponentHandlerColumn import ComponentHandlerColumn
 from Tools.ComponentHandlerDoor import ComponentHandlerDoor
 from Tools.ComponentHandlerSlab import ComponentHandlerSlab
 from Tools.ComponentHandlerStair import ComponentHandlerStair
 from Tools.ComponentHandlerWall import ComponentHandlerWall
 
-# FUNCTIONS 
 # =====================================================================================================
-# =====================================================================================================
-# =====================================================================================================
-#
-
 # CLASS - DesignRevisionExporter: Export the Revit model to IFC and update the data handler.
-# =====================================================================================================
-# =====================================================================================================
-# =====================================================================================================
 class DesignRevisionExporter():
 
     def __init__(self, doc, path_output, verbose=False):

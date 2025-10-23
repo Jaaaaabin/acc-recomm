@@ -24,7 +24,7 @@ venv.bak/
 
 # --- Raw / Processed / Validation Data ---
 data/archive
-data/processed/**/*
+data/processed/ifc/*
 !data/processed/.gitkeep
 data/validation/**/*
 !data/validation/.gitkeep

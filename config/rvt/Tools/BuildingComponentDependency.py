@@ -3,7 +3,7 @@
 # =====================================================================================================
 # =====================================================================================================
 # =====================================================================================================
-#
+
 import clr
 from collections import Counter, defaultdict
 clr.AddReference('RevitAPI')
@@ -14,38 +14,20 @@ import Autodesk
 from System.Collections.Generic import *
 from Autodesk.Revit.DB import FilteredElementCollector, BuiltInCategory, Structure, ElementId, Phase, SpatialElementBoundaryOptions
 
-# IMPORT - CUSTOM FUNCTIONS. 
 # =====================================================================================================
+# IMPORT - REVIT Batch UTILITIES
+import revit_script_util
+from revit_script_util import Output
+
 # =====================================================================================================
-# =====================================================================================================
-#
-# from GeometryHelper import are_lines_intersecting_by_shifting_extending, ccalculate_bbx_overlap_volume_by_minmax_xyz
-# from GeneralSettings import find_active_phase
+# IMPORT - CUSTOM FUNCTIONS.
 from Tools.BuildingComponent import SlabComponent, RoomComponent, WallComponent, DoorComponent, WindowComponent
 from Tools.BuildingComponent import StructuralColumnComponent, StairComponent, SeparationLineComponent
-
-# SET - DOC 
-# =====================================================================================================
-# =====================================================================================================
-# =====================================================================================================
-#
-# doc     = __revit__.ActiveUIDocument.Document
-
-# FUNCTIONS 
-# =====================================================================================================
-# =====================================================================================================
-# =====================================================================================================
-#
 from Tools.GeometryHelper import get_XYZpoint_as_list, are_lines_parallel_with_distance, is_point_near_line, are_points_aligned, get_combinations
 from Tools.GeneralSettings import write_json_data, extract_instance_attributes
 
 # =====================================================================================================
-# =====================================================================================================
-# =====================================================================================================
 # CLASS - ComponentDependency (Base Class)
-# =====================================================================================================
-# =====================================================================================================
-# =====================================================================================================
 class ComponentDependencyConstructor:
     """
     Base class for constructing dependencies between Revit elements.
@@ -58,10 +40,42 @@ class ComponentDependencyConstructor:
 
         self.relationship_type = type_name
 
+    def _get_phase_by_name(self, doc, target_phase_name="New Construction"):
+        """
+        Retrieves a Phase element by name from the given document.
+        Falls back to the first available phase if not found.
+        """
+        phases = list(FilteredElementCollector(doc).OfClass(Phase).ToElements())
+
+        # Print all available phases
+        for p in phases:
+            msg = "phases: Name = {0}, Id = {1}".format(p.Name, p.Id)
+            Output(msg)
+
+        # Try to match by name
+        selected_phase = None
+        for p in phases:
+            if p.Name == target_phase_name:
+                selected_phase = p
+                break
+
+        # # Fallback handling
+        # if not selected_phase and phases:
+        #     selected_phase = phases[0]
+        #     Output("Phase '{0}' not found. Defaulted to first phase: {1}".format(target_phase_name, selected_phase.Name))
+        # elif selected_phase:
+        #     Output("Selected phase: {0}".format(selected_phase.Name))
+        # else:
+        #     Output("No phases found in the document.")
+
+        return selected_phase
+
     def _set_relation_settings(self, doc):
 
         self.doc = doc
-        self.phase = list(FilteredElementCollector(self.doc).OfClass(Phase).ToElements())[0]
+        # self.phase = list(FilteredElementCollector(self.doc).OfClass(Phase).ToElements())[0]
+        self.phase = self._get_phase_by_name(self.doc, "New Construction")
+
         self.element_mapping_ost2string = {
             BuiltInCategory.OST_Rooms: 'space',
             BuiltInCategory.OST_Floors: 'slab',

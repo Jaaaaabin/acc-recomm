@@ -21,31 +21,19 @@ from Autodesk.Revit.DB import ElementId, XYZ, Line, Transaction, StairsEditScope
 from Autodesk.Revit.DB.Architecture import StairsRun, StairsLanding, StairsRunJustification 
 from RevitServices.Transactions import TransactionManager
 
+# =====================================================================================================
+# IMPORT - REVIT Batch UTILITIES
+import revit_script_util
+from revit_script_util import Output
 
+# =====================================================================================================
 # IMPORT - CUSTOM FUNCTIONS. 
-# =====================================================================================================
-# =====================================================================================================
-# =====================================================================================================
-#
 from Tools.ComponentHandlerBase import NoWarningsFailurePreprocessor, ComponentHandlerBase
 from Tools.GeneralSettings import convert_python_to_curve_list
 from Tools.ComponentHandlerSlab import ComponentHandlerSlab
 
-# from System import Type
-# from System import Activator
-# no_warn_handler = NoWarningsFailurePreprocessor()
-# no_warn_handler_cast = clr.Convert(no_warn_handler, IFailuresPreprocessor)
-
-# FUNCTIONS 
 # =====================================================================================================
-# =====================================================================================================
-# =====================================================================================================
-#
-
 # CLASS - ComponentHandlerStair (Subclass)
-# =====================================================================================================
-# =====================================================================================================
-# =====================================================================================================
 # ========= "STAIR" =========
 # STAIR	CREATE	BuildingStorey	CREATE a STAIR in relation to the specified BuildingStorey
 # STAIR	CREATE	Space	CREATE a STAIR in relation to the specified Space

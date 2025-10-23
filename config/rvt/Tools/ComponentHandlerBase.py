@@ -20,27 +20,13 @@ from System.Collections.Generic import List
 from Autodesk.Revit.DB import BuiltInParameter, FilteredElementCollector, FailureProcessingResult, IFailuresPreprocessor, FailureSeverity
 from Autodesk.Revit.DB import ElementId, XYZ, Line, Transaction, BuiltInCategory, Level, Group, Solid, Edge, Face
 
-# IMPORT - CUSTOM FUNCTIONS. 
 # =====================================================================================================
-# =====================================================================================================
-# =====================================================================================================
-#
-# from GeometryHelper import are_lines_intersecting_by_shifting_extending, ccalculate_bbx_overlap_volume_by_minmax_xyz
-# from GeneralSettings import find_active_phase
+# IMPORT - REVIT Batch UTILITIES
+import revit_script_util
+from revit_script_util import Output
 
-# FUNCTIONS 
-# =====================================================================================================
-# =====================================================================================================
-# =====================================================================================================
-#
-
-# =====================================================================================================
-# =====================================================================================================
 # =====================================================================================================
 # CLASS - NoWarningsFailurePreprocessor (Assistance Class)
-# =====================================================================================================
-# =====================================================================================================
-# =====================================================================================================
 class NoWarningsFailurePreprocessor(IFailuresPreprocessor):
     
     # I find out that it is possible to handle this problem using new Namespace everytime.
