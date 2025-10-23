@@ -1,0 +1,48 @@
+# config/paths.yaml
+# All paths are relative to project root
+# Use forward slashes - Python/pathlib will convert automatically
+
+root_dir: "."
+
+# Data directories
+data:
+  root: "data"
+  regulations: "data/regulations"
+  bim_models: "data/bim_models"
+  processed:
+    ifc: "data/processed/ifc"
+    rvt: "data/processed/rvt"
+
+# Configuration
+config:
+  root: "config"
+  rvt: "config/rvt"
+  moduels: "config/modules"
+
+# Scripts
+scripts:
+  root: "scripts"
+  setup: "scripts/setup_environment.py"
+  run_rvt_lpg: "scripts/run_rvt_lpg.py"
+  
+# Source code
+src:
+  root: "src"
+  common: "src/common"
+  rkg: "src/rkg"
+  lpg: "src/lpg"
+  alignment: "src/alignment"
+  recommendation: "src/recommendation"
+  utils: "src/utils"
+
+# Logs
+logs:
+  root: "logs"
+  rkg: "logs/rkg"
+  lpg: "logs/lpg"
+  alignment: "logs/alignment"
+  recommendation: "logs/recommendation"
+
+# Temporary files
+temp:
+  root: "temp"

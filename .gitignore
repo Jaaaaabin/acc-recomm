@@ -8,6 +8,7 @@
 uv.lock            # Optional: remove this line if you want reproducible builds
 env/
 venv/
+venv*/
 ENV/
 env.bak/
 venv.bak/
@@ -22,15 +23,13 @@ venv.bak/
 # ============================================================
 
 # --- Raw / Processed / Validation Data ---
-data/raw/**/*
-!data/raw/.gitkeep
+data/archive
 data/processed/**/*
 !data/processed/.gitkeep
 data/validation/**/*
 !data/validation/.gitkeep
 
 # --- BIM / Model Files (too large) ---
-*.rvt
 *.rfa
 *.ifc
 !data/raw/bim_models/.gitkeep
