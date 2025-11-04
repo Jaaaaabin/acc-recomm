@@ -1,5 +1,5 @@
 # Core Scientific Computing
-numpy==2.2.3
+numpy<2.0.0
 pandas==2.2.3
 scipy==1.15.2
 scikit-learn==1.6.1
@@ -20,7 +20,6 @@ accelerate==1.4.0
 huggingface-hub==0.29.2
 tokenizers==0.21.0
 sentencepiece==0.2.0
-bitsandbytes==0.45.3
 safetensors==0.5.3
 
 # AI APIs
