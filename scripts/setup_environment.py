@@ -24,9 +24,9 @@ def check_platform():
         logger.info("Windows-specific setup...")
         try:
             import clr
-            logger.info("✓ pythonnet available for Revit API access")
+            logger.info("pythonnet available for Revit API access")
         except ImportError:
-            logger.warning("✗ pythonnet not available (install with: uv pip install pythonnet)")
+            logger.warning("pythonnet not available (install with: uv pip install pythonnet)")
     
     elif pm.is_mac():
         logger.info("macOS-specific setup...")
@@ -53,17 +53,17 @@ def verify_dependencies():
     for package in required:
         try:
             __import__(package)
-            logger.info(f"✓ {package}")
+            logger.info(f"{package}")
         except ImportError:
             missing.append(package)
-            logger.error(f"✗ {package}")
+            logger.error(f"{package}")
     
     if missing:
         logger.error(f"Missing packages: {', '.join(missing)}")
         logger.error("Run: uv sync")
         return False
     
-    logger.info("✓ All core dependencies verified")
+    logger.info("All core dependencies verified")
     return True
 
 
@@ -75,11 +75,11 @@ def download_models():
         import spacy
         logger.info("Downloading spacy model...")
         spacy.cli.download("en_core_web_sm")
-        logger.info("✓ Spacy model downloaded")
+        logger.info("Spacy model downloaded")
     except Exception as e:
         logger.error(f"Failed to download spacy model: {e}")
     
-    logger.info("✓ Model setup complete")
+    logger.info("Model setup complete")
 
 
 

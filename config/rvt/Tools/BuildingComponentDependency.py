@@ -59,14 +59,14 @@ class ComponentDependencyConstructor:
                 selected_phase = p
                 break
 
-        # # Fallback handling
-        # if not selected_phase and phases:
-        #     selected_phase = phases[0]
-        #     Output("Phase '{0}' not found. Defaulted to first phase: {1}".format(target_phase_name, selected_phase.Name))
-        # elif selected_phase:
-        #     Output("Selected phase: {0}".format(selected_phase.Name))
-        # else:
-        #     Output("No phases found in the document.")
+        # Fallback handling
+        if not selected_phase and phases:
+            selected_phase = phases[0]
+            Output("Phase '{0}' not found. Defaulted to first phase: {1}".format(target_phase_name, selected_phase.Name))
+        elif selected_phase:
+            Output("Selected phase: {0}".format(selected_phase.Name))
+        else:
+            Output("No phases found in the document.")
 
         return selected_phase
 
@@ -1090,22 +1090,46 @@ class ComponentDependencyExtractor:
             (SeparationLineComponent, BuiltInCategory.OST_RoomSeparationLines, "v-separationline.json"),
         ]
 
-    def generate_and_save_instances(self, instance_tasks=None, name_key="id"):
+    def generate_and_save_instances(self, name_key="id"):
         """
         instance_tasks: list of tuples (element_class, category, filename)
         If not provided, uses the default set for this extractor.
         """
         
-        if instance_tasks is None:
-            instance_tasks = self.instance_tasks
-        for element_class, category, filename in instance_tasks:
+        instance_tasks = self.instance_tasks
+
+        for i, (element_class, category, filename) in enumerate(instance_tasks):
+            Output("DEBUG: Processing task {}/{}: element_class={}, category={}, filename={}".format(
+                i+1, len(instance_tasks), element_class, category, filename))
+
             collector = FilteredElementCollector(self.doc).OfCategory(category).WhereElementIsNotElementType().ToElements()
             category_name = System.Enum.GetName(BuiltInCategory, category)
+            Output("Extracting instances for category: {}".format(category_name))
+
             instance_dict = {}
-            for element in collector:
-                instance = element_class(element, self.doc)
-                dict_k, dict_v = extract_instance_attributes(instance, name_key=name_key)
-                instance_dict[dict_k] = dict_v
+            Output("DEBUG: Starting to process {} elements for category: {}".format(len(collector), category_name))
+            
+            for j, element in enumerate(collector):
+                try:
+                    Output("DEBUG: Processing element {}/{} for category {}: element_id={}".format(
+                        j+1, len(collector), category_name, element.Id))
+                    
+                    instance = element_class(element, self.doc)
+                    Output("DEBUG: Created instance: {}".format(type(instance)))
+                    
+                    dict_k, dict_v = extract_instance_attributes(instance, name_key=name_key)
+                    Output("DEBUG: Extracted attributes - key: {}, value type: {}".format(dict_k, type(dict_v)))
+                    
+                    instance_dict[dict_k] = dict_v
+                    Output("DEBUG: Successfully added to instance_dict")
+                    
+                except Exception as e:
+                    Output("ERROR: Failed to process element {}/{} for category {}: {}".format(
+                        j+1, len(collector), category_name, str(e)))
+                    Output("ERROR: Element details - Id: {}, Type: {}".format(element.Id, type(element)))
+                    # Continue with next element instead of crashing
+                    continue
+
             output_path = os.path.join(self.output_dir, filename)
             write_json_data(output_path, instance_dict)
 
