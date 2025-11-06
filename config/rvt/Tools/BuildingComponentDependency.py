@@ -206,35 +206,175 @@ class ComponentDependencyConstructor:
                 print("Value:", value)
                 print("----------------------------------------------------------------------------------")
     
+    def _debug(self, message, data=None, level="DEBUG"):
+        """
+        Simple debug function that can be easily inserted anywhere for debugging.
+        
+        Args:
+            message: Main debug message (string)
+            data: Optional additional data to display (any type)
+            level: Debug level - "DEBUG", "INFO", "WARNING", "ERROR" (default: "DEBUG")
+        """
+        if data is not None:
+            Output("[{}] {} | Data: {}".format(level, message, data))
+        else:
+            Output("[{}] {}".format(level, message))
+    
+    def _get_caller_id(self):
+        """Get the caller identifier for debug messages."""
+        return self.relationship_type if hasattr(self, 'relationship_type') and self.relationship_type else self.__class__.__name__
+    
+    def _get_element_id(self, element):
+        """Safely get element ID as string."""
+        return str(element.Id) if hasattr(element, 'Id') and element.Id else 'unknown'
+    
+    def _safe_get_bbox_properties(self, element):
+        """
+        Safely extract bounding box properties (Max/Min X/Y/Z).
+        Returns dict with keys ('max_x', 'max_y', 'max_z', 'min_x', 'min_y', 'min_z') or None if extraction fails.
+        """
+        try:
+            bbx = element.get_BoundingBox(None)
+            if not bbx or not hasattr(bbx, 'Max') or not hasattr(bbx, 'Min'):
+                return None
+            if bbx.Max is None or bbx.Min is None:
+                return None
+            
+            try:
+                props = {
+                    'max_x': getattr(bbx.Max, 'X', None),
+                    'max_y': getattr(bbx.Max, 'Y', None),
+                    'max_z': getattr(bbx.Max, 'Z', None),
+                    'min_x': getattr(bbx.Min, 'X', None),
+                    'min_y': getattr(bbx.Min, 'Y', None),
+                    'min_z': getattr(bbx.Min, 'Z', None),
+                }
+                # Validate all properties are not None
+                if None in props.values():
+                    return None
+                return props
+            except (AttributeError, TypeError):
+                return None
+        except Exception:
+            return None
+    
+    def _safe_get_bbox_thickness_z(self, element, fallback=0.0):
+        """Safely extract Z thickness from element bounding box. Returns fallback if extraction fails."""
+        props = self._safe_get_bbox_properties(element)
+        if props is None:
+            return fallback
+        thickness = props['max_z'] - props['min_z']
+        return thickness if thickness > 0 else fallback
+    
+    def _safe_get_bbox_dimensions(self, element, fallback=(0.0, 0.0, 0.0)):
+        """Safely extract X, Y, Z dimensions from element bounding box. Returns fallback if extraction fails."""
+        props = self._safe_get_bbox_properties(element)
+        if props is None:
+            return fallback
+        return (props['max_x'] - props['min_x'], 
+                props['max_y'] - props['min_y'], 
+                props['max_z'] - props['min_z'])
+    
+    def _safe_get_wall_width(self, wall, fallback=0.0):
+        """Safely extract width from wall element. Returns fallback if extraction fails."""
+        try:
+            if not hasattr(wall, 'Width'):
+                return fallback
+            width = getattr(wall, 'Width', None)
+            return width if width is not None and width > 0 else fallback
+        except Exception:
+            return fallback
+    
+    def _safe_get_bbox_coords(self, element, reshape_x_y_z=[0.0, 0.0, 0.0], fallback=None):
+        """
+        Safely extract min and max coordinates from element bounding box with reshape.
+        Returns (min_xyz, max_xyz) tuple or fallback if extraction fails.
+        """
+        props = self._safe_get_bbox_properties(element)
+        if props is None:
+            return fallback
+        min_xyz = (props['min_x'] - reshape_x_y_z[0], 
+                   props['min_y'] - reshape_x_y_z[1], 
+                   props['min_z'] - reshape_x_y_z[2])
+        max_xyz = (props['max_x'] + reshape_x_y_z[0], 
+                   props['max_y'] + reshape_x_y_z[1], 
+                   props['max_z'] + reshape_x_y_z[2])
+        return (min_xyz, max_xyz)
+    
+    def _process_elements_for_thickness(self, elements, category_name, extract_func, max_attr_name, caller_id):
+        """Helper to process elements and calculate maximum thickness."""
+        count = 0
+        failed = 0
+        max_value = 0.0
+        
+        for element in elements:
+            count += 1
+            try:
+                value = extract_func(element)
+                if value > 0:
+                    max_value = max(max_value, value)
+                else:
+                    failed += 1
+            except Exception as e:
+                failed += 1
+                self._debug("[{}] Failed to process {}".format(caller_id, category_name), 
+                           "ID: {}, Error: {}".format(self._get_element_id(element), str(e)), 
+                           level="WARNING")
+        
+        if failed > 0:
+            self._debug("[{}] {} processed".format(caller_id, category_name), 
+                       "Total: {}, Failed: {}".format(count, failed), level="INFO")
+        return max_value
+    
     def _get_overall_geo_values(self):
         """
         Get basic geometric information serving as tolerance values.
-        #  max_slab_thickness: Maximum value of the slab thickness
-        #  max_slab_thickness: Maximum value of the slab thickness
-        #  max_slab_thickness: Maximum value of the slab thickness
+        Calculates max_slab_thickness, max_wall_thickness, and max_column_thickness.
         """
+        caller_id = self._get_caller_id()
+        self._debug("Starting geometric values calculation", "Caller: {}".format(caller_id), level="INFO")
         
-        self.max_slab_thickness = 0.0
-        self.max_wall_thickness = 0.0
+        # Process slabs
+        slabs = FilteredElementCollector(self.doc).OfCategory(BuiltInCategory.OST_Floors).WhereElementIsNotElementType()
+        self.max_slab_thickness = self._process_elements_for_thickness(
+            slabs, "slab", self._safe_get_bbox_thickness_z, "max_slab_thickness", caller_id)
+        
+        # Process walls
+        walls = FilteredElementCollector(self.doc).OfCategory(BuiltInCategory.OST_Walls).WhereElementIsNotElementType()
+        self.max_wall_thickness = self._process_elements_for_thickness(
+            walls, "wall", self._safe_get_wall_width, "max_wall_thickness", caller_id)
+        
+        # Process columns
+        columns = FilteredElementCollector(self.doc).OfCategory(BuiltInCategory.OST_StructuralColumns).WhereElementIsNotElementType()
+        col_count = 0
+        col_failed = 0
         self.max_column_thickness = 0.0
-
-        for slab in FilteredElementCollector(self.doc).OfCategory(BuiltInCategory.OST_Floors).WhereElementIsNotElementType():
-            bbx = slab.get_BoundingBox(None)
-            if bbx:
-                self.max_slab_thickness = max(self.max_slab_thickness, bbx.Max.Z - bbx.Min.Z)
         
-        for wall in FilteredElementCollector(self.doc).OfCategory(BuiltInCategory.OST_Walls).WhereElementIsNotElementType():
-            if hasattr(wall, "Width"):
-                self.max_wall_thickness = max(self.max_wall_thickness, wall.Width)
-        
-        for col in FilteredElementCollector(self.doc).OfCategory(BuiltInCategory.OST_StructuralColumns).WhereElementIsNotElementType():
-                bbx = col.get_BoundingBox(None)
-                if bbx:
-                    dx = bbx.Max.X - bbx.Min.X
-                    dy = bbx.Max.Y - bbx.Min.Y
-                    dz = bbx.Max.Z - bbx.Min.Z
+        for col in columns:
+            col_count += 1
+            try:
+                dx, dy, dz = self._safe_get_bbox_dimensions(col, fallback=(0.0, 0.0, 0.0))
+                if dx > 0 and dy > 0 and dz > 0:
                     thickness = min(dx, dy, dz)
-                    self.max_column_thickness = max(self.max_column_thickness, thickness)
+                    if thickness > 0:
+                        self.max_column_thickness = max(self.max_column_thickness, thickness)
+                else:
+                    col_failed += 1
+            except Exception as e:
+                col_failed += 1
+                self._debug("[{}] Failed to process column".format(caller_id), 
+                           "ID: {}, Error: {}".format(self._get_element_id(col), str(e)), 
+                           level="WARNING")
+        
+        if col_failed > 0:
+            self._debug("[{}] Columns processed".format(caller_id), 
+                       "Total: {}, Failed: {}".format(col_count, col_failed), level="INFO")
+        
+        # Final summary
+        self._debug("[{}] Geometric values calculated".format(caller_id), 
+                   "max_slab_thickness: {:.3f}, max_wall_thickness: {:.3f}, max_column_thickness: {:.3f}".format(
+                       self.max_slab_thickness, self.max_wall_thickness, self.max_column_thickness), 
+                   level="INFO")
            
     def _add_relationship(self, k_pair, constructed_relationships):
         if k_pair in self.collection_all_component_relationships:
@@ -296,56 +436,75 @@ class ComponentDependencyConstructor:
         """
         elements_a, elements_b = pair_of_elements
         relationships = []
+        caller_id = self._get_caller_id()
 
         for element_a in elements_a:
-        
-            # increased reshape: [+, +, +], or descreased reshape:[-, -, -]
-            bbx_a = element_a.get_BoundingBox(None)
-            min_a_xyz = (bbx_a.Min.X - reshape_x_y_z[0], bbx_a.Min.Y - reshape_x_y_z[1], bbx_a.Min.Z - reshape_x_y_z[2])
-            max_a_xyz = (bbx_a.Max.X + reshape_x_y_z[0], bbx_a.Max.Y + reshape_x_y_z[1], bbx_a.Max.Z + reshape_x_y_z[2])
-            
+            try:
+                bbx_a_result = self._safe_get_bbox_coords(element_a, reshape_x_y_z)
+                if bbx_a_result is None:
+                    self._debug("[{}] Skipping element_a - invalid bounding box".format(caller_id), 
+                               "Element ID: {}".format(self._get_element_id(element_a)), 
+                               level="WARNING")
+                    continue
+                min_a_xyz, max_a_xyz = bbx_a_result
+            except Exception as e:
+                self._debug("[{}] Error processing element_a bounding box".format(caller_id), 
+                           "Element ID: {}, Error: {}".format(self._get_element_id(element_a), str(e)), 
+                           level="WARNING")
+                continue
         
             for element_b in elements_b:
-
-                if "all" not in match_level:
-                    # only if the match_level is enbaled, we extract the level id. 
-                    level_id_a, level_id_b = element_a.LevelId, element_b.LevelId
-                    if  ("same" in match_level and level_id_a != level_id_b) or ("different" in match_level and level_id_a == level_id_b):
+                try:
+                    # Check level matching if needed
+                    if "all" not in match_level:
+                        level_id_a, level_id_b = element_a.LevelId, element_b.LevelId
+                        if (("same" in match_level and level_id_a != level_id_b) or 
+                            ("different" in match_level and level_id_a == level_id_b)):
+                            continue
+        
+                    # Skip if same element
+                    if element_a.Id == element_b.Id:
                         continue
-    
-                # skip if they're actually the same building component.
-                if element_a.Id == element_b.Id:
+                     
+                    # Get bounding box coordinates for element_b
+                    bbx_b_result = self._safe_get_bbox_coords(element_b, reshape_x_y_z)
+                    if bbx_b_result is None:
+                        continue
+                    min_b_xyz, max_b_xyz = bbx_b_result
+                    
+                    # Calculate volume for element_b (without reshape)
+                    bbx_b_raw = self._safe_get_bbox_coords(element_b, reshape_x_y_z=[0.0, 0.0, 0.0])
+                    if bbx_b_raw is None:
+                        continue
+                    min_b_raw, max_b_raw = bbx_b_raw
+                    bbx_b_volume = ((max_b_raw[0] - min_b_raw[0]) * 
+                                   (max_b_raw[1] - min_b_raw[1]) * 
+                                   (max_b_raw[2] - min_b_raw[2]))
+
+                    # Calculate overlap
+                    x_overlap = max(0, min(max_a_xyz[0], max_b_xyz[0]) - max(min_a_xyz[0], min_b_xyz[0]))
+                    y_overlap = max(0, min(max_a_xyz[1], max_b_xyz[1]) - max(min_a_xyz[1], min_b_xyz[1]))
+                    z_overlap = max(0, min(max_a_xyz[2], max_b_xyz[2]) - max(min_a_xyz[2], min_b_xyz[2]))
+                    overlap_volume = x_overlap * y_overlap * z_overlap
+                    
+                    # Determine match based on mode
+                    is_match = False
+                    if "intersection" in match_mode:
+                        is_match = overlap_volume > 0
+                    elif "inclusion" in match_mode:
+                        is_match = overlap_volume >= bbx_b_volume * factor_inclusion
+                    else:
+                        print("no correct mode selected.")
+
+                    if is_match:
+                        relationships.append((self._get_element_id(element_a), self._get_element_id(element_b)))
+                
+                except Exception as e:
+                    self._debug("[{}] Error processing element_b in pair".format(caller_id), 
+                               "Element A ID: {}, Element B ID: {}, Error: {}".format(
+                                   self._get_element_id(element_a), self._get_element_id(element_b), str(e)), 
+                               level="WARNING")
                     continue
-                 
-                # increased reshape: [+, +, +], or descreased reshape:[-, -, -]
-                bbx_b = element_b.get_BoundingBox(None)
-                bbx_b_volume_xyz = (bbx_b.Max.X - bbx_b.Min.X) * (bbx_b.Max.Y - bbx_b.Min.Y) * (bbx_b.Max.Z - bbx_b.Min.Z)
-                min_b_xyz = (bbx_b.Min.X - reshape_x_y_z[0], bbx_b.Min.Y - reshape_x_y_z[1], bbx_b.Min.Z - reshape_x_y_z[2])
-                max_b_xyz = (bbx_b.Max.X + reshape_x_y_z[0], bbx_b.Max.Y + reshape_x_y_z[1], bbx_b.Max.Z + reshape_x_y_z[2])
-
-                x_overlap = max(0, min(max_a_xyz[0], max_b_xyz[0]) - max(min_a_xyz[0], min_b_xyz[0]))
-                y_overlap = max(0, min(max_a_xyz[1], max_b_xyz[1]) - max(min_a_xyz[1], min_b_xyz[1]))
-                z_overlap = max(0, min(max_a_xyz[2], max_b_xyz[2]) - max(min_a_xyz[2], min_b_xyz[2]))
-                
-                xy_overlap_area = x_overlap * y_overlap
-                xyz_overlap_volume = xy_overlap_area * z_overlap
-                
-                is_match = False
-
-                # default is by intersection.
-                if "intersection" in match_mode:
-                    # just intersection
-                    is_match = xyz_overlap_volume > 0
-
-                elif "inclusion" in match_mode:
-                    # full containment
-                    is_match = xyz_overlap_volume >= bbx_b_volume_xyz * factor_inclusion
-
-                else:
-                    print("no correct mode selected.")
-
-                if is_match:
-                    relationships.append((str(element_a.Id), str(element_b.Id)))
 
         return relationships
 
