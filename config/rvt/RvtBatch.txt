@@ -1,1 +1,1 @@
-\\nas.ads.mwn.de\ge58quh\dev\acc-recomm\acc-recomm\data\bim_models\office-U-2storey.rvt
+\\nas.ads.mwn.de\ge58quh\dev\acc-recomm\acc-recomm\data\bim_models\case-autcon.rvt

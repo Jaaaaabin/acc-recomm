@@ -21,3 +21,6 @@ dependencies = [
 
 [dependency-groups]
 dev = []
+
+[tool.pyright]
+extraPaths = ["src"]

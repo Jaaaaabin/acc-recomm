@@ -23,11 +23,17 @@ venv.bak/
 # ============================================================
 
 # --- Raw / Processed / Validation Data ---
+acc/*
+!acc/.gitkeep
+
 data/archive
-data/processed/ifc/*
+
 !data/processed/.gitkeep
-data/validation/**/*
-!data/validation/.gitkeep
+data/processed/ifc/*
+
+data/processed/acc_result/*
+!data/processed/acc_result/.gitkeep
+!data/processed/acc_result/issues
 
 # --- BIM / Model Files (too large) ---
 *.rfa
@@ -35,8 +41,7 @@ data/validation/**/*
 !data/raw/bim_models/.gitkeep
 
 # --- Large model files ---
-src/module_1_rkg/models/**/*
-!src/module_1_rkg/models/.gitkeep
+src/archive
 
 # --- Logs ---
 logs/**/*

@@ -4,21 +4,29 @@
 
 root_dir: "."
 
-# Data directories
-data:
-  root: "data"
-  regulations: "data/regulations"
-  bim_models: "data/bim_models"
-  processed:
-    ifc: "data/processed/ifc"
-    rvt: "data/processed/rvt"
-    rule: "data/processed/rule"
+# ACC
+acc:
+  root: "acc"
+  models: "acc/models"
+  res: "acc/res"
+  setup: "acc/setup"
 
 # Configuration
 config:
   root: "config"
   rvt: "config/rvt"
   moduels: "config/modules"
+
+# Data directories
+data:
+  root: "data"
+  regulations: "data/regulations"
+  bim_models: "data/bim_models"
+  processed:
+    acc_result: "data/processed/acc_result"
+    ifc: "data/processed/ifc"
+    rvt: "data/processed/rvt"
+    rule: "data/processed/rule"
 
 # Scripts
 scripts:
