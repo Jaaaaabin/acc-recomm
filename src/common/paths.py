@@ -15,6 +15,7 @@ Usage:
 import os
 import platform
 from pathlib import Path
+from typing import Union, Dict, Any
 import yaml
 
 
@@ -30,24 +31,24 @@ class PathManager:
     - Creates directories as needed
     """
     
-    _instance = None
-    _initialized = False
+    _instance: 'PathManager | None' = None
+    _initialized: bool = False
     
-    def __new__(cls):
+    def __new__(cls) -> 'PathManager':
         """Singleton pattern - only one PathManager instance."""
         if cls._instance is None:
             cls._instance = super(PathManager, cls).__new__(cls)
         return cls._instance
     
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize path manager (only once)."""
         if not PathManager._initialized:
-            self.platform = platform.system()  # 'Windows', 'Darwin', 'Linux'
-            self.project_root = self._find_project_root()
-            self.paths = self._load_paths()
+            self.platform: str = platform.system()  # 'Windows', 'Darwin', 'Linux'
+            self.project_root: Path = self._find_project_root()
+            self.paths: Dict[str, Any] = self._load_paths()
             PathManager._initialized = True
     
-    def _find_project_root(self):
+    def _find_project_root(self) -> Path:
         """
         Find project root by looking for pyproject.toml.
         Works from any subdirectory in the project.
@@ -65,7 +66,7 @@ class PathManager:
         # Fallback: assume project structure
         return Path(__file__).resolve().parent.parent.parent
     
-    def _load_paths(self):
+    def _load_paths(self) -> Dict[str, Any]:
         """
         Load path configuration from config/paths.yaml.
         
@@ -88,7 +89,7 @@ class PathManager:
         
         return paths_config
     
-    def get(self, *keys):
+    def get(self, *keys: str) -> Union[Path, Dict[str, Path]]:
         """
         Get a path from the configuration.
         
@@ -113,7 +114,7 @@ class PathManager:
             data_paths = pm.get('data', 'processed')
             # Returns: {'graphs': Path(...), 'rkg': Path(...), ...}
         """
-        result = self.paths
+        result: Any = self.paths
         
         # Navigate through nested dictionary
         for key in keys:
@@ -139,7 +140,7 @@ class PathManager:
             # Fallback
             return self.project_root / str(result)
         
-    def get_relative(self, absolute_path):
+    def get_relative(self, absolute_path: Path) -> Path:
         """
         Convert absolute path to relative path from project root.
         
@@ -160,30 +161,36 @@ class PathManager:
             # Path is outside project root
             return absolute_path
     
-    def is_windows(self):
+    def is_windows(self) -> bool:
         """Check if running on Windows."""
         return self.platform == 'Windows'
     
-    def is_mac(self):
+    def is_mac(self) -> bool:
         """Check if running on macOS."""
         return self.platform == 'Darwin'
     
-    def is_linux(self):
+    def is_linux(self) -> bool:
         """Check if running on Linux."""
         return self.platform == 'Linux'
     
-    def get_temp_dir(self):
+    def get_temp_dir(self) -> Path:
         """
         Get platform-appropriate temporary directory.
         
         Returns:
             Path: Absolute path to temp directory
         """
-        temp_root = self.get('temp', 'root')
+        temp_root_result = self.get('temp', 'root')
+        
+        # Ensure we got a Path, not a Dict
+        if isinstance(temp_root_result, dict):
+            raise ValueError("Expected a single path for 'temp.root', but got a dictionary")
+        
+        temp_root = temp_root_result
         temp_root.mkdir(parents=True, exist_ok=True)
         return temp_root
     
-    def __repr__(self):
+    def __repr__(self) -> str:
         """String representation for debugging."""
         return (
             f"PathManager(platform={self.platform}, "
@@ -196,7 +203,7 @@ pm = PathManager()
 
 
 # Convenience functions for easy importing
-def get_path(*keys):
+def get_path(*keys: str) -> Union[Path, Dict[str, Path]]:
     """
     Shorthand for pm.get().
     
@@ -207,7 +214,7 @@ def get_path(*keys):
     return pm.get(*keys)
 
 
-def get_project_root():
+def get_project_root() -> Path:
     """
     Get project root directory.
     

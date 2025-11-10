@@ -11,7 +11,7 @@ import os
 import sys
 import shutil
 from pathlib import Path
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Union, Dict, Any
 from dataclasses import dataclass
 
 # Add src directory to Python path for imports
@@ -24,25 +24,26 @@ from common.paths import get_path
 @dataclass
 class ModelPaths:
     """Container for model-related file paths."""
-    source_dir: str
-    working_dir: str
-    results_dir: str
+    source_dir: Path
+    working_dir: Path
+    results_dir: Path
     model_filename: str
     
     @property
     def model_name(self) -> str:
         """Get model name without extension."""
-        return os.path.splitext(self.model_filename)[0]
+        return Path(self.model_filename).stem
     
     @property
-    def source_path(self) -> str:
+    def source_path(self) -> Path:
         """Full path to source IFC file."""
-        return os.path.join(self.source_dir, self.model_filename)
+        return self.source_dir / self.model_filename
     
     @property
-    def working_path(self) -> str:
+    def working_path(self) -> Path:
         """Full path to working directory IFC file."""
-        return os.path.join(self.working_dir, "model.ifc")
+        return self.working_dir / "model.ifc"
+
 
 class ModelFileManager:
     """
@@ -50,16 +51,19 @@ class ModelFileManager:
     Handles copying models to/from working directories and organizing results.
     """
     
-    def __init__(self):
-        """
-        Initialize file manager.
-        """
-        
-        self.acc_working_dir_res = get_path('acc', 'res')
-        self.acc_working_dir_models = get_path('acc', 'models')
-
-        self.data_processed_ifc_dir = get_path('data', 'processed', 'ifc')
-        self.data_processes_acc_res_dir = get_path('data', 'processed', 'acc_result')
+    def __init__(self) -> None:
+        """Initialize file manager."""
+        self.acc_working_dir_res = self._ensure_path(get_path('acc', 'res'))
+        self.acc_working_dir_models = self._ensure_path(get_path('acc', 'models'))
+        self.data_processed_ifc_dir = self._ensure_path(get_path('data', 'processed', 'ifc'))
+        self.data_processes_acc_res_dir = self._ensure_path(get_path('data', 'processed', 'acc_result'))
+    
+    @staticmethod
+    def _ensure_path(path_result: Union[Path, Dict[str, Path]]) -> Path:
+        """Ensure result is a Path, not a dictionary."""
+        if isinstance(path_result, dict):
+            raise ValueError("Expected a single path, but got a dictionary")
+        return path_result
     
     def get_all_ifc_models(self) -> List[str]:
         """
@@ -68,17 +72,16 @@ class ModelFileManager:
         Returns:
             Sorted list of IFC file paths (relative to data_processed_ifc_dir)
         """
-        if not os.path.exists(self.data_processed_ifc_dir): # type: ignore
+        if not self.data_processed_ifc_dir.exists():
             return []
         
-        ifc_files = []
-        base_path = Path(self.data_processed_ifc_dir) # type: ignore
+        ifc_files: List[str] = []
         
         # Only look for .ifc files directly under the base directory (no recursion)
-        for ifc_path in base_path.glob("*.ifc"):
+        for ifc_path in self.data_processed_ifc_dir.glob("*.ifc"):
             if ifc_path.is_file():
                 # Get relative path from base directory
-                relative_path = ifc_path.relative_to(base_path)
+                relative_path = ifc_path.relative_to(self.data_processed_ifc_dir)
                 # Convert to string with forward slashes for cross-platform compatibility
                 ifc_files.append(str(relative_path).replace('\\', '/'))
         
@@ -94,16 +97,16 @@ class ModelFileManager:
         Returns:
             True if successful, False otherwise
         """
-        source = os.path.join(self.data_processed_ifc_dir, model_filename) # type: ignore
-        target = os.path.join(self.acc_working_dir_models, "model.ifc") # type: ignore
+        source: Path = self.data_processed_ifc_dir / model_filename
+        target: Path = self.acc_working_dir_models / "model.ifc"
         
-        if not os.path.exists(source):
+        if not source.exists():
             print(f"\033[1m\033[91m Error: \033[0m Model file not found: {source}")
             return False
         
         try:
-            os.makedirs(os.path.dirname(target), exist_ok=True)
-            shutil.copy2(source, target)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(str(source), str(target))
             print(f"\033[1m\033[92m [Data Update] \033[0m IFC model {model_filename} copied to working directory")
             return True
         except Exception as e:
@@ -121,24 +124,23 @@ class ModelFileManager:
         Returns:
             True if successful, False otherwise
         """
-        model_name = os.path.splitext(model_filename)[0]
+        model_name: str = Path(model_filename).stem
         
         # Source directories (Solibri output)
-        sources = {
-            "smc": os.path.join(self.acc_working_dir_res, "smc"), # type: ignore
-            "bcfzip": os.path.join(self.acc_working_dir_res, "bcfzip"), # type: ignore
-            "issues": os.path.join(self.acc_working_dir_res, "issues"), # type: ignore
+        sources: Dict[str, Path] = {
+            "smc": self.acc_working_dir_res / "smc",
+            "bcfzip": self.acc_working_dir_res / "bcfzip",
+            "issues": self.acc_working_dir_res / "issues",
         }
         
         # Target directories (organized by model name - subtypes)
-        # model_name
-        targets = {
-            "smc": os.path.join(self.data_processes_acc_res_dir, model_name, "smc"), # type: ignore
-            "bcfzip": os.path.join(self.data_processes_acc_res_dir, model_name, "bcfzip"), # type: ignore
-            "issues": os.path.join(self.data_processes_acc_res_dir, model_name, "issues"), # type: ignore
+        targets: Dict[str, Path] = {
+            "smc": self.data_processes_acc_res_dir / model_name / "smc",
+            "bcfzip": self.data_processes_acc_res_dir / model_name / "bcfzip",
+            "issues": self.data_processes_acc_res_dir / model_name / "issues",
         }
         
-        success = True
+        success: bool = True
         for result_type, source_dir in sources.items():
             target_dir = targets[result_type]
             
@@ -150,7 +152,7 @@ class ModelFileManager:
         
         return success
     
-    def _copy_folder_content(self, source_dir: str, target_dir: str, label: str) -> bool:
+    def _copy_folder_content(self, source_dir: Path, target_dir: Path, label: str) -> bool:
         """
         Copy all files from source directory to target directory.
         
@@ -162,19 +164,18 @@ class ModelFileManager:
         Returns:
             True if successful, False otherwise
         """
-        if not os.path.isdir(source_dir):
+        if not source_dir.is_dir():
             print(f"\033[1m\033[93m Warning: \033[0m {label} folder not found at: {source_dir}")
             return False
         
         try:
-            os.makedirs(target_dir, exist_ok=True)
+            target_dir.mkdir(parents=True, exist_ok=True)
             
-            for filename in os.listdir(source_dir):
-                src_file = os.path.join(source_dir, filename)
-                dst_file = os.path.join(target_dir, filename)
-                
-                if os.path.isfile(src_file):
-                    shutil.copy2(src_file, dst_file)
+            for item in source_dir.iterdir():
+                if item.is_file():
+                    src_file = item
+                    dst_file = target_dir / item.name
+                    shutil.copy2(str(src_file), str(dst_file))
             
             return True
             
@@ -194,22 +195,22 @@ class ModelFileManager:
         """
         # Extract model name from filename (handle subdirectory paths)
         # e.g., "case-autcon/case-autcon.ifc" -> "case-autcon"
-        model_name = os.path.splitext(os.path.basename(model_filename))[0]
+        model_name: str = Path(model_filename).stem
         
-        result_types = ["smc", "bcfzip", "issues"]
-        missing = []
+        result_types: List[str] = ["smc", "bcfzip", "issues"]
+        missing: List[str] = []
         
         for result_type in result_types:
-            result_dir = os.path.join(self.data_processes_acc_res_dir, model_name, result_type) # type: ignore
+            result_dir: Path = self.data_processes_acc_res_dir / model_name / result_type
             
             # Check if directory exists and has actual files
-            if not os.path.exists(result_dir):
+            if not result_dir.exists():
                 missing.append(result_type)
             else:
                 # Check if directory has any files (not just subdirectories)
-                has_files = any(
-                    os.path.isfile(os.path.join(result_dir, item))
-                    for item in os.listdir(result_dir)
+                has_files: bool = any(
+                    item.is_file()
+                    for item in result_dir.iterdir()
                 )
                 if not has_files:
                     missing.append(result_type)
@@ -225,17 +226,16 @@ class ModelProcessor:
     
     def __init__(
         self, 
-        solibri_manager=None,  # Will be imported/injected
-    ):
+        solibri_manager: Optional[Any] = None,  # Will be imported/injected
+    ) -> None:
         """
         Initialize model processor.
         
         Args:
-            project_root: Root directory of the project
             solibri_manager: Instance of SolibriManager (optional, for dependency injection)
         """
-        self.file_manager = ModelFileManager()
-        self.solibri_manager = solibri_manager
+        self.file_manager: ModelFileManager = ModelFileManager()
+        self.solibri_manager: Optional[Any] = solibri_manager
     
     def process_single_model(
         self, 
@@ -266,7 +266,7 @@ class ModelProcessor:
                 print(f"\033[1m\033[94m [Info] \033[0m Missing results: {', '.join(missing)}")
         
         # Execute pipeline steps in sequence
-        steps = [
+        steps: List[Tuple[str, Any, Optional[str], str]] = [
             ("PRE-CHECK", self.pre_check, model_filename, "Copy model to working directory"),
             ("RUN-CHECK", self.run_check, None, "Execute Solibri batch"),
             ("POST-CHECK", self.post_check, model_filename, "Copy results to storage"),
@@ -274,7 +274,7 @@ class ModelProcessor:
         
         for step_name, step_func, step_arg, step_description in steps:
             print(f"\033[1m\033[94m [{step_name}] \033[0m {step_description}...")
-            success = step_func(step_arg) if step_arg is not None else step_func()
+            success: bool = step_func(step_arg) if step_arg is not None else step_func()
             if not success:
                 print(f"\033[1m\033[91m [{step_name} Failed] \033[0m {step_description}")
                 return False
@@ -311,8 +311,8 @@ class ModelProcessor:
         print(f"{'='*60}\n")
         
         # Process each model
-        successful = []
-        failed = []
+        successful: List[str] = []
+        failed: List[str] = []
         
         for i, model_filename in enumerate(model_filenames, 1):
             print(f"\n[{i}/{len(model_filenames)}] Starting: {model_filename}")
@@ -371,8 +371,9 @@ class ModelProcessor:
         """
         return self.file_manager.copy_results_to_storage(model_filename)
 
+
 def process_all_models(
-    solibri_manager,
+    solibri_manager: Any,
     model_filenames: Optional[List[str]] = None,
     skip_if_exists: bool = False
 ) -> List[str]:
@@ -387,5 +388,5 @@ def process_all_models(
     Returns:
         List of successfully processed model names
     """
-    processor = ModelProcessor(solibri_manager) # type: ignore
+    processor: ModelProcessor = ModelProcessor(solibri_manager)
     return processor.process_multiple_models(model_filenames, skip_if_exists)

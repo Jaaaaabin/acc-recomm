@@ -10,12 +10,16 @@ import os
 import sys
 import time
 import ast
-import winreg
 import psutil
 import subprocess
 from pathlib import Path
 from typing import Dict, Optional
 
+try:
+    import winreg
+except ImportError:
+    winreg = None  # type: ignore
+    
 # Add src directory to Python path for imports
 src_dir = Path(__file__).parent.parent
 if str(src_dir) not in sys.path:

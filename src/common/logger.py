@@ -6,7 +6,7 @@ import logging
 import sys
 from pathlib import Path
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Union, Dict
 
 from .paths import get_path
 
@@ -27,7 +27,7 @@ def get_logger(
     Returns:
         Configured logger
     """
-    logger = logging.getLogger(name)
+    logger: logging.Logger = logging.getLogger(name)
     
     if logger.handlers:
         return logger
@@ -35,9 +35,9 @@ def get_logger(
     logger.setLevel(level)
     
     # Console handler
-    console_handler = logging.StreamHandler(sys.stdout)
+    console_handler: logging.StreamHandler = logging.StreamHandler(sys.stdout)
     console_handler.setLevel(level)
-    console_format = logging.Formatter(
+    console_format: logging.Formatter = logging.Formatter(
         '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         datefmt='%Y-%m-%d %H:%M:%S'
     )
@@ -46,12 +46,21 @@ def get_logger(
     
     # File handler (if specified)
     if log_file:
-        log_dir = get_path('logs', 'root')
-        log_path = log_dir / log_file
+        log_dir_result: Union[Path, Dict[str, Path]] = get_path('logs', 'root')
         
-        file_handler = logging.FileHandler(log_path, encoding='utf-8')
+        # Ensure we got a Path, not a Dict
+        if isinstance(log_dir_result, dict):
+            raise ValueError("Expected a single path for 'logs.root', but got a dictionary")
+        
+        log_dir: Path = log_dir_result
+        log_path: Path = log_dir / log_file
+        
+        # Ensure log directory exists
+        log_dir.mkdir(parents=True, exist_ok=True)
+        
+        file_handler: logging.FileHandler = logging.FileHandler(log_path, encoding='utf-8')
         file_handler.setLevel(level)
-        file_format = logging.Formatter(
+        file_format: logging.Formatter = logging.Formatter(
             '%(asctime)s - %(name)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s'
         )
         file_handler.setFormatter(file_format)

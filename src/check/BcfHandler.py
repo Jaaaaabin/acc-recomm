@@ -20,29 +20,31 @@ import string
 import xml.dom.minidom as minidom
 import pandas as pd
 import ifcopenshell
-from typing import List, Optional
+from typing import List, Optional, Dict, Union, Any
 
 from common.paths import get_path
+
 
 class Topic:
     """
     Represents a single BCF topic with metadata and IFC references.
     """
     
-    def __init__(self, topic_id: str, directory: Optional[Path] = None, description: Optional[str] = None):
-        self.directory = directory
-        self.path = Path(directory) / topic_id if directory else None
-        self.id = topic_id
-        self.title = None
-        self.description = description
-        self.author = None
-        self.snapshot = None
-        self.ifc_guids = []
+    def __init__(self, topic_id: str, directory: Optional[Path] = None, description: Optional[str] = None) -> None:
+        self.directory: Optional[Path] = directory
+        self.path: Optional[Path] = Path(directory) / topic_id if directory else None
+        self.id: str = topic_id
+        self.title: Optional[str] = None
+        self.description: Optional[str] = description
+        self.author: Optional[str] = None
+        self.snapshot: Optional[Path] = None
+        self.ifc_guids: List[str] = []
+        self.ifc_guids_info: Dict[str, Dict[str, str]] = {}  # Detailed info per GUID
         
         if self.description is None and self.path:
             self._extract_topic_data()
     
-    def _extract_topic_data(self):
+    def _extract_topic_data(self) -> None:
         """Extract topic metadata from BCF markup and viewpoint files."""
         if not self.path:
             return
@@ -50,20 +52,50 @@ class Topic:
         try:
             # Parse markup.bcf for metadata
             markup = minidom.parse(str(self.path / 'markup.bcf'))
-            self.title = markup.getElementsByTagName('Title')[0].childNodes[0].nodeValue
-            self.title = string.capwords(self.title, sep=None) # type: ignore
+            title_nodes = markup.getElementsByTagName('Title')
+            if title_nodes and title_nodes[0].childNodes:
+                self.title = title_nodes[0].childNodes[0].nodeValue
+                self.title = string.capwords(str(self.title), sep=None)
             
-            desc_nodes = markup.getElementsByTagName('Description')[0].childNodes
-            self.description = desc_nodes[0].nodeValue if desc_nodes else ''
+            desc_nodes_list = markup.getElementsByTagName('Description')
+            if desc_nodes_list:
+                desc_nodes = desc_nodes_list[0].childNodes
+                self.description = desc_nodes[0].nodeValue if desc_nodes else ''
             
-            self.author = markup.getElementsByTagName('CreationAuthor')[0].childNodes[0].nodeValue
-            self.snapshot = self.path / markup.getElementsByTagName('Snapshot')[0].childNodes[0].nodeValue # type: ignore
+            author_nodes = markup.getElementsByTagName('CreationAuthor')
+            if author_nodes and author_nodes[0].childNodes:
+                self.author = author_nodes[0].childNodes[0].nodeValue
             
-            # Parse viewpoint.bcfv for IFC GUIDs
+            # Parse viewpoint.bcfv for IFC GUIDs and additional info
             viewpoint_xml = minidom.parse(str(self.path / 'viewpoint.bcfv'))
             components = viewpoint_xml.getElementsByTagName('Component')
             
-            self.ifc_guids = [comp.getAttribute('IfcGuid') for comp in components]
+            # Extract GUIDs and detailed information
+            for comp in components:
+                guid = comp.getAttribute('IfcGuid')
+                if guid:
+                    # Add to simple list (backward compatibility)
+                    self.ifc_guids.append(guid)
+                    
+                    # Extract additional information
+                    originating_system = ""
+                    authoring_tool_id = ""
+                    
+                    # Get OriginatingSystem
+                    orig_sys_nodes = comp.getElementsByTagName('OriginatingSystem')
+                    if orig_sys_nodes and orig_sys_nodes[0].childNodes:
+                        originating_system = orig_sys_nodes[0].childNodes[0].nodeValue
+                    
+                    # Get AuthoringToolId
+                    auth_tool_nodes = comp.getElementsByTagName('AuthoringToolId')
+                    if auth_tool_nodes and auth_tool_nodes[0].childNodes:
+                        authoring_tool_id = auth_tool_nodes[0].childNodes[0].nodeValue
+                    
+                    # Store detailed info
+                    self.ifc_guids_info[guid] = { # type: ignore
+                        "originating_system": originating_system,
+                        "authoring_tool_id": authoring_tool_id
+                    }
             
         except Exception as e:
             print(f"Error extracting topic data for {self.id}: {e}")
@@ -72,52 +104,9 @@ class Topic:
         return (f"Topic ID: {self.id}\n"
                 f"Title: {self.title}\n"
                 f"Description: {self.description}\n"
-                f"Author: {self.author}\n\n")
-
-
-class ComplianceIssue:
-    """
-    Represents a compliance issue extracted from BCF topics.
-    Stores structured information about building code violations.
-    """
-    
-    def __init__(self, id: str, description: str, ifc_guids: List[str]):
-        self.id = id
-        self.description = description
-        self.ifc_guids = ifc_guids
-        
-        # Structured compliance information
-        self.info_issue = {
-            "regulation_clause": "",
-            "core_component_type": "",
-            "core_component_type_number": "",
-            "core_component_GUID": "",
-            "checking_variable_name": "",
-            "checking_variable_unit": "",
-            "required_variable_value": "",
-            "actual_variable_value": "",
-            "bcf_id": "",
-            "other_component_GUID": []  # IFC GUIDs from viewpoint file
-        }
-    
-    def disassemble_prompt_response_to_issue_parts(self, details_string: str):
-        """
-        Parse LLM response string and populate info_issue dictionary.
-        Handles markdown code blocks and converts string to dict.
-        """
-        # Remove markdown code blocks
-        details_cleaned = re.sub(r"```(?:python)?\n|\n```", "", details_string).strip()
-        
-        try:
-            details_dict = ast.literal_eval(details_cleaned)
-            
-            # Update info_issue with parsed values
-            for key in self.info_issue.keys():
-                if key in details_dict:
-                    self.info_issue[key] = details_dict[key]
-                    
-        except (SyntaxError, ValueError) as e:
-            print(f"Error parsing prompt response for issue {self.id}: {e}")
+                f"Author: {self.author}\n"
+                f"IFC GUIDs: {len(self.ifc_guids)}\n\n"
+                )
 
 
 class IfcInfoProvider:
@@ -126,14 +115,14 @@ class IfcInfoProvider:
     Uses lazy loading for efficient memory management.
     """
     
-    def __init__(self, ifc_file_path: str):
-        self.ifc_file_path = ifc_file_path
-        self.ifc_model = None  # Lazy loading
+    def __init__(self, ifc_file_path: Union[str, Path]) -> None:
+        self.ifc_file_path: Path = Path(ifc_file_path)
+        self.ifc_model: Optional[Any] = None  # Lazy loading
     
-    def _load_ifc_model(self):
+    def _load_ifc_model(self) -> None:
         """Load IFC model only when needed."""
         if self.ifc_model is None:
-            self.ifc_model = ifcopenshell.open(self.ifc_file_path)
+            self.ifc_model = ifcopenshell.open(str(self.ifc_file_path))
     
     def match_objects(self, ifc_guids: List[str], attribute_target: str) -> str:
         """
@@ -148,7 +137,7 @@ class IfcInfoProvider:
         """
         self._load_ifc_model()
         
-        collection_elements = {}
+        collection_elements: Dict[str, Any] = {}
         for guid in ifc_guids:
             try:
                 element = self.ifc_model.by_guid(guid) # type: ignore
@@ -158,12 +147,12 @@ class IfcInfoProvider:
                 print(f"Warning: Could not find element with GUID {guid}: {e}")
         
         # Match by name or long name
-        matched_guid = ''
+        matched_guid: str = ''
         if collection_elements:
-            target_lower = str(attribute_target).lower()
+            target_lower: str = str(attribute_target).lower()
             for guid, element in collection_elements.items():
-                element_name = getattr(element, "Name", "").lower()
-                element_name_long = getattr(element, "LongName", "").lower()
+                element_name: str = getattr(element, "Name", "").lower()
+                element_name_long: str = getattr(element, "LongName", "").lower()
                 
                 if target_lower == element_name or target_lower == element_name_long:
                     matched_guid = guid
@@ -175,86 +164,153 @@ class IfcInfoProvider:
 class BcfExtractor:
     """
     Extracts and manages BCF topics from a BCF ZIP file.
+    Supports skipping extraction if already extracted.
     """
     
-    def __init__(self, zip_file_path: str):
-        self.path = zip_file_path
+    def __init__(
+        self, 
+        zip_file_path: Union[str, Path],
+        project_name: Optional[str] = None,
+        force_extract: bool = False
+    ) -> None:
+        """
+        Initialize BCF extractor.
+        
+        Args:
+            zip_file_path: Path to BCF ZIP file
+            project_name: Name of the project (if None, derived from zip filename)
+            force_extract: If True, re-extract even if already extracted
+        """
+        self.path: Path = Path(zip_file_path)
         if not self.path:
             raise ValueError("BCF zip file path cannot be None")
         
-        # Setup extraction
-        self.extract_path = self._create_extraction_path()
-        self._extract_bcfzip()
+        # Store project name (use provided name or derive from zip filename)
+        self.project_name: str = project_name if project_name else self.to_model_name(self.path)
         
-        # Extract topics
+        # Setup extraction path
+        self.extract_path: Path = self._create_extraction_path()
+        
+        # Extract or skip if already extracted
+        if force_extract or not self.is_already_extracted_instance():
+            self._extract_bcfzip()
+        else:
+            print(f"  Using existing extraction for {self.project_name}")
+        
+        # Load topics from extraction
         self.topics: List[Topic] = []
         self._create_topics()
         self._sort_topics_alphabetically()
     
     @staticmethod
-    def to_model_name(filename: str) -> str:
+    def to_model_name(filename: Union[str, Path]) -> str:
         """Normalize a file/model identifier to its base name without extension."""
-        return os.path.splitext(os.path.basename(str(filename)))[0]
+        return Path(filename).stem
 
     @staticmethod
-    def is_already_extracted(project_name: str) -> bool:
+    def is_already_extracted(project_name: str, acc_res_root: Optional[Path] = None) -> bool:
         """
         Check if BCF content has been extracted for a given project.
-        Considered extracted if data/processed/acc_result/<project>/temp exists
-        and contains any topic-like folders (excluding 'bcf.version').
+        
+        Args:
+            project_name: Name of the project
+            acc_res_root: Root path for acc_result (optional, will be resolved if None)
+        
+        Returns:
+            True if already extracted with valid topics
         """
-        acc_res_root = str(get_path('data', 'processed', 'acc_result'))
-        temp_dir = os.path.join(acc_res_root, project_name, 'temp')
-        if not os.path.isdir(temp_dir):
+        if acc_res_root is None:
+            acc_res_result = get_path('data', 'processed', 'acc_result')
+            if isinstance(acc_res_result, dict):
+                raise ValueError("Expected a single path for 'data.processed.acc_result', but got a dictionary")
+            acc_res_root = acc_res_result
+        
+        temp_dir: Path = acc_res_root / project_name / 'temp'
+        if not temp_dir.is_dir():
             return False
+        
         try:
-            entries = [
-                e for e in os.listdir(temp_dir)
-                if os.path.isdir(os.path.join(temp_dir, e)) and e != 'bcf.version'
-            ]
-            return len(entries) > 0
+            # Check if there are topic folders (excluding bcf.version)
+            has_topics = any(
+                item.is_dir() and item.name != 'bcf.version'
+                for item in temp_dir.iterdir()
+            )
+            return has_topics
         except Exception:
             return False
     
+    def is_already_extracted_instance(self) -> bool:
+        """Check if this specific BCF file has been extracted."""
+        if not self.extract_path.exists():
+            return False
+        
+        try:
+            # Check if there are topic folders
+            has_topics = any(
+                item.is_dir() and item.name != 'bcf.version'
+                for item in self.extract_path.iterdir()
+            )
+            return has_topics
+        except Exception:
+            return False
+
     def _create_extraction_path(self) -> Path:
-        """Create temporary extraction directory, removing old contents if exists."""
-        extraction_path = Path(self.path).parent.parent / "temp"
-        
-        if extraction_path.exists():
-            shutil.rmtree(extraction_path)
-        
-        extraction_path.mkdir(parents=True, exist_ok=True)
-        return extraction_path
-    
-    def _extract_bcfzip(self):
-        """Extract BCF ZIP contents to extraction path."""
-        with zipfile.ZipFile(self.path, 'r') as zip_file:
-            zip_file.extractall(self.extract_path)
-    
-    def _create_topics(self):
-        """Create Topic objects for each extracted directory."""
-        for topic_id in os.listdir(self.extract_path):
-            if topic_id == 'bcf.version':
-                continue
-            self.topics.append(Topic(topic_id, self.extract_path))
-    
-    def _sort_topics_alphabetically(self):
-        """Sort topics by title alphabetically."""
-        self.topics.sort(key=lambda x: x.title) # type: ignore
-    
-    def drop_topics_by_description_key(self, keyword: str):
-        """Remove topics whose description contains the specified keyword."""
-        self.topics = [topic for topic in self.topics if keyword not in topic.description] # type: ignore
-    
-    def copy_snapshots(self, output_dir: Optional[Path] = None):
         """
-        Copy all topic snapshots to a collection directory.
+        Create extraction path using the project name.
+        Returns: data/processed/acc_result/<project_name>/temp
+        """
+        acc_res_result = get_path('data', 'processed', 'acc_result')
+        if isinstance(acc_res_result, dict):
+            raise ValueError("Expected a single path for 'data.processed.acc_result', but got a dictionary")
+        acc_res_root: Path = acc_res_result
         
-        Args:
-            output_dir: Optional output directory. Defaults to temp-snapshots.
+        # Use self.project_name instead of deriving from zip path
+        extract_path: Path = acc_res_root / self.project_name / 'temp'
+        return extract_path
+    
+    def _extract_bcfzip(self) -> None:
+        """Extract BCF ZIP file to temp directory."""
+        if not self.path.exists():
+            raise FileNotFoundError(f"BCF file not found: {self.path}")
+        
+        # Clean up existing extraction
+        if self.extract_path.exists():
+            shutil.rmtree(self.extract_path)
+        
+        self.extract_path.mkdir(parents=True, exist_ok=True)
+        
+        with zipfile.ZipFile(self.path, 'r') as zip_ref:
+            zip_ref.extractall(self.extract_path)
+    
+    def _create_topics(self) -> None:
+        """
+        Create Topic objects from extracted BCF folders.
+        Each topic is a subdirectory (excluding bcf.version).
+        """
+        if not self.extract_path.exists():
+            return
+        
+        for item in self.extract_path.iterdir():
+            if item.is_dir() and item.name != 'bcf.version':
+                topic = Topic(topic_id=item.name, directory=self.extract_path)
+                self.topics.append(topic)
+    
+    def _sort_topics_alphabetically(self) -> None:
+        """Sort topics by title alphabetically."""
+        self.topics.sort(key=lambda t: t.title if t.title else "")
+    
+    def export_snapshots(self, output_dir: Optional[Path] = None) -> None:
+        """
+        Export all topic snapshots to a specified directory.
+        Defaults to data/processed/acc_result/<project_name>/snapshots
         """
         if output_dir is None:
-            output_dir = Path(self.path).parent.parent / "temp-snapshots"
+            acc_res_result = get_path('data', 'processed', 'acc_result')
+            if isinstance(acc_res_result, dict):
+                raise ValueError("Expected a single path for 'data.processed.acc_result', but got a dictionary")
+            acc_res_root: Path = acc_res_result
+            
+            output_dir = acc_res_root / self.project_name / 'snapshots'
         
         if output_dir.exists():
             shutil.rmtree(output_dir)
@@ -269,25 +325,43 @@ class BcfExtractor:
 class BcfAnalyzer:
     """
     Analyzes BCF topics and provides prioritization and classification.
-    Supports log file integration for additional compliance checks.
+    Can be created directly from a BcfExtractor or standalone with topics.
     """
     
-    def __init__(self, bcf_extractor: BcfExtractor):
-        self.path = bcf_extractor.path
-        self.topics = bcf_extractor.topics
-        self.ifcguid_mapping = defaultdict(list)
-        self.description_mapping = defaultdict(list)
-        self.prioritized_topics = []
-        self.log_dir = None  # Can be set externally for log processing
+    def __init__(
+        self, 
+        bcf_extractor: Optional[BcfExtractor] = None,
+        topics: Optional[List[Topic]] = None,
+        bcfzip_path: Optional[Union[str, Path]] = None
+    ) -> None:
+        """
+        Initialize BCF analyzer.
+        
+        Args:
+            bcf_extractor: BcfExtractor instance (takes priority)
+            topics: List of topics (used if bcf_extractor is None)
+            bcfzip_path: Path to BCF file (used if bcf_extractor is None)
+        """
+        if bcf_extractor:
+            self.path: Path = bcf_extractor.path
+            self.topics: List[Topic] = bcf_extractor.topics
+        elif topics is not None:
+            self.path = Path(bcfzip_path) if bcfzip_path else Path()
+            self.topics = topics
+        else:
+            raise ValueError("Either bcf_extractor or topics must be provided")
+        
+        self.ifcguid_mapping: Dict[str, List[Topic]] = defaultdict(list)
+        self.description_mapping: Dict[str, List[Topic]] = defaultdict(list)
+        self.prioritized_topics: List[Topic] = []
         
         self._classify_topics()
-        self._summarize_topics()
     
     def _extract_description_identifier(self, description: str) -> str:
         """Extract identifier from description (text before first period)."""
         return description.split(".")[0].strip() if description else "Unknown"
     
-    def _classify_topics(self):
+    def _classify_topics(self) -> None:
         """Classify topics by IFC GUID and description identifier."""
         for topic in self.topics:
             # Map by IFC GUID
@@ -295,30 +369,9 @@ class BcfAnalyzer:
                 self.ifcguid_mapping[guid].append(topic)
             
             # Map by description identifier
-            desc_id = self._extract_description_identifier(topic.description) # type: ignore
+            desc_id: str = self._extract_description_identifier(topic.description or "")
             if desc_id:
                 self.description_mapping[desc_id].append(topic)
-    
-    def _summarize_topics(self):
-        """Create summary DataFrames for topics by GUID and description."""
-        self.topic_summary = {
-            "ifcguid": pd.DataFrame([
-                {
-                    "ifc guid": guid,
-                    "number of issues": len(topics),
-                    "related topics": ", ".join(t.title for t in topics)
-                }
-                for guid, topics in self.ifcguid_mapping.items()
-            ]),
-            "description": pd.DataFrame([
-                {
-                    "description identifier": desc,
-                    "number of issues": len(topics),
-                    "related topics": ", ".join(t.title for t in topics)
-                }
-                for desc, topics in self.description_mapping.items()
-            ])
-        }
     
     def get_topics_by_ifcguid(self, guid: str) -> List[Topic]:
         """Retrieve topics associated with a specific IFC GUID."""
@@ -330,138 +383,262 @@ class BcfAnalyzer:
             self._extract_description_identifier(description), []
         )
 
-# -----------------------------
-# Internal helper functions
-# -----------------------------
-def _to_model_name(filename: str) -> str:
-    return os.path.splitext(os.path.basename(filename))[0]
 
-def _determine_target_names(acc_res_root: str, model_names: Optional[List[str]]) -> List[str]:
-    if model_names:
-        return [_to_model_name(fn) for fn in model_names]
-    if not os.path.isdir(acc_res_root):
-        print("No acc_result folder found.")
-        return []
-    return [
-        d for d in os.listdir(acc_res_root)
-        if os.path.isdir(os.path.join(acc_res_root, d))
-    ]
-
-def _find_bcfzip_for_project(acc_res_root: str, name: str) -> str:
-    bcf_folder = os.path.join(acc_res_root, name, 'bcfzip')
-    if not os.path.isdir(bcf_folder):
+class BcfProjectProcessor:
+    """
+    High-level processor for batch BCF project analysis.
+    Manages path resolution and coordinates extraction/analysis.
+    """
+    
+    def __init__(self) -> None:
+        """Initialize processor with cached paths."""
+        # Cache commonly used paths
+        acc_res_result = get_path('data', 'processed', 'acc_result')
+        if isinstance(acc_res_result, dict):
+            raise ValueError("Expected a single path for 'data.processed.acc_result', but got a dictionary")
+        self.acc_res_root: Path = acc_res_result
+        
+        ifc_result = get_path('data', 'processed', 'ifc')
+        if isinstance(ifc_result, dict):
+            raise ValueError("Expected a single path for 'data.processed.ifc', but got a dictionary")
+        self.ifc_root: Path = ifc_result
+    
+    def _to_model_name(self, filename: Union[str, Path]) -> str:
+        """Convert filename to model name (stem without extension)."""
+        return Path(filename).stem
+    
+    def _determine_target_names(self, model_names: Optional[List[str]]) -> List[str]:
+        """Determine which project names to analyze."""
+        if model_names:
+            return [self._to_model_name(fn) for fn in model_names]
+        
+        if not self.acc_res_root.is_dir():
+            print("No acc_result folder found.")
+            return []
+        
+        return [
+            d.name for d in self.acc_res_root.iterdir()
+            if d.is_dir()
+        ]
+    
+    def _find_bcfzip_for_project(self, name: str) -> Optional[Path]:
+        """Find BCF ZIP file for a given project name."""
+        bcf_folder: Path = self.acc_res_root / name / 'bcfzip'
+        if not bcf_folder.is_dir():
+            print(f"- Skipping '{name}': no .bcfzip found under {bcf_folder}")
+            return None
+        
+        for f in bcf_folder.iterdir():
+            if f.is_file() and f.suffix.lower() == '.bcfzip':
+                return f
+        
         print(f"- Skipping '{name}': no .bcfzip found under {bcf_folder}")
-        return ""
-    for f in os.listdir(bcf_folder):
-        if f.lower().endswith('.bcfzip'):
-            return os.path.join(bcf_folder, f)
-    print(f"- Skipping '{name}': no .bcfzip found under {bcf_folder}")
-    return ""
+        return None
+    
+    def _resolve_ifc_path(self, name: str) -> Optional[Path]:
+        """Resolve IFC file path for a given project name."""
+        ifc_path: Path = self.ifc_root / f"{name}.ifc"
+        if ifc_path.is_file():
+            return ifc_path
+        
+        alt: Path = self.ifc_root / name / f"{name}.ifc"
+        if alt.is_file():
+            return alt
+        
+        print(f"  Warning: IFC not found for '{name}' at {ifc_path}")
+        return None
+    
+    def _print_summary(self, name: str, bcfzip_path: Path, bcf_analyzer: BcfAnalyzer) -> None:
+        """Print summary of BCF analysis results."""
+        num_topics: int = len(getattr(bcf_analyzer, 'prioritized_topics', []) or bcf_analyzer.topics)
+        
+        try:
+            rel_bcf: str = str(bcfzip_path.relative_to(self.acc_res_root))
+        except ValueError:
+            rel_bcf = str(bcfzip_path)
+        
+        print(f"✓ {name}: {num_topics} topics | {rel_bcf}")
+    
+    def _export_issues(self, name: str, bcf_analyzer: BcfAnalyzer) -> None:
+        """
+        Save issues extracted from topics into data/processed/acc_result/<n>/issues/topics.json
+        Topics are sorted by topic_id for consistent output.
+        """
+        issues_dir: Path = self.acc_res_root / name / "issues"
+        issues_dir.mkdir(parents=True, exist_ok=True)
+        
+        # Sort topics by topic_id for consistent output
+        sorted_topics = sorted(
+            bcf_analyzer.topics,
+            key=lambda t: getattr(t, "id", "")
+        )
+        
+        topics_out: List[Dict[str, Any]] = []
+        for topic in sorted_topics:
+            # Sort IFC GUIDs alphabetically for consistent order
+            ifc_guids_sorted = sorted(getattr(topic, "ifc_guids", []))
+            
+            topics_out.append({
+                "topic_id": getattr(topic, "id", ""),
+                "title": getattr(topic, "title", ""),
+                "description": getattr(topic, "description", ""),
+                "ifc_guids": ifc_guids_sorted,
+                # "ifc_guids_info": dict(getattr(topic, "ifc_guids_info", {})),
+            })
+        
+        out_path: Path = issues_dir / "topics.json"
+        try:
+            with open(out_path, "w", encoding="utf-8") as f:
+                json.dump(topics_out, f, ensure_ascii=False, indent=2, sort_keys=True)
+            
+            try:
+                rel_path: str = str(out_path.relative_to(self.acc_res_root))
+            except ValueError:
+                rel_path = str(out_path)
+            
+            print(f"  Issues saved to: {rel_path}")
+        except Exception as e:
+            print(f"  Warning: Failed to save issues for '{name}': {e}")
+    
+    def analyze_projects(
+        self, 
+        model_names: Optional[List[str]] = None,
+        force_extract: bool = False
+    ) -> List[str]:
+        """
+        Discover and analyze BCF results across projects.
+        
+        Args:
+            model_names: Specific models to analyze (None = all)
+            force_extract: Force re-extraction even if already extracted
+        
+        Returns:
+            List of successfully analyzed project names
+        """
+        target_names: List[str] = self._determine_target_names(model_names)
+        if not target_names:
+            print("No projects to analyze.")
+            return []
+        
+        successful_projects: List[str] = []
+        
+        for name in target_names:
+            bcfzip_path: Optional[Path] = self._find_bcfzip_for_project(name)
+            if not bcfzip_path:
+                continue
+            
+            try:
+                # Extract and analyze BCF with explicit project name
+                bcf_extractor: BcfExtractor = BcfExtractor(
+                    zip_file_path=bcfzip_path,
+                    project_name=name,  # Pass the correct project name
+                    force_extract=force_extract
+                )
+                bcf_analyzer: BcfAnalyzer = BcfAnalyzer(bcf_extractor=bcf_extractor)
+                
+                # Optionally load IFC provider (kept separate as requested)
+                ifc_path: Optional[Path] = self._resolve_ifc_path(name)
+                if ifc_path and ifc_path.is_file():
+                    # Store for potential future use
+                    _ifc_provider: IfcInfoProvider = IfcInfoProvider(ifc_file_path=ifc_path)
+                
+                # Export and summarize
+                self._export_issues(name, bcf_analyzer)
+                self._print_summary(name, bcfzip_path, bcf_analyzer)
+                successful_projects.append(name)
+                
+            except Exception as e:
+                print(f"× Failed to analyze '{name}': {e}")
+        
+        print(f"\n✓ Successfully analyzed {len(successful_projects)} BCF project(s)")
+        return successful_projects
 
-def _resolve_ifc_path(ifc_root: str, name: str) -> str:
-    ifc_path = os.path.join(ifc_root, f"{name}.ifc")
-    if os.path.isfile(ifc_path):
-        return ifc_path
-    alt = os.path.join(ifc_root, name, f"{name}.ifc")
-    if os.path.isfile(alt):
-        return alt
-    print(f"  Warning: IFC not found for '{name}' at {ifc_path}")
-    return ""
 
-def _print_bcf_summary(name: str, bcfzip_path: str, acc_res_root: str, bcf_analyzer: BcfAnalyzer):
-    num_topics = len(getattr(bcf_analyzer, 'prioritized_topics', []) or bcf_analyzer.topics) # type: ignore
-    desc_df = bcf_analyzer.topic_summary.get('description') if hasattr(bcf_analyzer, 'topic_summary') else None # type: ignore
-    num_groups = 0 if desc_df is None else getattr(desc_df, 'shape', [0, 0])[0] # type: ignore
-    rel_bcf = os.path.relpath(bcfzip_path, acc_res_root)
-    print(f"✓ {name}: {num_topics} topics, {num_groups} description groups | {rel_bcf}")
+# -----------------------------
+# Public API Functions
+# -----------------------------
 
-def _export_project_issues(acc_res_root: str, name: str, bcf_analyzer: BcfAnalyzer):
+def extract_checking_issues(
+    bcfzip_path: Union[str, Path],
+    project_name: Optional[str] = None,
+    force_extract: bool = False
+) -> BcfAnalyzer:
     """
-    Save issues extracted from topics into data/processed/acc_result/<name>/issues/topics.json
-    Each entry contains title, description, and list of IFC GUIDs.
-    """
-    issues_dir = os.path.join(acc_res_root, name, "issues")
-    os.makedirs(issues_dir, exist_ok=True)
-    topics_out = []
-    for topic in bcf_analyzer.topics:
-        topics_out.append({
-            "topic_id": getattr(topic, "id", ""),
-            "title": getattr(topic, "title", ""),
-            "description": getattr(topic, "description", ""),
-            "ifc_guids": list(getattr(topic, "ifc_guids", [])),
-        })
-    out_path = os.path.join(issues_dir, "topics.json")
-    try:
-        with open(out_path, "w", encoding="utf-8") as f:
-            json.dump(topics_out, f, ensure_ascii=False, indent=2)
-        print(f"  Issues saved to: {os.path.relpath(out_path, acc_res_root)}")
-    except Exception as e:
-        print(f"  Warning: Failed to save issues for '{name}': {e}")
-
-
-# Utility functions for BCF processing
-def extract_checking_issues(bcfzip_path: str,) -> BcfAnalyzer:
-    """
-    Main function to extract and analyze BCF issues.
+    Extract and analyze BCF issues from a single BCF file.
     
     Args:
         bcfzip_path: Path to BCF ZIP file
-        ibc_rule_keys_bcf: Rule keys to prioritize from BCF topics
-        ibc_rule_keys_log: Rule keys to extract from log files
-        log_dir: Directory containing Solibri log files
+        project_name: Name of the project (if None, derived from filename)
+        force_extract: Force re-extraction even if already extracted
     
     Returns:
-        BcfAnalyzer instance with prioritized topics
+        BcfAnalyzer instance with classified topics
     """
-
-    # BcfExtractor: unzips the .bcfzip, loads topic folders, parses markup/viewpoint to build Topic list
-    bcf_extractor = BcfExtractor(bcfzip_path)
-    # BcfAnalyzer: classifies topics, builds summary tables, and provides query/prioritization utilities
-    bcf_analyzer = BcfAnalyzer(bcf_extractor)
-
+    bcf_extractor: BcfExtractor = BcfExtractor(
+        zip_file_path=bcfzip_path,
+        project_name=project_name,
+        force_extract=force_extract
+    )
+    bcf_analyzer: BcfAnalyzer = BcfAnalyzer(bcf_extractor=bcf_extractor)
     return bcf_analyzer
 
-def analyze_bcf_projects(model_names: Optional[List[str]] = None) -> List[str]:
+
+def analyze_bcf_projects(
+    model_names: Optional[List[str]] = None,
+    force_extract: bool = False
+) -> List[str]:
     """
     Discover and analyze BCF results across projects.
-
-    If model_names is provided, only those names are analyzed (normalized to base names).
-    Otherwise, analyzes all projects discovered under data/processed/acc_result.
-
+    
+    Args:
+        model_names: Specific models to analyze (None = all)
+        force_extract: Force re-extraction even if already extracted
+    
     Returns:
-        List of successfully analyzed project names.
+        List of successfully analyzed project names
     """
-    acc_res_root = str(get_path('data', 'processed', 'acc_result'))
-    ifc_root = str(get_path('data', 'processed', 'ifc'))
+    processor = BcfProjectProcessor()
+    return processor.analyze_projects(model_names, force_extract)
 
-    target_names = _determine_target_names(acc_res_root, model_names)
-    if not target_names:
-        print("No projects to analyze.")
-        return []
 
-    successful_projects = []
-
-    for name in target_names:
-        bcfzip_path = _find_bcfzip_for_project(acc_res_root, name)
-        if not bcfzip_path:
-            continue
-
-        ifc_path = _resolve_ifc_path(ifc_root, name)
-
-        try:
-            bcf_analyzer = extract_checking_issues(bcfzip_path=bcfzip_path) # type: ignore
-
-            if ifc_path and os.path.isfile(ifc_path):
-                _ifc_provider = IfcInfoProvider(ifc_file_path=ifc_path) # type: ignore
-
-            # Export issues (title, description, ifc_guids) as JSON under acc_result/<name>/issues
-            _export_project_issues(acc_res_root, name, bcf_analyzer) # type: ignore
-
-            _print_bcf_summary(name, bcfzip_path, acc_res_root, bcf_analyzer) # type: ignore
-            successful_projects.append(name)
-
-        except Exception as e:
-            print(f"× Failed to analyze '{name}': {e}")
-
-    print(f"\n✓ Successfully analyzed {len(successful_projects)} BCF project(s)")
-    return successful_projects
+def batch_processing_bcf(
+    model_filenames: Optional[List[str]] = None,
+    force_extract: bool = False
+) -> List[str]:
+    """
+    Batch process BCF files with smart extraction skipping.
+    
+    Args:
+        model_filenames: List of model filenames to process (None = all)
+        force_extract: Force re-extraction even if already extracted
+    
+    Returns:
+        List of successfully processed project names
+    """
+    if model_filenames:
+        # Normalize filenames to model names
+        normalized = [BcfExtractor.to_model_name(m) for m in model_filenames]
+        
+        # Skip already extracted unless force_extract is True
+        if not force_extract:
+            # Get acc_res_root once
+            acc_res_result = get_path('data', 'processed', 'acc_result')
+            if isinstance(acc_res_result, dict):
+                raise ValueError("Expected a single path for 'data.processed.acc_result', but got a dictionary")
+            acc_res_root: Path = acc_res_result
+            
+            pending = [
+                n for n in normalized 
+                if not BcfExtractor.is_already_extracted(n, acc_res_root)
+            ]
+            
+            if not pending:
+                print("All provided models already extracted. Skipping BCF analysis.")
+                return []
+            
+            return analyze_bcf_projects(pending, force_extract=force_extract)
+        
+        return analyze_bcf_projects(normalized, force_extract=force_extract)
+    
+    # Analyze all discovered projects
+    return analyze_bcf_projects(None, force_extract=force_extract)

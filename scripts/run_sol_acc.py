@@ -6,7 +6,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
 from common.logger import get_logger
 
 # --- Pipeline dependencies ---------------------------------------------------
-from check.BcfHandler import analyze_bcf_projects, BcfExtractor
+from check.BcfHandler import analyze_bcf_projects
 from check.SolibriManager import SolibriManager
 from check.ModelProcessor import process_all_models
 
@@ -28,33 +28,17 @@ def batch_processing_solibri(model_filenames=None):
     print(f"\n✓ Successfully processed  models:{successful_models}.")
 
     return successful_models
-    
-def batch_processing_bcf(model_filenames=None):
-    """
-    Wrapper to analyze BCF results; main logic lives in BcfHandler.
-    """
-
-    # --- Normalize input / skip already extracted ---------------------------
-    if model_filenames:
-        normalized = [BcfExtractor.to_model_name(m) for m in model_filenames] # type: ignore
-        pending = [n for n in normalized if not BcfExtractor.is_already_extracted(n)] # type: ignore
-        if not pending:
-            print("All provided models already extracted. Skipping BCF analysis.")
-            return []
-        return analyze_bcf_projects(pending) # type: ignore
-
-    # --- Analyze all discovered projects ------------------------------------
-    return analyze_bcf_projects(None) # type: ignore
-
 
 def main():
+    
     """Execute Solibri batch run followed by BCF analysis."""
 
     # --- Run Solibri checks --------------------------------------------------
-    checked_model_filenames = batch_processing_solibri()
+    # checked_model_filenames = batch_processing_solibri()
 
     # --- Analyze resulting BCF packages -------------------------------------
-    batch_processing_bcf(model_filenames=checked_model_filenames)
+    checked_model_filenames = ['case-autcon']
+    analyze_bcf_projects(model_names=checked_model_filenames)
 
 
 # =============================================================================
