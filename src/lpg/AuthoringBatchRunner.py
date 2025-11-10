@@ -230,8 +230,8 @@ def debug_authoring_batch_runner():
     
     print("=== Debug Complete ===")
     
-if __name__ == "__main__":    """
+if __name__ == "__main__":
+    """
     Debug function for testing AuthoringBatchRunner class.
     """
-    # Run the debug function
     debug_authoring_batch_runner()

@@ -45,7 +45,7 @@ logs/**/*
 !logs/.gitkeep
 
 # --- Temporary / Cache ---
-
+tmp*.*
 *.tmp
 *.bak
 .cache/

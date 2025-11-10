@@ -48,7 +48,7 @@ class RvtBatchRunner:
         if rvt_models_dir is None:
             rvt_models_dir = get_path('data', 'bim_models')
 
-        config_rvt_batch_dir = Path(config_rvt_batch_dir)
+        config_rvt_batch_dir = Path(config_rvt_batch_dir) # type: ignore
         rvt_batch_setting_file = os.path.join(config_rvt_batch_dir, "RvtBatch.Settings.json")
         self.settings_file = rvt_batch_setting_file
 
@@ -57,7 +57,7 @@ class RvtBatchRunner:
         
         # Write the list of .rvt files to RvtBatch.txt
         with open(rvt_batch_list_file, 'w', encoding='utf-8') as f:
-            for rvt_model in rvt_models_dir.glob("*.rvt"):
+            for rvt_model in rvt_models_dir.glob("*.rvt"):  # type: ignore
                 f.write(str(rvt_model.resolve()) + '\n')
 
         # Update the JSON settings file
