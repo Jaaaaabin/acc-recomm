@@ -7,28 +7,23 @@ Advancing Regulatory Compliance Beyond Checking through Object-Driven Adaptation
 uv venv yourvenvname --python "py -3.11"
 ```
 
-2. Activate the environment
-```bash
-yourvenvname\Scripts\activate.bat
-```
-
-3. Link uv to this environment
-```bash
-set UV_PROJECT_ENVIRONMENT=yourvenvname
-```
-
-4. Verify Python version inside the environment
+2. Verify Python version inside the environment
 ```bash
 uv run python --version
 ```
 
-5. Install all project dependencies
+3. Install all project dependencies
 ```bash
 uv sync
 ```
 
-6. Run your main script
+4. Run your main script
 ```bash
 uv run python main.py
 ```
 
+## switch to network path.
+1. Register the network disk
+```bash
+net use H: \\nas.ads.mwn.de\ge58quh
+```

@@ -1,59 +1,66 @@
-import os
 import sys
 from pathlib import Path
 
-# Add src to path
+# --- Path setup --------------------------------------------------------------
 sys.path.insert(0, str(Path(__file__).parent.parent / 'src'))
-from common.paths import PathManager
 from common.logger import get_logger
 
-from lpg.RvtBatchRunner import RvtBatchRunner
-
-# Import the refactored modules
-# from bcf_handler import (
-#     BcfExtractor, 
-#     BcfAnalyzer, 
-#     ComplianceIssue,
-#     IfcInfoProvider,
-#     extract_checking_issues
-# )
+# --- Pipeline dependencies ---------------------------------------------------
+from check.BcfHandler import analyze_bcf_projects, BcfExtractor
 from check.SolibriManager import SolibriManager
-from check.ModelProcessor import ModelProcessor, process_model, process_all_models
+from check.ModelProcessor import process_all_models
 
 logger = get_logger(__name__, 'run_sol_acc.log')
 
-def example_batch_processing():
-    """Process multiple IFC models sequentially."""
-    
-    project_root = os.getcwd()
-    
-    # Initialize Solibri manager
-    solibri_manager = SolibriManager(project_root)
-    
-    # Process all models (or specify a list)
+def batch_processing_solibri(model_filenames=None):
+    """Run Solibri batch checks for the provided IFC models (or all available)."""
+
+    # --- Initialize Solibri manager -----------------------------------------
+    solibri_manager = SolibriManager() # type: ignore
+
+    # --- Execute Solibri pipeline -------------------------------------------
     successful_models = process_all_models(
-        project_root=project_root,
         solibri_manager=solibri_manager,
-        model_filenames=None,  # None = process all models in directory
-        skip_if_exists=True,   # Skip models with existing results
+        model_filenames=model_filenames,  # None = process all models in the defined directory
+        skip_if_exists=True,   # Skip checking ifc models with existing results
     )
+
+    print(f"\n✓ Successfully processed  models:{successful_models}.")
+
+    return successful_models
     
-    print(f"\n✓ Successfully processed {len(successful_models)} models")
+def batch_processing_bcf(model_filenames=None):
+    """
+    Wrapper to analyze BCF results; main logic lives in BcfHandler.
+    """
+
+    # --- Normalize input / skip already extracted ---------------------------
+    if model_filenames:
+        normalized = [BcfExtractor.to_model_name(m) for m in model_filenames] # type: ignore
+        pending = [n for n in normalized if not BcfExtractor.is_already_extracted(n)] # type: ignore
+        if not pending:
+            print("All provided models already extracted. Skipping BCF analysis.")
+            return []
+        return analyze_bcf_projects(pending) # type: ignore
+
+    # --- Analyze all discovered projects ------------------------------------
+    return analyze_bcf_projects(None) # type: ignore
+
+
+def main():
+    """Execute Solibri batch run followed by BCF analysis."""
+
+    # --- Run Solibri checks --------------------------------------------------
+    checked_model_filenames = batch_processing_solibri()
+
+    # --- Analyze resulting BCF packages -------------------------------------
+    batch_processing_bcf(model_filenames=checked_model_filenames)
+
+
 # =============================================================================
 # MAIN EXECUTION
 # =============================================================================
 if __name__ == "__main__":
 
-    example_batch_processing()
+    main()
 
-    # Choose which example to run
-    # Uncomment the example you want to test:
-    
-    # example_single_model()
-    # example_batch_processing()
-    # example_with_processor()
-    # example_bcf_analysis()
-    # example_custom_pipeline()
-    # example_update_settings()
-    # example_bcf_operations()
-    

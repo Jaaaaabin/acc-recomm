@@ -50,16 +50,11 @@ class ModelFileManager:
     Handles copying models to/from working directories and organizing results.
     """
     
-    def __init__(self, project_root: str):
+    def __init__(self):
         """
         Initialize file manager.
-        
-        Args:
-            project_root: Root directory of the project
         """
-        self.project_root = project_root
         
-        # Directory structure 
         self.acc_working_dir_res = get_path('acc', 'res')
         self.acc_working_dir_models = get_path('acc', 'models')
 
@@ -73,14 +68,14 @@ class ModelFileManager:
         Returns:
             Sorted list of IFC file paths (relative to data_processed_ifc_dir)
         """
-        if not os.path.exists(self.data_processed_ifc_dir):
+        if not os.path.exists(self.data_processed_ifc_dir): # type: ignore
             return []
         
         ifc_files = []
-        base_path = Path(self.data_processed_ifc_dir)
+        base_path = Path(self.data_processed_ifc_dir) # type: ignore
         
-        # Recursively find all .ifc files
-        for ifc_path in base_path.rglob("*.ifc"):
+        # Only look for .ifc files directly under the base directory (no recursion)
+        for ifc_path in base_path.glob("*.ifc"):
             if ifc_path.is_file():
                 # Get relative path from base directory
                 relative_path = ifc_path.relative_to(base_path)
@@ -99,8 +94,8 @@ class ModelFileManager:
         Returns:
             True if successful, False otherwise
         """
-        source = os.path.join(self.data_processed_ifc_dir, model_filename)
-        target = os.path.join(self.acc_working_dir_models, "model.ifc")
+        source = os.path.join(self.data_processed_ifc_dir, model_filename) # type: ignore
+        target = os.path.join(self.acc_working_dir_models, "model.ifc") # type: ignore
         
         if not os.path.exists(source):
             print(f"\033[1m\033[91m Error: \033[0m Model file not found: {source}")
@@ -130,19 +125,17 @@ class ModelFileManager:
         
         # Source directories (Solibri output)
         sources = {
-            "smc": os.path.join(self.acc_working_dir_res, "smc"),
-            "bcfzip": os.path.join(self.acc_working_dir_res, "bcfzip"),
-            "logs": os.path.join(self.acc_working_dir_res, "logs"),
-            "issues": os.path.join(self.acc_working_dir_res, "issues"),
+            "smc": os.path.join(self.acc_working_dir_res, "smc"), # type: ignore
+            "bcfzip": os.path.join(self.acc_working_dir_res, "bcfzip"), # type: ignore
+            "issues": os.path.join(self.acc_working_dir_res, "issues"), # type: ignore
         }
         
         # Target directories (organized by model name - subtypes)
         # model_name
         targets = {
-            "smc": os.path.join(self.data_processes_acc_res_dir, model_name, "smc"),
-            "bcfzip": os.path.join(self.data_processes_acc_res_dir, model_name, "bcfzip"),
-            "logs": os.path.join(self.data_processes_acc_res_dir, model_name, "logs"),
-            "issues": os.path.join(self.data_processes_acc_res_dir, model_name, "issues"),
+            "smc": os.path.join(self.data_processes_acc_res_dir, model_name, "smc"), # type: ignore
+            "bcfzip": os.path.join(self.data_processes_acc_res_dir, model_name, "bcfzip"), # type: ignore
+            "issues": os.path.join(self.data_processes_acc_res_dir, model_name, "issues"), # type: ignore
         }
         
         success = True
@@ -203,11 +196,11 @@ class ModelFileManager:
         # e.g., "case-autcon/case-autcon.ifc" -> "case-autcon"
         model_name = os.path.splitext(os.path.basename(model_filename))[0]
         
-        result_types = ["smc", "bcfzip", "logs", "issues"]
+        result_types = ["smc", "bcfzip", "issues"]
         missing = []
         
         for result_type in result_types:
-            result_dir = os.path.join(self.data_processes_acc_res_dir, model_name, result_type)
+            result_dir = os.path.join(self.data_processes_acc_res_dir, model_name, result_type) # type: ignore
             
             # Check if directory exists and has actual files
             if not os.path.exists(result_dir):
@@ -232,7 +225,6 @@ class ModelProcessor:
     
     def __init__(
         self, 
-        project_root: str,
         solibri_manager=None,  # Will be imported/injected
     ):
         """
@@ -242,8 +234,7 @@ class ModelProcessor:
             project_root: Root directory of the project
             solibri_manager: Instance of SolibriManager (optional, for dependency injection)
         """
-        self.project_root = project_root
-        self.file_manager = ModelFileManager(project_root)
+        self.file_manager = ModelFileManager()
         self.solibri_manager = solibri_manager
     
     def process_single_model(
@@ -380,33 +371,8 @@ class ModelProcessor:
         """
         return self.file_manager.copy_results_to_storage(model_filename)
 
-
-# Convenience functions for backward compatibility
-def process_model(
-    model_filename: str,
-    project_root: str,
-    solibri_manager=None,
-    skip_if_exists: bool = False
-) -> bool:
-    """
-    Process a single model through the complete pipeline.
-    
-    Args:
-        model_filename: Name of the IFC file to process
-        project_root: Root directory of the project
-        solibri_manager: Instance of SolibriManager
-        skip_if_exists: Skip if results already exist
-    
-    Returns:
-        True if successful, False otherwise
-    """
-    processor = ModelProcessor(project_root, solibri_manager)
-    return processor.process_single_model(model_filename, skip_if_exists)
-
-
 def process_all_models(
-    project_root: str,
-    solibri_manager=None,
+    solibri_manager,
     model_filenames: Optional[List[str]] = None,
     skip_if_exists: bool = False
 ) -> List[str]:
@@ -414,7 +380,6 @@ def process_all_models(
     Process multiple models through the complete pipeline.
     
     Args:
-        project_root: Root directory of the project
         solibri_manager: Instance of SolibriManager
         model_filenames: List of specific models to process (None = all)
         skip_if_exists: Skip models with existing results
@@ -422,5 +387,5 @@ def process_all_models(
     Returns:
         List of successfully processed model names
     """
-    processor = ModelProcessor(project_root, solibri_manager)
+    processor = ModelProcessor(solibri_manager) # type: ignore
     return processor.process_multiple_models(model_filenames, skip_if_exists)

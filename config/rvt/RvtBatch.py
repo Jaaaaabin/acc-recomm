@@ -62,8 +62,8 @@ if str(path_lib) not in sys.path:
 # Get data paths using systematic path management
 path_data_processed = os.path.join(project_root, 'data', 'processed')
 path_data_processed_ifc = os.path.join(path_data_processed, 'ifc')
-path_data_processed_ifc_byfile = os.path.join(path_data_processed_ifc, revitFileName)
-make_directory(path_data_processed_ifc_byfile)
+# path_data_processed_ifc_byfile = os.path.join(path_data_processed_ifc, revitFileName)
+# make_directory(path_data_processed_ifc_byfile)
 
 path_data_processed_rvt = os.path.join(path_data_processed, 'rvt')
 path_data_processed_rvt_byfile = os.path.join(path_data_processed_rvt, revitFileName)
@@ -84,7 +84,7 @@ except ImportError as e:
 # EXPORT IFC
 # ==================================================
 try:
-    exporter = DesignRevisionExporter(doc, str(path_data_processed_ifc_byfile), verbose=False)
+    exporter = DesignRevisionExporter(doc, str(path_data_processed_ifc), verbose=False)
     msg_ifc_exporter = exporter.ifc_exportation(ifc_version_string="IFC4")
     log_separator(msg_ifc_exporter)
 except Exception as e:

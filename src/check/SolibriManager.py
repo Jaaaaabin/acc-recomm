@@ -31,16 +31,16 @@ class SolibriRegistryManager:
     
     REGISTRY_PATH = r"Software\JavaSoft\Prefs\com\solibri\saf\plugins\java3dplugin"
     
-    def __init__(self, backup_dir: Optional[str] = None):
+    def __init__(self):
         """
         Initialize registry manager.
         
         Args:
             backup_dir: Directory to store registry backups. Defaults to checks_with_solibri folder.
         """
-        self.backup_dir = backup_dir or get_path('acc', 'root')
-        
-        self.backup_file = os.path.join(self.backup_dir, "backup_solibri_settings.reg")
+
+        self.backup_dir = get_path('acc', 'root')
+        self.backup_file = os.path.join(self.backup_dir, "backup_solibri_settings.reg") # type: ignore
         
         # Default settings template
         self.settings = {
@@ -66,7 +66,7 @@ class SolibriRegistryManager:
     
     def export_registry(self):
         """Export current registry settings to backup file."""
-        os.makedirs(self.backup_dir, exist_ok=True)
+        os.makedirs(self.backup_dir, exist_ok=True) # type: ignore
         command = f'reg export "HKCU\\{self.REGISTRY_PATH}" "{self.backup_file}" /y'
         os.system(command)
     
@@ -88,7 +88,7 @@ class SolibriRegistryManager:
         except FileNotFoundError:
             print("Registry path not found!")
         
-        return self.settings
+        return self.settings # type: ignore
     
     def modify_registry(self, new_settings: Dict[str, str]):
         """
@@ -139,20 +139,19 @@ class SolibriExecutor:
     Handles Solibri batch execution and process monitoring.
     """
     
-    def __init__(self, project_root: str):
-        self.project_root = project_root
-        self.res_dir = os.path.join(project_root, "checks_with_solibri", "res")
+    def __init__(self):
+
+        self.res_dir = get_path('acc', 'res')
     
     def cleanup_result_folders(self):
         """
         Delete previous result files before running Solibri.
-        Cleans: .bcfzip, .json, .smc, and .log files
+        Cleans: .bcfzip, .json and .smc files
         """
         patterns = [
-            (os.path.join(self.res_dir, "bcfzip"), ".bcfzip"),
-            (os.path.join(self.res_dir, "issues"), ".json"),
-            (os.path.join(self.res_dir, "smc"), ".smc"),
-            (os.path.join(self.res_dir, "logs"), ".log"),
+            (os.path.join(self.res_dir, "bcfzip"), ".bcfzip"), # type: ignore
+            (os.path.join(self.res_dir, "issues"), ".json"), # type: ignore
+            (os.path.join(self.res_dir, "smc"), ".smc"), # type: ignore
         ]
         
         for folder, ext in patterns:
@@ -227,23 +226,18 @@ class SolibriManager:
     High-level manager combining registry and execution control.
     """
     
-    def __init__(
-        self, 
-        project_root: str,
-        backup_dir: Optional[str] = None,
-        settings: Optional[Dict[str, str]] = None
-    ):
+    def __init__(self, settings: Optional[Dict[str, str]] = None):
         """
         Initialize Solibri manager.
         
         Args:
-            project_root: Root directory of the project
+            project_root: Root directory of the project (defaults to paths.yaml root_dir)
             backup_dir: Directory for registry backups
             settings: Default Solibri 3D settings (from env or config)
         """
-        self.project_root = project_root
-        self.registry_manager = SolibriRegistryManager(backup_dir)
-        self.executor = SolibriExecutor(project_root)
+        self.project_root = str(get_path("root_dir"))
+        self.registry_manager = SolibriRegistryManager() # type: ignore
+        self.executor = SolibriExecutor() # type: ignore
         
         # Default settings
         self.settings = settings or self._load_default_settings()
@@ -340,7 +334,6 @@ class SolibriManager:
 
 # Standalone function for backward compatibility
 def run_solibri_check(
-    project_root: str,
     batch_path: Optional[str] = None,
     settings: Optional[Dict[str, str]] = None
 ) -> bool:
@@ -355,5 +348,5 @@ def run_solibri_check(
     Returns:
         True if successful, False otherwise
     """
-    manager = SolibriManager(project_root, settings=settings)
+    manager = SolibriManager(settings=settings)
     return manager.execute_check(batch_path)
