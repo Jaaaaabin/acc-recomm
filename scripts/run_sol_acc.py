@@ -34,10 +34,10 @@ def main():
     """Execute Solibri batch run followed by BCF analysis."""
 
     # --- Run Solibri checks --------------------------------------------------
-    # checked_model_filenames = batch_processing_solibri()
+    checked_model_filenames = batch_processing_solibri()
 
     # --- Analyze resulting BCF packages -------------------------------------
-    checked_model_filenames = ['case-autcon']
+    # checked_model_filenames = ['case-autcon']
     analyze_bcf_projects(model_names=checked_model_filenames)
 
 

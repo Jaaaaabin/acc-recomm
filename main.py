@@ -1,4 +1,4 @@
-from src.utils.env_utils import show_system_info, list_installed_packages, print_tree
+from src.utils.env_utils import show_system_info, print_tree
 from src.utils.time_utils import measure_runtime
 # from utils.cli_utils import print_info, print_success, progress_iter
 
@@ -9,7 +9,6 @@ def main():
     print("=" * 70)
 
     show_system_info()
-    list_installed_packages()
     print_tree(root=".", max_depth=3)
 
     print("\n✅ Environment summary complete.\n")

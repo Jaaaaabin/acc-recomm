@@ -19,23 +19,6 @@ def show_system_info():
     print("  - Working dir:   {}".format(os.getcwd()))
     print("  - Time:          {}".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
 
-def list_installed_packages(package_list=None):
-    """List the versions of key packages."""
-
-    print("\n📦 Installed Packages:")
-
-    if package_list == None:
-        package_list = [
-            "numpy", "pandas", "networkx", "torch", "transformers", "langchain", "ifcopenshell"]
-
-    for pkg in package_list:
-        try:
-            module = importlib.import_module(pkg)
-            version = getattr(module, "__version__", "unknown")
-            print("  - {:<20} {}".format(pkg, version))
-        except ImportError:
-            print("  - {:<20} ❌ Not installed".format(pkg))
-
 def print_tree(root=".", max_depth=2, ignore_names=None, ignore_ext=None, show_hidden=False):
     """
     Print a tree of folders and files up to max_depth (default: 2).
