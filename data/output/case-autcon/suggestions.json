@@ -1,0 +1,114 @@
+[
+  {
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\": \"2US5AV8qb0GwByJnlCSm4X\", \"type\": \"Ramp\", \"length\": \"3.00 m\", \"slope\": \"10.0%\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2US5AV8qb0GwByJnlCSm4X"
+        ],
+        "action": "Shorten the ramp to 1.52 m or less.",
+        "reasoning": "The ramp's current length of 3.00 m exceeds the maximum allowed length of 1.52 m for a 10.0% slope."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\": \"2US5AV8qb0GwByJnlCSm4X\", \"type\": \"Ramp\", \"length\": \"3.00 m\", \"slope\": \"10.0%\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2US5AV8qb0GwByJnlCSm4X"
+        ],
+        "action": "Reduce the ramp's slope to accommodate its 3.00 m length.",
+        "reasoning": "If the 3.00 m length is critical, the slope must be reduced to comply with accessibility standards for that length."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\": \"2US5AV8qb0GwByJnlCSm4X\", \"type\": \"Ramp\", \"length\": \"3.00 m\", \"slope\": \"10.0%\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2US5AV8qb0GwByJnlCSm4X"
+        ],
+        "action": "Replace the ramp with a mechanical lift or alternative access.",
+        "reasoning": "Given the significant discrepancy between the current ramp length and the maximum allowed for its slope, an alternative access method like a lift could be more suitable."
+      }
+    ]
+  },
+  {
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\": \"2Bvzw$uBD3Wv1OCFWjcmCf\", \"type\": \"IfcWall\", \"properties\": {\"Name\": \"Wall-Ext-1hr\", \"_x_IfcSpace_1\": \"Space.4.11 : Office[321]\"}}, {\"id\": \"1AHyXVIBrDMh1bxdInzvfl\", \"type\": \"IfcDoor\", \"properties\": {\"Name\": \"M_Single-Flush:915 x 2134mm\", \"_x_IfcSpace_1\": \"Space.4.11 : Office[321]\"}}, {\"id\": \"2Bvzw$uBD3Wv1OCFWjcm3b\", \"type\": \"IfcWall\", \"properties\": {\"Name\": \"Wall-Ext-1hr\", \"_x_IfcSpace_1\": \"Space.4.11 : Office[321]\"}}]",
+        "context_json": "[]",
+        "ids": [
+          "2Bvzw$uBD3Wv1OCFWjcmCf",
+          "1AHyXVIBrDMh1bxdInzvfl",
+          "2Bvzw$uBD3Wv1OCFWjcm3b"
+        ],
+        "action": "Add a new fire-rated door in an existing wall to create an intermediate exit.",
+        "reasoning": "Introducing an additional fire-rated door in the wall (2Bvzw$uBD3Wv1OCFWjcmCf or 2Bvzw$uBD3Wv1OCFWjcm3b) within or adjacent to Space.4.11 : Office[321] (1AHyXVIBrDMh1bxdInzvfl) will segment the travel path, reducing the effective travel distance to a compliant length."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\": \"1W6yAWYtbDbPaMjexfopcC\", \"type\": \"IfcSpace\", \"properties\": {\"Name\": \"Space.4.11 : Office[321]\"}}, {\"id\": \"1yPJv2Vxf8r9twVNmFuYY8\", \"type\": \"IfcWall\", \"properties\": {\"Name\": \"Wall-Ext-1hr\", \"_x_IfcSpace_1\": \"Space.4.11 : Office[321]\"}}, {\"id\": \"2Bvzw$uBD3Wv1OCFWjcmEx\", \"type\": \"IfcWall\", \"properties\": {\"Name\": \"Wall-Ext-1hr\", \"_x_IfcSpace_1\": \"Space.4.11 : Office[321]\"}}]",
+        "context_json": "[]",
+        "ids": [
+          "1W6yAWYtbDbPaMjexfopcC",
+          "1yPJv2Vxf8r9twVNmFuYY8",
+          "2Bvzw$uBD3Wv1OCFWjcmEx"
+        ],
+        "action": "Reconfigure the internal layout of Space.4.11 : Office[321] by relocating non-load-bearing walls to shorten the path to an existing exit.",
+        "reasoning": "By strategically moving internal walls (1yPJv2Vxf8r9twVNmFuYY8, 2Bvzw$uBD3Wv1OCFWjcmEx) within Space.4.11 : Office[321] (1W6yAWYtbDbPaMjexfopcC), a more direct and shorter route to an existing exit can be created, reducing the overall travel distance."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\": \"16bd2f49-f5f2-41ff-9b07-507acd447d86\", \"type\": \"IfcProject\", \"properties\": {\"Name\": \"Project\"}}, {\"id\": \"2wwkhajRz9dOXaXiRcjMCP\", \"type\": \"IfcFlowTerminal\", \"properties\": {\"Name\": \"M_Sprinkler-Pendent:32mm\"}}, {\"id\": \"2wwkhajRz9dOXaXiRcjMCQ\", \"type\": \"IfcFlowTerminal\", \"properties\": {\"Name\": \"M_Sprinkler-Pendent:32mm\"}}]",
+        "context_json": "[]",
+        "ids": [
+          "16bd2f49-f5f2-41ff-9b07-507acd447d86",
+          "2wwkhajRz9dOXaXiRcjMCP",
+          "2wwkhajRz9dOXaXiRcjMCQ"
+        ],
+        "action": "Propose a code variance based on enhanced fire suppression systems and materials.",
+        "reasoning": "Given the existing sprinkler system (2wwkhajRz9dOXaXiRcjMCP, 2wwkhajRz9dOXaXiRcjMCQ) in the project (16bd2f49-f5f2-41ff-9b07-507acd447d86), further enhancements to fire safety measures could justify a variance for the travel distance, as the overall safety level would be increased."
+      }
+    ]
+  },
+  {
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNoX\", \"level_id\": \"2680262\", \"location\": [31.679353627965913, 20.535276144551297, 11.1], \"id\": \"2682954\", \"type\": \"Door\"}, {\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNoW\", \"level_id\": \"2680262\", \"location\": [36.67935362796592, 20.53527614455128, 11.1], \"id\": \"2682955\", \"type\": \"Door\"}]",
+        "context_json": "[{\"ifc_guid\": \"1W6yAWYtbDbPaMjexfopdL\", \"bound_phy\": [\"2682945\", \"2682934\", \"2682935\", \"2682933\"], \"number\": \"306\", \"bound_vrt\": [], \"level_id\": \"2680262\", \"width\": 4.800000000000014, \"length\": 11.750000000000021, \"name\": \"Conference Room\", \"location\": [34.36204852073431, 23.416620210375196, 11.1], \"id\": \"2686167\", \"type\": \"Space\"}]",
+        "ids": [
+          "2682954",
+          "2682955",
+          "2686167"
+        ],
+        "action": "Relocate one of the doors to increase separation.",
+        "reasoning": "Moving Door '2682954' or '2682955' further apart will increase the actual distance between them, addressing the insufficient separation of 5.31m compared to the required 6.35m for Space '2686167'."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"ifc_guid\": \"1W6yAWYtbDbPaMjexfopdL\", \"bound_phy\": [\"2682945\", \"2682934\", \"2682935\", \"2682933\"], \"number\": \"306\", \"bound_vrt\": [], \"level_id\": \"2680262\", \"width\": 4.800000000000014, \"length\": 11.750000000000021, \"name\": \"Conference Room\", \"location\": [34.36204852073431, 23.416620210375196, 11.1], \"id\": \"2686167\", \"type\": \"Space\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2686167"
+        ],
+        "action": "Install an automatic sprinkler system.",
+        "reasoning": "Installing an automatic sprinkler system in Space '2686167' would eliminate the requirement for the 6.35m door separation, as the code typically allows for reduced separation in sprinklered buildings."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"ifc_guid\": \"1W6yAWYtbDbPaMjexfopdL\", \"bound_phy\": [\"2682945\", \"2682934\", \"2682935\", \"2682933\"], \"number\": \"306\", \"bound_vrt\": [], \"level_id\": \"2680262\", \"width\": 4.800000000000014, \"length\": 11.750000000000021, \"name\": \"Conference Room\", \"location\": [34.36204852073431, 23.416620210375196, 11.1], \"id\": \"2686167\", \"type\": \"Space\"}]",
+        "context_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNoX\", \"level_id\": \"2680262\", \"location\": [31.679353627965913, 20.535276144551297, 11.1], \"id\": \"2682954\", \"type\": \"Door\"}, {\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNoW\", \"level_id\": \"2680262\", \"location\": [36.67935362796592, 20.53527614455128, 11.1], \"id\": \"2682955\", \"type\": \"Door\"}]",
+        "ids": [
+          "2686167",
+          "2682954",
+          "2682955"
+        ],
+        "action": "Reconfigure internal layout to create a new, compliant exit access path.",
+        "reasoning": "By reconfiguring the internal layout of Space '2686167', a new exit access path can be established that leads to a more distant exit, effectively addressing the insufficient separation between the existing doors '2682954' and '2682955'."
+      }
+    ]
+  }
+]

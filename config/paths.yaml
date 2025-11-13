@@ -27,6 +27,7 @@ data:
     ifc: "data/processed/ifc"
     rvt: "data/processed/rvt"
     rule: "data/processed/rule"
+  output: "data/output"
 
 # Scripts
 scripts:

@@ -1,0 +1,24 @@
+case_name: case-autcon
+
+neo4j:
+  uri: ${NEO4J_URI:bolt://localhost:7687}
+  username: ${NEO4J_USER:neo4j}
+  password: ${NEO4J_PASSWORD:password}
+
+graph:
+  batch_size: 200
+  force: false
+
+suggestions:
+  issue_start_index: 0 # Where to start in topics.json
+  issue_processing_count: 10 # How many of the issues to be processed
+  total_suggestions: 3
+  standard_suggestions: 1
+  creative_suggestions: 2
+  regulation_text: null
+  llm_model: google/gemini-2.5-flash
+  temperature: 0.2
+  max_iterations: 5
+  verbose: false
+  output_filename: suggestions.json
+
