@@ -11,7 +11,7 @@ graph:
 
 suggestions:
   issue_start_index: 0 # Where to start in topics.json
-  issue_processing_count: 10 # How many of the issues to be processed
+  issue_processing_count: 20 # How many of the issues to be processed
   total_suggestions: 3
   standard_suggestions: 1
   creative_suggestions: 2

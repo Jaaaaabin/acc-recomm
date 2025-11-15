@@ -1,0 +1,826 @@
+[
+  {
+    "issue": {
+      "description": "IBC SECTION 1012 RAMPS 1012_2 Slope (part of means of egress).\nRamp slope is 10.0%. The maximum slope for the ramps is 8.0%.\n",
+      "ifc_guids": [
+        "2US5AV8qb0GwByJnlCSm4X"
+      ],
+      "title": "Too Steep Ramp: 10.0%",
+      "topic_id": "04238434-70ce-4f7c-82c9-0f77ad160d46"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\": \"2US5AV8qb0GwByJnlCSm4X\", \"type\": \"IfcRamp\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2US5AV8qb0GwByJnlCSm4X"
+        ],
+        "action": "Verify the IFC GUID and element type.",
+        "reasoning": "The provided IFC GUID '2US5AV8qb0GwByJnlCSm4X' did not return any results for a ramp or stair in the database, indicating a potential mismatch or error in the provided information."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\": \"2US5AV8qb0GwByJnlCSm4X\", \"type\": \"IfcRamp\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2US5AV8qb0GwByJnlCSm4X"
+        ],
+        "action": "Re-examine the source of the IFC GUID.",
+        "reasoning": "Since the GUID '2US5AV8qb0GwByJnlCSm4X' is not found, it's crucial to trace back to the original source of this identifier to confirm its accuracy and ensure it refers to the intended ramp element."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\": \"2US5AV8qb0GwByJnlCSm4X\", \"type\": \"IfcRamp\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2US5AV8qb0GwByJnlCSm4X"
+        ],
+        "action": "Search for ramps in the vicinity of the reported issue.",
+        "reasoning": "Given the GUID '2US5AV8qb0GwByJnlCSm4X' is invalid, a spatial search for ramps near the reported issue's location might help identify the correct ramp and its associated GUID, allowing for proper analysis of its slope."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.2 Treads and Risers\nStair Stair.0.3 tread length is 0.20 m. The minimum length for the tread is 0.28 m.\n",
+      "ifc_guids": [
+        "2LQCcanLjFOuofCAdgIDUF"
+      ],
+      "title": "Stair.0.3: 0.20 M",
+      "topic_id": "0b544843-8368-406e-b60d-f96a1ef29dcb"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\": \"2523201\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgIDUF\", \"type\": \"Stair\", \"tread_length\": 0.20}]",
+        "context_json": "[]",
+        "ids": [
+          "2523201",
+          "2LQCcanLjFOuofCAdgIDUF"
+        ],
+        "action": "Increase the tread length of Stair.0.3 to at least 0.28 m.",
+        "reasoning": "The current tread length of 0.20 m for Stair.0.3 (ID: 2523201) is below the minimum required length of 0.28 m."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\": \"2523201\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgIDUF\", \"type\": \"Stair\", \"tread_length\": 0.20}]",
+        "context_json": "[{\"id\": \"2658407\", \"ifc_guid\": \"3RD7PAHIz7R9lDzWO$ci1w\", \"name\": \"Staircase\", \"number\": \"129\", \"type\": \"Space\"}, {\"id\": \"2653326\", \"ifc_guid\": \"1SipKwVz55Hfp7EGZMq0bG\", \"name\": \"Staircase\", \"number\": \"025\", \"type\": \"Space\"}]",
+        "ids": [
+          "2523201",
+          "2LQCcanLjFOuofCAdgIDUF",
+          "2658407",
+          "3RD7PAHIz7R9lDzWO$ci1w",
+          "2653326",
+          "1SipKwVz55Hfp7EGZMq0bG"
+        ],
+        "action": "Redesign Stair.0.3, potentially adjusting its connection to Space 129 or Space 025, to achieve the required tread length.",
+        "reasoning": "The stair (ID: 2523201) has an insufficient tread length. Considering its connections to 'Staircase' spaces (ID: 2658407 and ID: 2653326), a redesign might involve reconfiguring the stair's geometry within the existing space constraints."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\": \"2523201\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgIDUF\", \"type\": \"Stair\", \"tread_length\": 0.20}]",
+        "context_json": "[{\"id\": \"2658407\", \"ifc_guid\": \"3RD7PAHIz7R9lDzWO$ci1w\", \"name\": \"Staircase\", \"number\": \"129\", \"type\": \"Space\", \"location\": [40.2969019248941, 20.352498234389838, 3.7], \"length\": 4.87, \"width\": 2.1}, {\"id\": \"2653326\", \"ifc_guid\": \"1SipKwVz55Hfp7EGZMq0bG\", \"name\": \"Staircase\", \"number\": \"025\", \"type\": \"Space\", \"location\": [41.640395496283844, 20.446380913620256, 0], \"length\": 4.87, \"width\": 2.1}]",
+        "ids": [
+          "2523201",
+          "2LQCcanLjFOuofCAdgIDUF",
+          "2658407",
+          "3RD7PAHIz7R9lDzWO$ci1w",
+          "2653326",
+          "1SipKwVz55Hfp7EGZMq0bG"
+        ],
+        "action": "Investigate if the adjacent spaces (Staircase 129 and Staircase 025) can be reconfigured to allow for a longer tread on Stair.0.3.",
+        "reasoning": "The stair (ID: 2523201) has an insufficient tread length. Given its connection to two 'Staircase' spaces (ID: 2658407 and ID: 2653326), exploring the possibility of expanding or re-shaping these spaces could provide the necessary room for the stair tread adjustment."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "307.4 Reduced Vertical Clearance\nUnderside of stair should be shielded to protect visually impaired persons from accessing it inadvertently.\n",
+      "ifc_guids": [
+        "2LQCcanLjFOuofCAdgIDUF",
+        "3JOMyjK59Fgervz4z7Kgh9"
+      ],
+      "title": "Stair.0.3",
+      "topic_id": "0d309356-957f-4430-a72d-7f4e9b381760"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"base_elevation\": 0, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2523201\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgIDUF\", \"location\": [42.399268983124315, 20.357976144551216, 1.9473684210526361], \"top_elevation\": 12.139107611548555}]",
+        "context_json": "[]",
+        "ids": [
+          "2523201"
+        ],
+        "action": "Install a protective barrier or guardrail beneath the stair.",
+        "reasoning": "The stair (id: 2523201) has a reduced vertical clearance, requiring a physical barrier to prevent access for visually impaired individuals."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"base_elevation\": 0, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2523201\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgIDUF\", \"location\": [42.399268983124315, 20.357976144551216, 1.9473684210526361], \"top_elevation\": 12.139107611548555}]",
+        "context_json": "[]",
+        "ids": [
+          "2523201"
+        ],
+        "action": "Incorporate tactile paving and an auditory warning system beneath the stair.",
+        "reasoning": "The stair (id: 2523201) presents a low-clearance hazard; tactile and auditory cues can alert visually impaired individuals without a physical barrier."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"base_elevation\": 0, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2523201\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgIDUF\", \"location\": [42.399268983124315, 20.357976144551216, 1.9473684210526361], \"top_elevation\": 12.139107611548555}]",
+        "context_json": "[]",
+        "ids": [
+          "2523201"
+        ],
+        "action": "Design a built-in planter or seating area under the stair.",
+        "reasoning": "The area under the stair (id: 2523201) requires shielding; a planter or seating can serve as a functional and aesthetic obstruction."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "307.4 Reduced Vertical Clearance\nUnderside of stair should be shielded to protect visually impaired persons from accessing it inadvertently.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjMEN",
+        "2wwkhajRz9dOXaXiRcjNX8"
+      ],
+      "title": "Stair.3.2",
+      "topic_id": "103794a5-181f-45fe-a82b-b8e8dbd17cf8"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNX8\", \"id\": \"2684067\", \"location\": [26.064303627955937, 36.372576144551275, 9.34736842105263], \"top_elevation\": 36.41732283464567, \"base_elevation\": 24.27821522309711, \"horizontal_dimensions\": [2.1, 3.0]}]",
+        "context_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjMEN\", \"id\": \"2682748\", \"location\": [34.22935362796602, 27.422755281836338, 7.25], \"level_id\": \"79627\"}]",
+        "ids": [
+          "2684067",
+          "2682748"
+        ],
+        "action": "Install a solid barrier or guardrail under the stair to block access to the reduced clearance area.",
+        "reasoning": "The stair (2684067) has a reduced vertical clearance, and a barrier is needed to prevent access for visually impaired persons, potentially near element 2682748."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNX8\", \"id\": \"2684067\", \"location\": [26.064303627955937, 36.372576144551275, 9.34736842105263], \"top_elevation\": 36.41732283464567, \"base_elevation\": 24.27821522309711, \"horizontal_dimensions\": [2.1, 3.0]}]",
+        "context_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjMEN\", \"id\": \"2682748\", \"location\": [34.22935362796602, 27.422755281836338, 7.25], \"level_id\": \"79627\"}]",
+        "ids": [
+          "2684067",
+          "2682748"
+        ],
+        "action": "Construct a planter or built-in seating to fill the reduced clearance area under the stair.",
+        "reasoning": "The space under stair 2684067 can be utilized by a planter or seating to eliminate the hazard, providing both safety and aesthetic value, potentially near element 2682748."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNX8\", \"id\": \"2684067\", \"location\": [26.064303627955937, 36.372576144551275, 9.34736842105263], \"top_elevation\": 36.41732283464567, \"base_elevation\": 24.27821522309711, \"horizontal_dimensions\": [2.1, 3.0]}]",
+        "context_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjMEN\", \"id\": \"2682748\", \"location\": [34.22935362796602, 27.422755281836338, 7.25], \"level_id\": \"79627\"}]",
+        "ids": [
+          "2684067",
+          "2682748"
+        ],
+        "action": "Implement an integrated tactile and auditory warning system leading to the reduced clearance under the stair.",
+        "reasoning": "To enhance safety for visually impaired individuals approaching the reduced clearance under stair 2684067, a system combining tactile paving and motion-activated auditory cues can provide advanced warning, potentially near element 2682748."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.2 Treads and Risers\nStair SStair.1448 has a landing with clear width of less than the required 0.90 m.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjNX8"
+      ],
+      "title": "Stair.3.2",
+      "topic_id": "1687f731-0a57-4213-8001-d06d269d1e59"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\": \"2wwkhajRz9dOXaXiRcjNX8\", \"type\": \"IfcStair\", \"GlobalId\": \"2wwkhajRz9dOXaXiRcjNX8\", \"Name\": \"Stair SStair.1448\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2wwkhajRz9dOXaXiRcjNX8"
+        ],
+        "action": "Verify the dimensions of the landing for Stair SStair.1448 (GlobalId: 2wwkhajRz9dOXaXiRcjNX8) and adjust to meet the 0.90m clear width requirement.",
+        "reasoning": "The issue directly references 'Stair SStair.1448' and its GlobalId '2wwkhajRz9dOXaXiRcjNX8', indicating a direct modification to this specific IfcStair object is needed to address the landing width."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\": \"2wwkhajRz9dOXaXiRcjNX8\", \"type\": \"IfcStair\", \"GlobalId\": \"2wwkhajRz9dOXaXiRcjNX8\", \"Name\": \"Stair SStair.1448\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2wwkhajRz9dOXaXiRcjNX8"
+        ],
+        "action": "Redesign the landing geometry of Stair SStair.1448 (GlobalId: 2wwkhajRz9dOXaXiRcjNX8) to ensure a clear width of at least 0.90m, potentially exploring a wider or reconfigured landing shape.",
+        "reasoning": "The issue highlights a non-compliant landing width for 'Stair SStair.1448' (GlobalId: '2wwkhajRz9dOXaXiRcjNX8'). A creative solution would involve a redesign of the landing's geometry to achieve the required clear width, rather than a simple adjustment."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\": \"2wwkhajRz9dOXaXiRcjNX8\", \"type\": \"IfcStair\", \"GlobalId\": \"2wwkhajRz9dOXaXiRcjNX8\", \"Name\": \"Stair SStair.1448\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2wwkhajRz9dOXaXiRcjNX8"
+        ],
+        "action": "Investigate if an adjacent element is encroaching on the landing of Stair SStair.1448 (GlobalId: 2wwkhajRz9dOXaXiRcjNX8) and, if so, relocate or modify the obstructing element to achieve the required 0.90m clear width.",
+        "reasoning": "The issue states the landing of 'Stair SStair.1448' (GlobalId: '2wwkhajRz9dOXaXiRcjNX8') has insufficient clear width. A creative approach could be that an external element is causing the obstruction, and modifying that element, rather than the stair itself, might be a viable solution."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.3 Open Risers\nStair SStair.1448 has a landing with clear width of less than the required 0.90 m.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjNX8"
+      ],
+      "title": "Stair.3.2",
+      "topic_id": "1a6bc087-fb2f-44b1-9c0a-8a0541232fcd"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"base_elevation\": 24.27821522309711, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2684067\", \"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNX8\", \"location\": [26.064303627955937, 36.372576144551275, 9.34736842105263], \"top_elevation\": 36.417322834645667}]",
+        "context_json": "[]",
+        "ids": [
+          "2684067"
+        ],
+        "action": "Modify or reconstruct the landing of Stair SStair.1448 to achieve the required 0.90 m clear width.",
+        "reasoning": "The issue directly states the landing of Stair SStair.1448 (id: 2684067) has insufficient clear width. Modifying the landing is the most direct solution."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"base_elevation\": 24.27821522309711, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2684067\", \"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNX8\", \"location\": [26.064303627955937, 36.372576144551275, 9.34736842105263], \"top_elevation\": 36.417322834645667}]",
+        "context_json": "[]",
+        "ids": [
+          "2684067"
+        ],
+        "action": "Integrate a recessed handrail or slim-profile guardrail design on Stair SStair.1448's landing to maximize clear width.",
+        "reasoning": "To address the clear width deficiency of Stair SStair.1448 (id: 2684067), optimizing the handrail/guardrail design can reclaim space without major structural changes to the overall stair dimensions."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"base_elevation\": 24.27821522309711, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2684067\", \"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNX8\", \"location\": [26.064303627955937, 36.372576144551275, 9.34736842105263], \"top_elevation\": 36.417322834645667}]",
+        "context_json": "[]",
+        "ids": [
+          "2684067"
+        ],
+        "action": "Implement contrasting floor finishes and strategic lighting on Stair SStair.1448's landing to enhance visual cues and wayfinding.",
+        "reasoning": "For Stair SStair.1448 (id: 2684067), visual cues and lighting can improve the perception and usability of the existing landing width, especially if the deficiency is minor."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.2 Treads and Risers\nStair SStair.1456 has a landing with clear width of less than the required 0.90 m.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjNXf"
+      ],
+      "title": "Stair.2.2",
+      "topic_id": "1caff748-c3c7-4d62-a77d-3dd735766df3"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"s.base_elevation\": 12.139107611548555, \"s.horizontal_dimensions\": [2.1, 3.0], \"s.id\": \"2684034\", \"s.ifc_guid\": \"2wwkhajRz9dOXaXiRcjNXf\", \"s.location\": [26.066179191988297, 36.37257614455128, 5.647368421052629], \"s.top_elevation\": 24.27821522309711}]",
+        "context_json": "[{\"bound_phy\": [\"2521897\", \"2521123\", \"2525821\"], \"bound_vrt\": [\"2653159\"], \"id\": \"2653240\", \"ifc_guid\": \"1SipKwVz55Hfp7EGZMq0dc\", \"length\": 4.8699999999999974, \"level_id\": \"24770\", \"location\": [26.7406386696329, 36.463456456495749, 0], \"name\": \"Staircase\", \"number\": \"026\", \"width\": 2.0999999999999903}, {\"bound_phy\": [\"2599507\", \"2599498\", \"2670851\"], \"bound_vrt\": [\"2656702\"], \"id\": \"2658404\", \"ifc_guid\": \"3RD7PAHIz7R9lDzWO$ci1v\", \"length\": 4.8699999999999974, \"level_id\": \"25474\", \"location\": [27.193734598961456, 36.557453913930686, 3.7], \"name\": \"Staircase\", \"number\": \"130\", \"width\": 2.0999999999999903}, {\"bound_phy\": [\"2682610\", \"2683273\", \"2683274\"], \"bound_vrt\": [\"2683402\"], \"id\": \"2686091\", \"ifc_guid\": \"1W6yAWYtbDbPaMjexfopc9\", \"length\": 4.8699999999999974, \"level_id\": \"79627\", \"location\": [27.176551501377268, 36.3747382800016, 7.4], \"name\": \"Staircase\", \"number\": \"204\", \"width\": 2.0999999999999903}]",
+        "ids": [
+          "2684034",
+          "2wwkhajRz9dOXaXiRcjNXf",
+          "2521897",
+          "2521123",
+          "2525821",
+          "2653159",
+          "2653240",
+          "1SipKwVz55Hfp7EGZMq0dc",
+          "24770",
+          "2599507",
+          "2599498",
+          "2670851",
+          "2656702",
+          "2658404",
+          "3RD7PAHIz7R9lDzWO$ci1v",
+          "25474",
+          "2682610",
+          "2683273",
+          "2683274",
+          "2683402",
+          "2686091",
+          "1W6yAWYtbDbPaMjexfopc9",
+          "79627"
+        ],
+        "action": "Modify or reconstruct the landing of Stair SStair.1456 to achieve a clear width of at least 0.90 m.",
+        "reasoning": "The issue states the landing width is less than 0.90m. The stair's horizontal dimensions are [2.1, 3.0], implying there is space to adjust one dimension to meet the requirement. This may impact connected spaces like 'Staircase 026', 'Staircase 130', and 'Staircase 204'."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"s.base_elevation\": 12.139107611548555, \"s.horizontal_dimensions\": [2.1, 3.0], \"s.id\": \"2684034\", \"s.ifc_guid\": \"2wwkhajRz9dOXaXiRcjNXf\", \"s.location\": [26.066179191988297, 36.37257614455128, 5.647368421052629], \"s.top_elevation\": 24.27821522309711}]",
+        "context_json": "[{\"bound_phy\": [\"2521897\", \"2521123\", \"2525821\"], \"bound_vrt\": [\"2653159\"], \"id\": \"2653240\", \"ifc_guid\": \"1SipKwVz55Hfp7EGZMq0dc\", \"length\": 4.8699999999999974, \"level_id\": \"24770\", \"location\": [26.7406386696329, 36.463456456495749, 0], \"name\": \"Staircase\", \"number\": \"026\", \"width\": 2.0999999999999903}, {\"bound_phy\": [\"2599507\", \"2599498\", \"2670851\"], \"bound_vrt\": [\"2656702\"], \"id\": \"2658404\", \"ifc_guid\": \"3RD7PAHIz7R9lDzWO$ci1v\", \"length\": 4.8699999999999974, \"level_id\": \"25474\", \"location\": [27.193734598961456, 36.557453913930686, 3.7], \"name\": \"Staircase\", \"number\": \"130\", \"width\": 2.0999999999999903}, {\"bound_phy\": [\"2682610\", \"2683273\", \"2683274\"], \"bound_vrt\": [\"2683402\"], \"id\": \"2686091\", \"ifc_guid\": \"1W6yAWYtbDbPaMjexfopc9\", \"length\": 4.8699999999999974, \"level_id\": \"79627\", \"location\": [27.176551501377268, 36.3747382800016, 7.4], \"name\": \"Staircase\", \"number\": \"204\", \"width\": 2.0999999999999903}]",
+        "ids": [
+          "2684034",
+          "2wwkhajRz9dOXaXiRcjNXf",
+          "2521897",
+          "2521123",
+          "2525821",
+          "2653159",
+          "2653240",
+          "1SipKwVz55Hfp7EGZMq0dc",
+          "24770",
+          "2599507",
+          "2599498",
+          "2670851",
+          "2656702",
+          "2658404",
+          "3RD7PAHIz7R9lDzWO$ci1v",
+          "25474",
+          "2682610",
+          "2683273",
+          "2683274",
+          "2683402",
+          "2686091",
+          "1W6yAWYtbDbPaMjexfopc9",
+          "79627"
+        ],
+        "action": "Implement a cantilevered extension for the landing of Stair SStair.1456.",
+        "reasoning": "Given the stair's horizontal dimensions of [2.1, 3.0], a cantilevered extension could increase the landing width without encroaching on the adjacent 'Staircase' spaces, which have widths of approximately 2.1m and lengths of 4.87m."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"s.base_elevation\": 12.139107611548555, \"s.horizontal_dimensions\": [2.1, 3.0], \"s.id\": \"2684034\", \"s.ifc_guid\": \"2wwkhajRz9dOXaXiRcjNXf\", \"s.location\": [26.066179191988297, 36.37257614455128, 5.647368421052629], \"s.top_elevation\": 24.27821522309711}]",
+        "context_json": "[{\"bound_phy\": [\"2521897\", \"2521123\", \"2525821\"], \"bound_vrt\": [\"2653159\"], \"id\": \"2653240\", \"ifc_guid\": \"1SipKwVz55Hfp7EGZMq0dc\", \"length\": 4.8699999999999974, \"level_id\": \"24770\", \"location\": [26.7406386696329, 36.463456456495749, 0], \"name\": \"Staircase\", \"number\": \"026\", \"width\": 2.0999999999999903}, {\"bound_phy\": [\"2599507\", \"2599498\", \"2670851\"], \"bound_vrt\": [\"2656702\"], \"id\": \"2658404\", \"ifc_guid\": \"3RD7PAHIz7R9lDzWO$ci1v\", \"length\": 4.8699999999999974, \"level_id\": \"25474\", \"location\": [27.193734598961456, 36.557453913930686, 3.7], \"name\": \"Staircase\", \"number\": \"130\", \"width\": 2.0999999999999903}, {\"bound_phy\": [\"2682610\", \"2683273\", \"2683274\"], \"bound_vrt\": [\"2683402\"], \"id\": \"2686091\", \"ifc_guid\": \"1W6yAWYtbDbPaMjexfopc9\", \"length\": 4.8699999999999974, \"level_id\": \"79627\", \"location\": [27.176551501377268, 36.3747382800016, 7.4], \"name\": \"Staircase\", \"number\": \"204\", \"width\": 2.0999999999999903}]",
+        "ids": [
+          "2684034",
+          "2wwkhajRz9dOXaXiRcjNXf",
+          "2521897",
+          "2521123",
+          "2525821",
+          "2653159",
+          "2653240",
+          "1SipKwVz55Hfp7EGZMq0dc",
+          "24770",
+          "2599507",
+          "2599498",
+          "2670851",
+          "2656702",
+          "2658404",
+          "3RD7PAHIz7R9lDzWO$ci1v",
+          "25474",
+          "2682610",
+          "2683273",
+          "2683274",
+          "2683402",
+          "2686091",
+          "1W6yAWYtbDbPaMjexfopc9",
+          "79627"
+        ],
+        "action": "Redesign the geometry of Stair SStair.1456 to incorporate a wider landing.",
+        "reasoning": "The stair's horizontal dimensions are [2.1, 3.0] and it connects to three 'Staircase' spaces. A complete redesign could reallocate space within the existing footprint or slightly expand into adjacent spaces to achieve the required 0.90m landing width, while considering the overall dimensions and connectivity."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.2 Treads and Risers\nStair Stair.0.1 riser height is 0.20 m. The maximum height for the risers is 0.18 m.\n",
+      "ifc_guids": [
+        "2LQCcanLjFOuofCAdgI2gY"
+      ],
+      "title": "Stair.0.1: 0.20 M",
+      "topic_id": "20844c1e-e02a-4d4d-9686-1818ffab5f15"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"base_elevation\": 0, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2522476\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgI2gY\", \"location\": [26.073953627965942, 36.372576144551282, 1.9473684210526323], \"top_elevation\": 12.139107611548555}]",
+        "context_json": "[]",
+        "ids": [
+          "2522476"
+        ],
+        "action": "Adjust the riser height of Stair.0.1 to be 0.18 m or less.",
+        "reasoning": "The current riser height of 0.20 m for Stair.0.1 exceeds the maximum allowed height of 0.18 m, as indicated by the provided issue and the stair's properties."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"base_elevation\": 0, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2522476\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgI2gY\", \"location\": [26.073953627965942, 36.372576144551282, 1.9473684210526323], \"top_elevation\": 12.139107611548555}]",
+        "context_json": "[]",
+        "ids": [
+          "2522476"
+        ],
+        "action": "Redesign Stair.0.1 to incorporate more risers, reducing the individual riser height to meet the 0.18 m maximum.",
+        "reasoning": "To comply with the code, the total rise of Stair.0.1 needs to be distributed over a greater number of risers, thereby decreasing the height of each individual riser from 0.20 m to 0.18 m or less."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"base_elevation\": 0, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2522476\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgI2gY\", \"location\": [26.073953627965942, 36.372576144551282, 1.9473684210526323], \"top_elevation\": 12.139107611548555}]",
+        "context_json": "[]",
+        "ids": [
+          "2522476"
+        ],
+        "action": "Explore alternative stair configurations for Stair.0.1, such as a switchback or L-shaped stair, to accommodate a compliant riser height within the existing space.",
+        "reasoning": "The current straight stair configuration of Stair.0.1 results in an excessive riser height. A different stair layout might allow for a longer run and thus more risers, bringing the individual riser height down to the required 0.18 m or less without altering the overall floor-to-floor height."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.2 Treads and Risers\nStair Stair.2.1 riser height is 0.20 m. The maximum height for the risers is 0.18 m.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjNWp"
+      ],
+      "title": "Stair.2.1: 0.20 M",
+      "topic_id": "23238706-2209-4a61-b5b5-8d2630319b61"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNWp\", \"id\": \"2684120\", \"location\": [42.393770948913776, 20.357976144551216, 5.6473684210526383], \"top_elevation\": 24.27821522309711, \"base_elevation\": 12.139107611548555, \"horizontal_dimensions\": [2.1, 3]}]",
+        "context_json": "[]",
+        "ids": [
+          "2684120"
+        ],
+        "action": "Adjust the riser height of Stair.2.1 to be 0.18 m or less.",
+        "reasoning": "The current riser height of Stair.2.1 (ID: 2684120) is 0.20 m, which exceeds the maximum allowed height of 0.18 m."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNWp\", \"id\": \"2684120\", \"location\": [42.393770948913776, 20.357976144551216, 5.6473684210526383], \"top_elevation\": 24.27821522309711, \"base_elevation\": 12.139107611548555, \"horizontal_dimensions\": [2.1, 3]}]",
+        "context_json": "[]",
+        "ids": [
+          "2684120"
+        ],
+        "action": "Redesign Stair.2.1 to incorporate more steps, reducing individual riser heights.",
+        "reasoning": "To comply with the maximum riser height of 0.18 m, Stair.2.1 (ID: 2684120) could be redesigned with a greater number of steps to distribute the vertical rise more evenly."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNWp\", \"id\": \"2684120\", \"location\": [42.393770948913776, 20.357976144551216, 5.6473684210526383], \"top_elevation\": 24.27821522309711, \"base_elevation\": 12.139107611548555, \"horizontal_dimensions\": [2.1, 3]}]",
+        "context_json": "[]",
+        "ids": [
+          "2684120"
+        ],
+        "action": "Explore alternative stair configurations for Stair.2.1, such as a switchback or L-shaped design, to accommodate the required riser height.",
+        "reasoning": "The current straight configuration of Stair.2.1 (ID: 2684120) may be limiting. Exploring alternative layouts could allow for a greater number of risers within the available space, thus meeting the 0.18 m maximum."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.2 Treads and Risers\nStair Stair.3.2 riser height is 0.20 m. The maximum height for the risers is 0.18 m.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjNX8"
+      ],
+      "title": "Stair.3.2: 0.20 M",
+      "topic_id": "249ee9d3-6ca2-4344-81c9-9b8b74bed893"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\": \"2684067\", \"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNX8\", \"base_elevation\": 24.27821522309711, \"top_elevation\": 36.417322834645667, \"horizontal_dimensions\": [2.1, 3]}]",
+        "context_json": "[]",
+        "ids": [
+          "2684067"
+        ],
+        "action": "Increase the number of risers to reduce the riser height to 0.1785m.",
+        "reasoning": "The total rise of 12.14m divided by the maximum allowed riser height of 0.18m requires at least 67.44 risers, necessitating an increase to 68 risers, which will extend the stair's horizontal run."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\": \"2684067\", \"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNX8\", \"base_elevation\": 24.27821522309711, \"top_elevation\": 36.417322834645667, \"horizontal_dimensions\": [2.1, 3]}]",
+        "context_json": "[]",
+        "ids": [
+          "2684067"
+        ],
+        "action": "Introduce a landing to split the stair into two flights, allowing for more risers within a potentially similar footprint.",
+        "reasoning": "Splitting the 12.14m total rise into two flights with a landing allows for 68 risers (0.1785m each) without necessarily extending the stair's overall length in one direction, potentially fitting within existing horizontal dimensions."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\": \"2684067\", \"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNX8\", \"base_elevation\": 24.27821522309711, \"top_elevation\": 36.417322834645667, \"horizontal_dimensions\": [2.1, 3]}]",
+        "context_json": "[]",
+        "ids": [
+          "2684067"
+        ],
+        "action": "Replace a portion of the stair with a compliant ramp section to reduce the vertical distance covered by risers.",
+        "reasoning": "Integrating a ramp for part of the 12.14m total rise would reduce the required number of risers, allowing the remaining stair section to have a compliant riser height, though this would likely increase the overall footprint."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.2 Treads and Risers\nStair Stair.2.2 riser height is 0.20 m. The maximum height for the risers is 0.18 m.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjNXf"
+      ],
+      "title": "Stair.2.2: 0.20 M",
+      "topic_id": "266c008a-36cf-4a43-af11-24ca7d33ccd2"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNXf\", \"id\": \"2684034\", \"base_elevation\": 12.139107611548555, \"top_elevation\": 24.27821522309711, \"location\": [26.066179191988297, 36.37257614455128, 5.647368421052629], \"horizontal_dimensions\": [2.1, 3.0]}]",
+        "context_json": "[]",
+        "ids": [
+          "2684034"
+        ],
+        "action": "Modify stair geometry to reduce riser height to 0.18m or less.",
+        "reasoning": "The current riser height of 0.20m for stair '2684034' exceeds the maximum allowed 0.18m. This requires adjusting the stair's geometry, either by increasing the number of risers or modifying the total rise."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNXf\", \"id\": \"2684034\", \"base_elevation\": 12.139107611548555, \"top_elevation\": 24.27821522309711, \"location\": [26.066179191988297, 36.37257614455128, 5.647368421052629], \"horizontal_dimensions\": [2.1, 3.0]}]",
+        "context_json": "[]",
+        "ids": [
+          "2684034"
+        ],
+        "action": "Replace the existing stair with a ramp.",
+        "reasoning": "Given the non-compliant riser height of stair '2684034', replacing it with a ramp could offer an alternative solution, potentially improving accessibility and meeting different code requirements."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNXf\", \"id\": \"2684034\", \"base_elevation\": 12.139107611548555, \"top_elevation\": 24.27821522309711, \"location\": [26.066179191988297, 36.37257614455128, 5.647368421052629], \"horizontal_dimensions\": [2.1, 3.0]}]",
+        "context_json": "[]",
+        "ids": [
+          "2684034"
+        ],
+        "action": "Introduce a split-level landing to divide the stair into multiple segments.",
+        "reasoning": "To achieve compliant riser heights (0.18m max) for stair '2684034' without significantly extending its footprint, a split-level landing can break the total rise into smaller, manageable segments, allowing for more risers within the existing space."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "307.4 Reduced Vertical Clearance\nStair SStair.1448 has a landing with clear width of less than the required 0.90 m.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjNX8"
+      ],
+      "title": "Stair.3.2",
+      "topic_id": "2aabf451-f593-4552-8ca1-234392522672"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"base_elevation\": 24.27821522309711, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2684067\", \"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNX8\", \"location\": [26.064303627955937, 36.372576144551275, 9.34736842105263], \"top_elevation\": 36.417322834645667}]",
+        "context_json": "[{\"id\": \"2680381\", \"ifc_guid\": \"2wwkhajRz9dOXaXiRcjMhM\", \"level_id\": \"2680262\", \"location\": [34.269353627965906, 27.475276144551319, 10.950000000000003]}, {\"id\": \"2682748\", \"ifc_guid\": \"2wwkhajRz9dOXaXiRcjMEN\", \"level_id\": \"79627\", \"location\": [34.22935362796602, 27.422755281836338, 7.25]}]",
+        "ids": [
+          "2684067",
+          "2680381",
+          "2682748"
+        ],
+        "action": "Adjust the dimensions of the stair landing.",
+        "reasoning": "The issue states the stair landing has insufficient clear width. The provided stair data includes horizontal dimensions which likely define the landing size. The two connected slabs could be the landings."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\": \"2680381\", \"ifc_guid\": \"2wwkhajRz9dOXaXiRcjMhM\", \"level_id\": \"2680262\", \"location\": [34.269353627965906, 27.475276144551319, 10.950000000000003]}, {\"id\": \"2682748\", \"ifc_guid\": \"2wwkhajRz9dOXaXiRcjMEN\", \"level_id\": \"79627\", \"location\": [34.22935362796602, 27.422755281836338, 7.25]}]",
+        "context_json": "[{\"base_elevation\": 24.27821522309711, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2684067\", \"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNX8\", \"location\": [26.064303627955937, 36.372576144551275, 9.34736842105263], \"top_elevation\": 36.417322834645667}]",
+        "ids": [
+          "2680381",
+          "2682748",
+          "2684067"
+        ],
+        "action": "Relocate or redesign the connected slabs to provide adequate landing width.",
+        "reasoning": "The two slab elements are identified as potential landings. Their location and dimensions might be restricting the stair's clear width. Relocating or resizing these slabs could resolve the issue."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"base_elevation\": 24.27821522309711, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2684067\", \"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNX8\", \"location\": [26.064303627955937, 36.372576144551275, 9.34736842105263], \"top_elevation\": 36.417322834645667}]",
+        "context_json": "[{\"id\": \"2680381\", \"ifc_guid\": \"2wwkhajRz9dOXaXiRcjMhM\", \"level_id\": \"2680262\", \"location\": [34.269353627965906, 27.475276144551319, 10.950000000000003]}, {\"id\": \"2682748\", \"ifc_guid\": \"2wwkhajRz9dOXaXiRcjMEN\", \"level_id\": \"79627\", \"location\": [34.22935362796602, 27.422755281836338, 7.25]}]",
+        "ids": [
+          "2684067",
+          "2680381",
+          "2682748"
+        ],
+        "action": "Consider a different stair configuration or type to meet clearance requirements.",
+        "reasoning": "If modifying the existing stair or landings is not feasible, a complete redesign of the stair, potentially using a different type or configuration, might be necessary to achieve the required clear width."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.3 Open Risers\nStair SStair.197 has a landing with clear width of less than the required 0.90 m.\n",
+      "ifc_guids": [
+        "2LQCcanLjFOuofCAdgI2gY"
+      ],
+      "title": "Stair.0.1",
+      "topic_id": "364d7e82-8bf1-416e-9412-b90c253badea"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"base_elevation\": 0, \"horizontal_dimensions\": [2.1, 3], \"top_elevation\": 12.139107611548555}]",
+        "context_json": "[{\"base_elevation\": 0, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2522476\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgI2gY\", \"location\": [26.073953627965942, 36.372576144551282, 1.9473684210526323], \"top_elevation\": 12.139107611548555}]",
+        "ids": [
+          "2522476"
+        ],
+        "action": "Increase the clear width of the landing.",
+        "reasoning": "The landing's current horizontal dimensions are [2.1, 3], which is less than the required 0.90m clear width. Adjusting these dimensions will resolve the issue."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"base_elevation\": 0, \"horizontal_dimensions\": [2.1, 3], \"top_elevation\": 12.139107611548555}]",
+        "context_json": "[{\"base_elevation\": 0, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2522476\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgI2gY\", \"location\": [26.073953627965942, 36.372576144551282, 1.9473684210526323], \"top_elevation\": 12.139107611548555}]",
+        "ids": [
+          "2522476"
+        ],
+        "action": "Redesign the landing as a curved or angled platform.",
+        "reasoning": "While the current rectangular landing is too narrow, a non-rectangular shape could potentially achieve the required clear width within the existing footprint or with minimal expansion, offering a more dynamic aesthetic."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"base_elevation\": 0, \"horizontal_dimensions\": [2.1, 3], \"top_elevation\": 12.139107611548555}]",
+        "context_json": "[{\"base_elevation\": 0, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2522476\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgI2gY\", \"location\": [26.073953627965942, 36.372576144551282, 1.9473684210526323], \"top_elevation\": 12.139107611548555}]",
+        "ids": [
+          "2522476"
+        ],
+        "action": "Incorporate a cantilevered extension to the landing.",
+        "reasoning": "Instead of a full structural alteration, a cantilevered section could be added to one or more sides of the landing to achieve the necessary clear width, potentially reducing construction complexity and cost while maintaining the existing stair structure."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "307.4 Reduced Vertical Clearance\nStair SStair.1114 has a landing with clear width of less than the required 0.90 m.\n",
+      "ifc_guids": [
+        "2LQCcanLjFOuofCAdgIDUF"
+      ],
+      "title": "Stair.0.3",
+      "topic_id": "366021e2-7542-496b-8897-d30b9d7014f4"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\": \"2684120\", \"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNWp\", \"base_elevation\": 12.139107611548555, \"horizontal_dimensions\": [2.1, 3], \"location\": [42.393770948913776, 20.357976144551216, 5.6473684210526383], \"top_elevation\": 24.27821522309711}]",
+        "context_json": "[{\"id\": \"2523201\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgIDUF\", \"base_elevation\": 0.0, \"horizontal_dimensions\": [2.1, 3], \"location\": [42.399268983124315, 20.357976144551216, 1.9473684210526361], \"top_elevation\": 12.139107611548555}]",
+        "ids": [
+          "2684120",
+          "2523201"
+        ],
+        "action": "Modify or extend the landing to achieve the required 0.90m clear width.",
+        "reasoning": "The issue directly states the landing (ID: 2684120) of the stair (ID: 2523201) has insufficient clear width. The most direct solution is to modify this specific element."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\": \"2523201\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgIDUF\", \"base_elevation\": 0.0, \"horizontal_dimensions\": [2.1, 3], \"location\": [42.399268983124315, 20.357976144551216, 1.9473684210526361], \"top_elevation\": 12.139107611548555}, {\"id\": \"2684120\", \"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNWp\", \"base_elevation\": 12.139107611548555, \"horizontal_dimensions\": [2.1, 3], \"location\": [42.393770948913776, 20.357976144551216, 5.6473684210526383], \"top_elevation\": 24.27821522309711}]",
+        "context_json": "[{\"id\": \"2658407\", \"ifc_guid\": \"3RD7PAHIz7R9lDzWO$ci1w\", \"name\": \"Staircase\", \"number\": \"129\", \"width\": 2.099999999999984, \"length\": 4.869999999999993, \"level_id\": \"25474\", \"location\": [40.2969019248941, 20.352498234389838, 3.7]}, {\"id\": \"2653326\", \"ifc_guid\": \"1SipKwVz55Hfp7EGZMq0bG\", \"name\": \"Staircase\", \"number\": \"025\", \"width\": 2.099999999999984, \"length\": 4.8700000000000365, \"level_id\": \"24770\", \"location\": [41.640395496283844, 20.446380913620256, 0.0]}]",
+        "ids": [
+          "2523201",
+          "2684120",
+          "2658407",
+          "2653326"
+        ],
+        "action": "Redesign the stair and landing layout, potentially reconfiguring to an L-shape or U-shape, or relocating the landing.",
+        "reasoning": "A comprehensive redesign of the stair (ID: 2523201) and landing (ID: 2684120), considering connected staircases (IDs: 2658407, 2653326), could provide the necessary clear width by optimizing the overall spatial arrangement."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\": \"2684120\", \"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNWp\", \"base_elevation\": 12.139107611548555, \"horizontal_dimensions\": [2.1, 3], \"location\": [42.393770948913776, 20.357976144551216, 5.6473684210526383], \"top_elevation\": 24.27821522309711}]",
+        "context_json": "[{\"id\": \"2504569\", \"ifc_guid\": \"3i_2koG0v259tWKZZXr7x2\", \"is_room_bounding\": true, \"level_id\": \"24770\", \"location\": [44.17935362796596, 19.165276144551207, 0.0, 39.179353627965874, 19.165276144551225, 0.0]}, {\"id\": \"2519147\", \"ifc_guid\": \"31k2nfA5rB$e2rQSHwNgN6\", \"is_room_bounding\": true, \"level_id\": \"24770\", \"location\": [39.17935362796592, 21.56527614455119, 0.0, 44.17935362796599, 21.565276144551174, 0.0]}, {\"id\": \"2522170\", \"ifc_guid\": \"31k2nfA5rB$e2rQSHwNgcN\", \"is_room_bounding\": true, \"level_id\": \"24770\", \"location\": [44.179353627965895, 7.665276144551232, 0.0, 44.17935362796596, 47.36527614455125, 0.0]}]",
+        "ids": [
+          "2684120",
+          "2504569",
+          "2519147",
+          "2522170"
+        ],
+        "action": "Integrate multi-functional elements such as recessed handrails/guardrails or flush built-in storage/seating into the landing area.",
+        "reasoning": "To address the clear width issue of the landing (ID: 2684120) in a space-constrained environment, leveraging adjacent room-bounding elements (IDs: 2504569, 2519147, 2522170) for recessed features can maximize clear space without structural extension."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.3 Open Risers\nStair SStair.1114 has a landing with clear width of less than the required 0.90 m.\n",
+      "ifc_guids": [
+        "2LQCcanLjFOuofCAdgIDUF"
+      ],
+      "title": "Stair.0.3",
+      "topic_id": "366cc8ac-f8dd-4fa2-a888-b18761b3ea9e"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"base_elevation\": 0, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2523201\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgIDUF\", \"location\": [42.399268983124315, 20.357976144551216, 1.9473684210526361], \"top_elevation\": 12.139107611548555}]",
+        "context_json": "[]",
+        "ids": [
+          "2523201"
+        ],
+        "action": "Modify or extend the stair landing to achieve a clear width of at least 0.90m.",
+        "reasoning": "The issue states the landing's clear width is less than 0.90m. Modifying the landing directly addresses this by increasing its physical dimensions, which are currently represented by 'horizontal_dimensions' of 2.1m and 3m for the stair."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"base_elevation\": 0, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2523201\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgIDUF\", \"location\": [42.399268983124315, 20.357976144551216, 1.9473684210526361], \"top_elevation\": 12.139107611548555}]",
+        "context_json": "[]",
+        "ids": [
+          "2523201"
+        ],
+        "action": "Redesign the handrail or guardrail system on the landing to maximize effective clear width.",
+        "reasoning": "If the clear width issue is marginal and related to the handrail/guardrail encroachment, a creative design (e.g., recessed or cantilevered) could reclaim space without altering the main landing structure. The stair's 'horizontal_dimensions' suggest ample overall space, making this a viable option if the deficiency is minor."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"base_elevation\": 0, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2523201\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgIDUF\", \"location\": [42.399268983124315, 20.357976144551216, 1.9473684210526361], \"top_elevation\": 12.139107611548555}]",
+        "context_json": "[]",
+        "ids": [
+          "2523201"
+        ],
+        "action": "Re-evaluate the measurement method for 'clear width' or identify specific obstructions not reflected in the current data.",
+        "reasoning": "The provided 'horizontal_dimensions' (2.1m, 3m) for the stair/landing are greater than 0.90m. This suggests the 'clear width' might be a different, unlisted dimension or an obstruction is reducing the effective width. A creative approach involves clarifying the exact nature of the clear width deficiency before physical modification."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.2 Treads and Risers\nStair Stair.3.1 riser height is 0.20 m. The maximum height for the risers is 0.18 m.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjNWI"
+      ],
+      "title": "Stair.3.1: 0.20 M",
+      "topic_id": "3a9d7c8c-ef37-482b-b2c7-325315b282c9"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"s.ifc_guid\": \"2wwkhajRz9dOXaXiRcjNWI\", \"s.id\": \"2684153\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2wwkhajRz9dOXaXiRcjNWI",
+          "2684153"
+        ],
+        "action": "Reduce the riser height of Stair.3.1 to 0.18 m.",
+        "reasoning": "The current riser height of 0.20 m for Stair.3.1 (id: 2684153) exceeds the maximum allowed height of 0.18 m."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"s.ifc_guid\": \"2wwkhajRz9dOXaXiRcjNWI\", \"s.id\": \"2684153\"}]",
+        "context_json": "[{\"id\": \"2658407\", \"ifc_guid\": \"3RD7PAHIz7R9lDzWO$ci1w\", \"name\": \"Staircase\", \"number\": \"129\"}, {\"id\": \"2686094\", \"ifc_guid\": \"1W6yAWYtbDbPaMjexfopcC\", \"name\": \"Staircase\", \"number\": \"205\"}, {\"id\": \"2686125\", \"ifc_guid\": \"1W6yAWYtbDbPaMjexfopcl\", \"name\": \"Staircase\", \"number\": \"304\"}]",
+        "ids": [
+          "2wwkhajRz9dOXaXiRcjNWI",
+          "2684153",
+          "2658407",
+          "3RD7PAHIz7R9lDzWO$ci1w",
+          "2686094",
+          "1W6yAWYtbDbPaMjexfopcC",
+          "2686125",
+          "1W6yAWYtbDbPaMjexfopcl"
+        ],
+        "action": "Redesign Stair.3.1 to incorporate an additional step, distributing the total rise over more risers to meet the 0.18 m maximum.",
+        "reasoning": "By adding an extra step to Stair.3.1 (id: 2684153), the overall rise can be divided into more risers, effectively reducing each riser's height to comply with the 0.18 m limit, while considering its connection to adjacent 'Staircase' spaces (e.g., id: 2658407)."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"s.ifc_guid\": \"2wwkhajRz9dOXaXiRcjNWI\", \"s.id\": \"2684153\"}]",
+        "context_json": "[{\"id\": \"2658407\", \"ifc_guid\": \"3RD7PAHIz7R9lDzWO$ci1w\", \"name\": \"Staircase\", \"number\": \"129\"}, {\"id\": \"2686094\", \"ifc_guid\": \"1W6yAWYtbDbPaMjexfopcC\", \"name\": \"Staircase\", \"number\": \"205\"}, {\"id\": \"2686125\", \"ifc_guid\": \"1W6yAWYtbDbPaMjexfopcl\", \"name\": \"Staircase\", \"number\": \"304\"}]",
+        "ids": [
+          "2wwkhajRz9dOXaXiRcjNWI",
+          "2684153",
+          "2658407",
+          "3RD7PAHIz7R9lDzWO$ci1w",
+          "2686094",
+          "1W6yAWYtbDbPaMjexfopcC",
+          "2686125",
+          "1W6yAWYtbDbPaMjexfopcl"
+        ],
+        "action": "Adjust the floor levels connected by Stair.3.1 to reduce the total rise, allowing for compliant riser heights.",
+        "reasoning": "Considering the 'base_elevation' (24.278 m) and 'top_elevation' (36.417 m) of Stair.3.1 (id: 2684153), a slight adjustment to the connected floor levels, potentially impacting adjacent 'Staircase' spaces (e.g., id: 2686094), could reduce the overall rise, making it possible to achieve a riser height of 0.18 m or less without adding steps."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "405.2 Slope\nRamp length is 3.00 m and slope is 10.0%. The maximum length for this slope is 1.52 m.\n",
+      "ifc_guids": [
+        "2US5AV8qb0GwByJnlCSm4X"
+      ],
+      "title": "Ramp.0.1: 3.00 M",
+      "topic_id": "444d7216-583f-4ba0-8fb1-8f35f53fe8f8"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\": \"2US5AV8qb0GwByJnlCSm4X\", \"type\": \"IfcRamp\", \"long_name\": \"Ramp.0.1: 3.00 M\", \"slope\": 0.1, \"length\": 3.0}]",
+        "context_json": "[]",
+        "ids": [
+          "2US5AV8qb0GwByJnlCSm4X"
+        ],
+        "action": "Reduce the length of the ramp to 1.52m or less.",
+        "reasoning": "The ramp's current length of 3.0m exceeds the maximum allowed length of 1.52m for its 10% slope."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\": \"2US5AV8qb0GwByJnlCSm4X\", \"type\": \"IfcRamp\", \"long_name\": \"Ramp.0.1: 3.00 M\", \"slope\": 0.1, \"length\": 3.0}]",
+        "context_json": "[]",
+        "ids": [
+          "2US5AV8qb0GwByJnlCSm4X"
+        ],
+        "action": "Introduce an intermediate landing to break the ramp into two shorter segments, each within the maximum length.",
+        "reasoning": "The ramp's length of 3.0m is too long for a continuous 10% slope. Adding a landing would allow for two shorter, compliant ramp sections."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\": \"2US5AV8qb0GwByJnlCSm4X\", \"type\": \"IfcRamp\", \"long_name\": \"Ramp.0.1: 3.00 M\", \"slope\": 0.1, \"length\": 3.0}]",
+        "context_json": "[]",
+        "ids": [
+          "2US5AV8qb0GwByJnlCSm4X"
+        ],
+        "action": "Decrease the slope of the ramp to allow for a longer continuous run.",
+        "reasoning": "A 10% slope limits the ramp to 1.52m. Reducing the slope would permit a longer ramp, potentially accommodating the existing 3.0m length without a landing."
+      }
+    ]
+  }
+]

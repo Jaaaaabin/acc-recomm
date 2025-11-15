@@ -1,113 +1,195 @@
 [
   {
+    "issue": {
+      "description": "504.2 Treads and Risers\nStair Stair.0.3 tread length is 0.20 m. The minimum length for the tread is 0.28 m.\n",
+      "ifc_guids": [
+        "2LQCcanLjFOuofCAdgIDUF"
+      ],
+      "title": "Stair.0.3: 0.20 M",
+      "topic_id": "0b544843-8368-406e-b60d-f96a1ef29dcb"
+    },
     "suggestions": [
       {
         "style": "standard",
-        "objects_json": "[{\"id\": \"2US5AV8qb0GwByJnlCSm4X\", \"type\": \"Ramp\", \"length\": \"3.00 m\", \"slope\": \"10.0%\"}]",
+        "objects_json": "[{\"base_elevation\":0,\"horizontal_dimensions\":[2.1,3],\"id\":\"2523201\",\"ifc_guid\":\"2LQCcanLjFOuofCAdgIDUF\",\"location\":[42.399268983124315,20.357976144551216,1.9473684210526361],\"top_elevation\":12.139107611548555}]",
         "context_json": "[]",
         "ids": [
-          "2US5AV8qb0GwByJnlCSm4X"
+          "2523201"
         ],
-        "action": "Shorten the ramp to 1.52 m or less.",
-        "reasoning": "The ramp's current length of 3.00 m exceeds the maximum allowed length of 1.52 m for a 10.0% slope."
+        "action": "Increase the tread length of Stair.0.3 to at least 0.28 m.",
+        "reasoning": "The current tread length of 0.20 m for Stair.0.3 (ID: 2523201) is below the minimum requirement of 0.28 m.",
+        "is_grounded": true
       },
       {
         "style": "creative",
-        "objects_json": "[{\"id\": \"2US5AV8qb0GwByJnlCSm4X\", \"type\": \"Ramp\", \"length\": \"3.00 m\", \"slope\": \"10.0%\"}]",
+        "objects_json": "[{\"base_elevation\":0,\"horizontal_dimensions\":[2.1,3],\"id\":\"2523201\",\"ifc_guid\":\"2LQCcanLjFOuofCAdgIDUF\",\"location\":[42.399268983124315,20.357976144551216,1.9473684210526361],\"top_elevation\":12.139107611548555}]",
         "context_json": "[]",
         "ids": [
-          "2US5AV8qb0GwByJnlCSm4X"
+          "2523201"
         ],
-        "action": "Reduce the ramp's slope to accommodate its 3.00 m length.",
-        "reasoning": "If the 3.00 m length is critical, the slope must be reduced to comply with accessibility standards for that length."
+        "action": "Redesign Stair.0.3 to incorporate a landing, potentially reducing the number of treads while increasing their length.",
+        "reasoning": "Introducing a landing within Stair.0.3 (ID: 2523201) could allow for a more generous tread length, addressing the current non-compliance while potentially improving user comfort and safety.",
+        "is_grounded": true
       },
       {
         "style": "creative",
-        "objects_json": "[{\"id\": \"2US5AV8qb0GwByJnlCSm4X\", \"type\": \"Ramp\", \"length\": \"3.00 m\", \"slope\": \"10.0%\"}]",
+        "objects_json": "[{\"base_elevation\":0,\"horizontal_dimensions\":[2.1,3],\"id\":\"2523201\",\"ifc_guid\":\"2LQCcanLjFOuofCAdgIDUF\",\"location\":[42.399268983124315,20.357976144551216,1.9473684210526361],\"top_elevation\":12.139107611548555}]",
         "context_json": "[]",
         "ids": [
-          "2US5AV8qb0GwByJnlCSm4X"
+          "2523201"
         ],
-        "action": "Replace the ramp with a mechanical lift or alternative access.",
-        "reasoning": "Given the significant discrepancy between the current ramp length and the maximum allowed for its slope, an alternative access method like a lift could be more suitable."
+        "action": "Explore alternative stair configurations for Stair.0.3, such as a spiral or L-shaped stair, to achieve compliant tread lengths within the existing spatial constraints.",
+        "reasoning": "Given the current non-compliant tread length of Stair.0.3 (ID: 2523201), a creative re-evaluation of the stair's geometry might be necessary to meet regulations without significantly altering the overall building layout.",
+        "is_grounded": true
       }
     ]
   },
   {
+    "issue": {
+      "description": "307.4 Reduced Vertical Clearance\nUnderside of stair should be shielded to protect visually impaired persons from accessing it inadvertently.\n",
+      "ifc_guids": [
+        "2LQCcanLjFOuofCAdgIDUF",
+        "3JOMyjK59Fgervz4z7Kgh9"
+      ],
+      "title": "Stair.0.3",
+      "topic_id": "0d309356-957f-4430-a72d-7f4e9b381760"
+    },
     "suggestions": [
       {
         "style": "standard",
-        "objects_json": "[{\"id\": \"2Bvzw$uBD3Wv1OCFWjcmCf\", \"type\": \"IfcWall\", \"properties\": {\"Name\": \"Wall-Ext-1hr\", \"_x_IfcSpace_1\": \"Space.4.11 : Office[321]\"}}, {\"id\": \"1AHyXVIBrDMh1bxdInzvfl\", \"type\": \"IfcDoor\", \"properties\": {\"Name\": \"M_Single-Flush:915 x 2134mm\", \"_x_IfcSpace_1\": \"Space.4.11 : Office[321]\"}}, {\"id\": \"2Bvzw$uBD3Wv1OCFWjcm3b\", \"type\": \"IfcWall\", \"properties\": {\"Name\": \"Wall-Ext-1hr\", \"_x_IfcSpace_1\": \"Space.4.11 : Office[321]\"}}]",
-        "context_json": "[]",
+        "objects_json": "[{\"base_elevation\": 0, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2523201\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgIDUF\", \"location\": [42.399268983124315, 20.357976144551216, 1.9473684210526361], \"top_elevation\": 12.139107611548555}]",
+        "context_json": "[{\"id\": \"2652094\", \"ifc_guid\": \"3JOMyjK59Fgervz4z7Kgh9\", \"level_id\": \"24770\", \"location\": [34.229353627965921, 27.515276144551276, -0.15]}]",
         "ids": [
-          "2Bvzw$uBD3Wv1OCFWjcmCf",
-          "1AHyXVIBrDMh1bxdInzvfl",
-          "2Bvzw$uBD3Wv1OCFWjcm3b"
+          "2523201",
+          "2652094"
         ],
-        "action": "Add a new fire-rated door in an existing wall to create an intermediate exit.",
-        "reasoning": "Introducing an additional fire-rated door in the wall (2Bvzw$uBD3Wv1OCFWjcmCf or 2Bvzw$uBD3Wv1OCFWjcm3b) within or adjacent to Space.4.11 : Office[321] (1AHyXVIBrDMh1bxdInzvfl) will segment the travel path, reducing the effective travel distance to a compliant length."
+        "action": "Install a protective barrier or wall beneath the stair.",
+        "reasoning": "The stair (2LQCcanLjFOuofCAdgIDUF) has reduced vertical clearance, and a related element (3JOMyjK59Fgervz4z7Kgh9) is located beneath it, indicating a potential hazard. A barrier will prevent access to this low-clearance area.",
+        "is_grounded": true
       },
       {
         "style": "creative",
-        "objects_json": "[{\"id\": \"1W6yAWYtbDbPaMjexfopcC\", \"type\": \"IfcSpace\", \"properties\": {\"Name\": \"Space.4.11 : Office[321]\"}}, {\"id\": \"1yPJv2Vxf8r9twVNmFuYY8\", \"type\": \"IfcWall\", \"properties\": {\"Name\": \"Wall-Ext-1hr\", \"_x_IfcSpace_1\": \"Space.4.11 : Office[321]\"}}, {\"id\": \"2Bvzw$uBD3Wv1OCFWjcmEx\", \"type\": \"IfcWall\", \"properties\": {\"Name\": \"Wall-Ext-1hr\", \"_x_IfcSpace_1\": \"Space.4.11 : Office[321]\"}}]",
-        "context_json": "[]",
+        "objects_json": "[{\"base_elevation\": 0, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2523201\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgIDUF\", \"location\": [42.399268983124315, 20.357976144551216, 1.9473684210526361], \"top_elevation\": 12.139107611548555}]",
+        "context_json": "[{\"id\": \"2652094\", \"ifc_guid\": \"3JOMyjK59Fgervz4z7Kgh9\", \"level_id\": \"24770\", \"location\": [34.229353627965921, 27.515276144551276, -0.15]}]",
         "ids": [
-          "1W6yAWYtbDbPaMjexfopcC",
-          "1yPJv2Vxf8r9twVNmFuYY8",
-          "2Bvzw$uBD3Wv1OCFWjcmEx"
+          "2523201",
+          "2652094"
         ],
-        "action": "Reconfigure the internal layout of Space.4.11 : Office[321] by relocating non-load-bearing walls to shorten the path to an existing exit.",
-        "reasoning": "By strategically moving internal walls (1yPJv2Vxf8r9twVNmFuYY8, 2Bvzw$uBD3Wv1OCFWjcmEx) within Space.4.11 : Office[321] (1W6yAWYtbDbPaMjexfopcC), a more direct and shorter route to an existing exit can be created, reducing the overall travel distance."
+        "action": "Integrate a planter or seating element to enclose the underside of the stair.",
+        "reasoning": "The stair (2LQCcanLjFOuofCAdgIDUF) has reduced vertical clearance, and a related element (3JOMyjK59Fgervz4z7Kgh9) is located beneath it. A built-in planter or seating can fill this space, eliminating the hazard while adding functionality and aesthetics.",
+        "is_grounded": true
       },
       {
         "style": "creative",
-        "objects_json": "[{\"id\": \"16bd2f49-f5f2-41ff-9b07-507acd447d86\", \"type\": \"IfcProject\", \"properties\": {\"Name\": \"Project\"}}, {\"id\": \"2wwkhajRz9dOXaXiRcjMCP\", \"type\": \"IfcFlowTerminal\", \"properties\": {\"Name\": \"M_Sprinkler-Pendent:32mm\"}}, {\"id\": \"2wwkhajRz9dOXaXiRcjMCQ\", \"type\": \"IfcFlowTerminal\", \"properties\": {\"Name\": \"M_Sprinkler-Pendent:32mm\"}}]",
-        "context_json": "[]",
+        "objects_json": "[{\"base_elevation\": 0, \"horizontal_dimensions\": [2.1, 3], \"id\": \"2523201\", \"ifc_guid\": \"2LQCcanLjFOuofCAdgIDUF\", \"location\": [42.399268983124315, 20.357976144551216, 1.9473684210526361], \"top_elevation\": 12.139107611548555}]",
+        "context_json": "[{\"id\": \"2652094\", \"ifc_guid\": \"3JOMyjK59Fgervz4z7Kgh9\", \"level_id\": \"24770\", \"location\": [34.229353627965921, 27.515276144551276, -0.15]}]",
         "ids": [
-          "16bd2f49-f5f2-41ff-9b07-507acd447d86",
-          "2wwkhajRz9dOXaXiRcjMCP",
-          "2wwkhajRz9dOXaXiRcjMCQ"
+          "2523201",
+          "2652094"
         ],
-        "action": "Propose a code variance based on enhanced fire suppression systems and materials.",
-        "reasoning": "Given the existing sprinkler system (2wwkhajRz9dOXaXiRcjMCP, 2wwkhajRz9dOXaXiRcjMCQ) in the project (16bd2f49-f5f2-41ff-9b07-507acd447d86), further enhancements to fire safety measures could justify a variance for the travel distance, as the overall safety level would be increased."
+        "action": "Install a decorative art installation or sculpture that fills the low-clearance space.",
+        "reasoning": "The stair (2LQCcanLjFOuofCAdgIDUF) presents a reduced vertical clearance issue, with element (3JOMyjK59Fgervz4z7Kgh9) indicating the problematic area. A sculptural element can visually enhance the space while physically blocking access to the hazardous zone.",
+        "is_grounded": true
       }
     ]
   },
   {
+    "issue": {
+      "description": "307.4 Reduced Vertical Clearance\nUnderside of stair should be shielded to protect visually impaired persons from accessing it inadvertently.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjMEN",
+        "2wwkhajRz9dOXaXiRcjNX8"
+      ],
+      "title": "Stair.3.2",
+      "topic_id": "103794a5-181f-45fe-a82b-b8e8dbd17cf8"
+    },
     "suggestions": [
       {
         "style": "standard",
-        "objects_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNoX\", \"level_id\": \"2680262\", \"location\": [31.679353627965913, 20.535276144551297, 11.1], \"id\": \"2682954\", \"type\": \"Door\"}, {\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNoW\", \"level_id\": \"2680262\", \"location\": [36.67935362796592, 20.53527614455128, 11.1], \"id\": \"2682955\", \"type\": \"Door\"}]",
-        "context_json": "[{\"ifc_guid\": \"1W6yAWYtbDbPaMjexfopdL\", \"bound_phy\": [\"2682945\", \"2682934\", \"2682935\", \"2682933\"], \"number\": \"306\", \"bound_vrt\": [], \"level_id\": \"2680262\", \"width\": 4.800000000000014, \"length\": 11.750000000000021, \"name\": \"Conference Room\", \"location\": [34.36204852073431, 23.416620210375196, 11.1], \"id\": \"2686167\", \"type\": \"Space\"}]",
+        "objects_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNX8\", \"id\": \"2684067\", \"location\": [26.064303627955937, 36.372576144551275, 9.34736842105263], \"node_type\": [\"Stair\"], \"properties\": {\"base_elevation\": 24.27821522309711, \"horizontal_dimensions\": [2.1, 3], \"top_elevation\": 36.417322834645667}}]",
+        "context_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjMEN\", \"id\": \"2682748\", \"level_id\": \"79627\", \"location\": [34.22935362796602, 27.422755281836338, 7.25], \"node_type\": [\"Slab\"]}, {\"ifc_guid\": \"1W6yAWYtbDbPaMjexfopcA\", \"id\": \"2686088\", \"name\": \"Corridor\", \"number\": \"215\", \"level_id\": \"79627\", \"location\": [30.767647306432046, 25.487470239226475, 7.4], \"length\": 26.1, \"width\": 2.2}, {\"ifc_guid\": \"1W6yAWYtbDbPaMjexfopdk\", \"id\": \"2686188\", \"name\": \"Staircase\", \"number\": \"305\", \"level_id\": \"2680262\", \"location\": [27.049283085481154, 36.546488146384775, 11.1], \"length\": 4.87, \"width\": 2.1}]",
         "ids": [
-          "2682954",
-          "2682955",
-          "2686167"
+          "2684067",
+          "2682748",
+          "2686088",
+          "2686188"
         ],
-        "action": "Relocate one of the doors to increase separation.",
-        "reasoning": "Moving Door '2682954' or '2682955' further apart will increase the actual distance between them, addressing the insufficient separation of 5.31m compared to the required 6.35m for Space '2686167'."
+        "action": "Install a solid barrier or wall directly beneath the stair.",
+        "reasoning": "The stair (ID: 2684067) has an underside that needs shielding. A solid barrier from the stair's underside to the floor (Slab ID: 2682748 or Corridor/Staircase floor) will physically block access to the low clearance area, directly addressing the safety concern for visually impaired persons.",
+        "is_grounded": true
       },
       {
         "style": "creative",
-        "objects_json": "[{\"ifc_guid\": \"1W6yAWYtbDbPaMjexfopdL\", \"bound_phy\": [\"2682945\", \"2682934\", \"2682935\", \"2682933\"], \"number\": \"306\", \"bound_vrt\": [], \"level_id\": \"2680262\", \"width\": 4.800000000000014, \"length\": 11.750000000000021, \"name\": \"Conference Room\", \"location\": [34.36204852073431, 23.416620210375196, 11.1], \"id\": \"2686167\", \"type\": \"Space\"}]",
+        "objects_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNX8\", \"id\": \"2684067\", \"location\": [26.064303627955937, 36.372576144551275, 9.34736842105263], \"node_type\": [\"Stair\"], \"properties\": {\"base_elevation\": 24.27821522309711, \"horizontal_dimensions\": [2.1, 3], \"top_elevation\": 36.417322834645667}}]",
+        "context_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjMEN\", \"id\": \"2682748\", \"level_id\": \"79627\", \"location\": [34.22935362796602, 27.422755281836338, 7.25], \"node_type\": [\"Slab\"]}, {\"ifc_guid\": \"1W6yAWYtbDbPaMjexfopcA\", \"id\": \"2686088\", \"name\": \"Corridor\", \"number\": \"215\", \"level_id\": \"79627\", \"location\": [30.767647306432046, 25.487470239226475, 7.4], \"length\": 26.1, \"width\": 2.2}, {\"ifc_guid\": \"1W6yAWYtbDbPaMjexfopdk\", \"id\": \"2686188\", \"name\": \"Staircase\", \"number\": \"305\", \"level_id\": \"2680262\", \"location\": [27.049283085481154, 36.546488146384775, 11.1], \"length\": 4.87, \"width\": 2.1}]",
+        "ids": [
+          "2684067",
+          "2682748",
+          "2686088",
+          "2686188"
+        ],
+        "action": "Install built-in planters or seating elements beneath the stair.",
+        "reasoning": "The stair (ID: 2684067) requires a barrier for its underside. Built-in planters or seating, positioned from the floor (Slab ID: 2682748 or Corridor/Staircase floor) to the point of adequate clearance, will serve as a physical obstruction while also enhancing the adjacent 'Corridor' or 'Staircase' spaces.",
+        "is_grounded": true
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNX8\", \"id\": \"2684067\", \"location\": [26.064303627955937, 36.372576144551275, 9.34736842105263], \"node_type\": [\"Stair\"], \"properties\": {\"base_elevation\": 24.27821522309711, \"horizontal_dimensions\": [2.1, 3], \"top_elevation\": 36.417322834645667}}]",
+        "context_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjMEN\", \"id\": \"2682748\", \"level_id\": \"79627\", \"location\": [34.22935362796602, 27.422755281836338, 7.25], \"node_type\": [\"Slab\"]}, {\"ifc_guid\": \"1W6yAWYtbDbPaMjexfopcA\", \"id\": \"2686088\", \"name\": \"Corridor\", \"number\": \"215\", \"level_id\": \"79627\", \"location\": [30.767647306432046, 25.487470239226475, 7.4], \"length\": 26.1, \"width\": 2.2}, {\"ifc_guid\": \"1W6yAWYtbDbPaMjexfopdk\", \"id\": \"2686188\", \"name\": \"Staircase\", \"number\": \"305\", \"level_id\": \"2680262\", \"location\": [27.049283085481154, 36.546488146384775, 11.1], \"length\": 4.87, \"width\": 2.1}]",
+        "ids": [
+          "2684067",
+          "2682748",
+          "2686088",
+          "2686188"
+        ],
+        "action": "Implement a multi-sensory warning system with tactile paving, auditory cues, and integrated lighting beneath the stair.",
+        "reasoning": "The stair (ID: 2684067) presents a low-clearance hazard. A multi-sensory system, including tactile paving on the floor (Slab ID: 2682748 or Corridor/Staircase floor), auditory cues, and lighting, provides comprehensive warnings to visually impaired individuals without a full physical enclosure, maintaining potential aesthetic openness.",
+        "is_grounded": true
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.2 Treads and Risers\nStair SStair.1448 has a landing with clear width of less than the required 0.90 m.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjNX8"
+      ],
+      "title": "Stair.3.2",
+      "topic_id": "1687f731-0a57-4213-8001-d06d269d1e59"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"s.base_elevation\": 24.27821522309711, \"s.horizontal_dimensions\": [2.1, 3], \"s.id\": \"2684067\", \"s.ifc_guid\": \"2wwkhajRz9dOXaXiRcjNX8\", \"s.location\": [26.064303627955937, 36.372576144551275, 9.34736842105263], \"s.top_elevation\": 36.417322834645667}]",
         "context_json": "[]",
         "ids": [
-          "2686167"
+          "2684067"
         ],
-        "action": "Install an automatic sprinkler system.",
-        "reasoning": "Installing an automatic sprinkler system in Space '2686167' would eliminate the requirement for the 6.35m door separation, as the code typically allows for reduced separation in sprinklered buildings."
+        "action": "Increase the clear width of the landing on Stair.1448 to at least 0.90 m.",
+        "reasoning": "The issue explicitly states that the landing's clear width is less than the required 0.90 m for Stair SStair.1448 (IFC GUID 2wwkhajRz9dOXaXiRcjNX8).",
+        "is_grounded": true
       },
       {
         "style": "creative",
-        "objects_json": "[{\"ifc_guid\": \"1W6yAWYtbDbPaMjexfopdL\", \"bound_phy\": [\"2682945\", \"2682934\", \"2682935\", \"2682933\"], \"number\": \"306\", \"bound_vrt\": [], \"level_id\": \"2680262\", \"width\": 4.800000000000014, \"length\": 11.750000000000021, \"name\": \"Conference Room\", \"location\": [34.36204852073431, 23.416620210375196, 11.1], \"id\": \"2686167\", \"type\": \"Space\"}]",
-        "context_json": "[{\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNoX\", \"level_id\": \"2680262\", \"location\": [31.679353627965913, 20.535276144551297, 11.1], \"id\": \"2682954\", \"type\": \"Door\"}, {\"ifc_guid\": \"2wwkhajRz9dOXaXiRcjNoW\", \"level_id\": \"2680262\", \"location\": [36.67935362796592, 20.53527614455128, 11.1], \"id\": \"2682955\", \"type\": \"Door\"}]",
+        "objects_json": "[{\"s.base_elevation\": 24.27821522309711, \"s.horizontal_dimensions\": [2.1, 3], \"s.id\": \"2684067\", \"s.ifc_guid\": \"2wwkhajRz9dOXaXiRcjNX8\", \"s.location\": [26.064303627955937, 36.372576144551275, 9.34736842105263], \"s.top_elevation\": 36.417322834645667}]",
+        "context_json": "[]",
         "ids": [
-          "2686167",
-          "2682954",
-          "2682955"
+          "2684067"
         ],
-        "action": "Reconfigure internal layout to create a new, compliant exit access path.",
-        "reasoning": "By reconfiguring the internal layout of Space '2686167', a new exit access path can be established that leads to a more distant exit, effectively addressing the insufficient separation between the existing doors '2682954' and '2682955'."
+        "action": "Redesign the stair's landing to incorporate a wider, more open feel, potentially integrating it with an adjacent space to meet the 0.90 m clear width requirement.",
+        "reasoning": "The current landing width of Stair SStair.1448 (IFC GUID 2wwkhajRz9dOXaXiRcjNX8) is insufficient. A creative approach could involve a more significant architectural change to resolve the issue while enhancing the overall design.",
+        "is_grounded": true
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"s.base_elevation\": 24.27821522309711, \"s.horizontal_dimensions\": [2.1, 3], \"s.id\": \"2684067\", \"s.ifc_guid\": \"2wwkhajRz9dOXaXiRcjNX8\", \"s.location\": [26.064303627955937, 36.372576144551275, 9.34736842105263], \"s.top_elevation\": 36.417322834645667}]",
+        "context_json": "[]",
+        "ids": [
+          "2684067"
+        ],
+        "action": "Consider reconfiguring the entire stairwell layout, including the landing, to optimize space and ensure compliance with the 0.90 m clear width requirement, possibly by shifting the stair's footprint slightly.",
+        "reasoning": "The landing of Stair SStair.1448 (IFC GUID 2wwkhajRz9dOXaXiRcjNX8) is too narrow. A comprehensive redesign of the stairwell could provide a more elegant and compliant solution than simply widening the existing landing.",
+        "is_grounded": true
       }
     ]
   }

@@ -5,7 +5,7 @@ import logging
 import os
 import textwrap
 from pathlib import Path
-from typing import Any, Dict, List, Literal, Optional, cast
+from typing import Any, Dict, List, Literal, cast, Annotated, TypedDict, Sequence, Callable
 
 from dotenv import load_dotenv
 from langchain_neo4j.chains.graph_qa.cypher import GraphCypherQAChain
@@ -15,8 +15,12 @@ from langchain_openai import ChatOpenAI
 from neo4j.exceptions import CypherSyntaxError
 from pydantic import BaseModel, Field, SecretStr, field_validator
 from langchain_core.tools import tool
-from langchain_core.runnables import RunnableConfig
-from langchain.agents import create_react_agent, AgentExecutor
+from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
+from langgraph.graph import StateGraph, END
+from langgraph.prebuilt import ToolNode
+from langgraph.graph.message import add_messages
+
+from langgraph.graph.state import CompiledStateGraph
 
 from .neo4j import connect_neo4j
 
@@ -25,6 +29,13 @@ from .neo4j import connect_neo4j
 LOGGER = logging.getLogger(__name__)
 
 SuggestionStyle = Literal["standard", "creative"]
+
+
+class AgentState(TypedDict):
+    """State for the agent graph."""
+    messages: Annotated[Sequence[BaseMessage], add_messages]
+    issue: Dict[str, Any]
+    iterations: int
 
 
 class Suggestion(BaseModel):
@@ -46,11 +57,6 @@ class Suggestion(BaseModel):
     )
     action: str = Field(description="Concise action proposal.")
     reasoning: str = Field(description="Brief justification referencing retrieved nodes.")
-
-    is_grounded: bool = Field(
-        default=False,
-        description="Whether the suggestion is grounded in the graph database.",
-    )
 
     @property
     def objects(self) -> List[Dict[str, Any]]:
@@ -80,7 +86,7 @@ class AdaptationPlan(BaseModel):
     )
 
 
-class AdaptationSuggestionGenerator:
+class AdaptationSuggestionGeneratorGraph:
     def __init__(
         self,
         neo4j_config: Dict[str, Any],
@@ -101,26 +107,14 @@ class AdaptationSuggestionGenerator:
             raise RuntimeError("Missing OPENROUTER_API_KEY or OPENAI_API_KEY environment variable.")
 
         llm = self._create_llm(api_key)
-        graph = connect_neo4j(self._neo4j_config)
+        neo4j_graph = connect_neo4j(self._neo4j_config)
         
-        # Create the cypher tool as a function
-        cypher_chain = self._build_cypher_tool(graph, llm)
+        # Create the cypher tool
+        cypher_chain = self._build_cypher_tool(neo4j_graph, llm)
         cypher_tool_func = self._create_cypher_tool(cypher_chain)
         
-        # Create ReAct prompt template
-        react_prompt = self._create_react_prompt()
-        
-        # Create react agent
-        agent_runnable = create_react_agent(llm, [cypher_tool_func], prompt=react_prompt)
-        
-        # Wrap in AgentExecutor to actually run the loop
-        agent_executor = AgentExecutor(
-            agent=agent_runnable,
-            tools=[cypher_tool_func],
-            verbose=self._config["verbose"],
-            max_iterations=self._config["max_iterations"],
-            handle_parsing_errors=True,
-        )
+        # Build the LangGraph agent
+        agent_graph = self._build_agent_graph(llm, [cypher_tool_func])
         
         issue_start_index = self._config["issue_start_index"]
         issue_processing_count = self._config["issue_processing_count"]
@@ -133,13 +127,17 @@ class AdaptationSuggestionGenerator:
             
             self._logger.info("Processing issue", extra={"issue": issue})
 
-            # Invoke agent executor with the issue as input
-            agent_output = agent_executor.invoke({
-                "input": self._format_issue_input(issue)
-            })
+            # Invoke the graph with the issue as input
+            initial_state: AgentState = {
+                "messages": [HumanMessage(content=self._format_issue_input(issue))],
+                "issue": issue,
+                "iterations": 0
+            }
             
-            # Extract the final answer
-            final_answer = agent_output.get("output", "")
+            final_state = agent_graph.invoke(initial_state)
+            
+            # Extract the final answer from the last AI message
+            final_answer = self._extract_final_answer(final_state["messages"])
             
             # Use structured output to format the response
             structured_llm = llm.with_structured_output(AdaptationPlan)
@@ -150,7 +148,7 @@ class AdaptationSuggestionGenerator:
                 "suggestions": [s.model_dump() for s in plan.suggestions]
             })
 
-        output_path = self._config["output_path"]
+        output_path = self._get_next_output_path(self._config["output_path"])
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(json.dumps(results, indent=2, default=str), encoding="utf-8")
         self._logger.info("Wrote adaptation plans", extra={"path": str(output_path)})
@@ -241,45 +239,101 @@ The question is:
 
         return chain
 
-    def _create_react_prompt(self) -> PromptTemplate:
-        """Create a ReAct-formatted prompt template for the agent."""
+    def _build_agent_graph(self, llm: ChatOpenAI, tools: List[Callable[[str], str]]) -> CompiledStateGraph[AgentState]:
+        """Build a LangGraph-based agent graph."""
         
-        template = textwrap.dedent("""
+        # Bind tools to the LLM
+        llm_with_tools = llm.bind_tools(tools)
+        
+        # Define the agent node
+        def agent_node(state: AgentState) -> AgentState:
+            """Node that calls the LLM to decide next action."""
+            system_message = self._create_system_prompt()
+            messages = [HumanMessage(content=system_message)] + list(state["messages"])
+            
+            response = llm_with_tools.invoke(messages)
+            
+            return {
+                "messages": [response],
+                "issue": state["issue"],
+                "iterations": state["iterations"] + 1
+            }
+        
+        # Define the routing function
+        def should_continue(state: AgentState) -> str:
+            """Decide whether to continue or end."""
+            messages = state["messages"]
+            last_message = messages[-1]
+            
+            # Check if max iterations reached
+            if state["iterations"] >= self._config["max_iterations"]:
+                return "end"
+            
+            # If the LLM makes a tool call, continue to tools
+            if isinstance(last_message, AIMessage) and hasattr(last_message, "tool_calls") and last_message.tool_calls:
+                return "continue"
+            
+            # Otherwise, end
+            return "end"
+        
+        # Create the graph
+        workflow = StateGraph(AgentState)
+        
+        # Add nodes
+        workflow.add_node("agent", agent_node)
+        workflow.add_node("tools", ToolNode(tools))
+        
+        # Set entry point
+        workflow.set_entry_point("agent")
+        
+        # Add conditional edges
+        workflow.add_conditional_edges(
+            "agent",
+            should_continue,
+            {
+                "continue": "tools",
+                "end": END
+            }
+        )
+        
+        # Add edge from tools back to agent
+        workflow.add_edge("tools", "agent")
+        
+        # Compile the graph
+        return workflow.compile()
+    
+    def _create_system_prompt(self) -> str:
+        """Create the system prompt for the agent."""
+        return textwrap.dedent("""
             You are an expert building design assistant helping to resolve building code compliance issues.
             You have access to a Neo4j graph database containing detailed building information.
             
-            You have access to the following tools:
-            
-            {tools}
-            
-            Use the following format:
-            
-            Question: the building issue you must resolve
-            Thought: you should always think about what to do
-            Action: the action to take, should be one of [{tool_names}]
-            Action Input: the input to the action
-            Observation: the result of the action
-            ... (this Thought/Action/Action Input/Observation can repeat N times)
-            Thought: I now know enough to propose solutions
-            Final Answer: A comprehensive summary of the retrieved information and context
-            
             Important guidelines:
-            1. Use the graph-cypher-qa tool to fetch concrete node objects (Spaces, Doors, Walls, Corridors, Stairs, etc.)
+            1. Use the graph_cypher_qa tool to fetch concrete node objects (Spaces, Doors, Walls, Corridors, Stairs, etc.)
             2. Preserve the raw JSON for every retrieved node - do not summarize or rename fields
             3. Query multiple times if needed to gather all relevant information
             4. Assemble enough evidence to propose both standard and creative remediation strategies
-            5. Your final answer should include all the raw node data you retrieved
-            
-            Begin!
-            
-            Question: {input}
-            Thought: {agent_scratchpad}
+            5. When you have gathered sufficient information, provide a comprehensive summary including all the raw node data you retrieved
         """).strip()
+    
+    def _extract_final_answer(self, messages: Sequence[BaseMessage]) -> str:
+        """Extract the final answer from the message history."""
+        # Find the last AI message that doesn't have tool calls
+        for message in reversed(messages):
+            if isinstance(message, AIMessage) and not (hasattr(message, "tool_calls") and message.tool_calls):
+                content = message.content
+                return content if isinstance(content, str) else str(content)
         
-        return PromptTemplate.from_template(template)
+        # Fallback: return the last AI message content
+        for message in reversed(messages):
+            if isinstance(message, AIMessage):
+                content = message.content
+                return content if isinstance(content, str) else str(content)
+        
+        return ""
     
     def _format_issue_input(self, issue: Dict[str, Any]) -> str:
-        """Format the issue as input for the ReAct agent."""
+        """Format the issue as input for the agent."""
         issue_json = json.dumps(issue, ensure_ascii=False, indent=2)
         total_suggestions = self._config["total_suggestions"]
         
@@ -335,6 +389,18 @@ The question is:
     def _load_issues(self, path: Path) -> List[Dict[str, Any]]:
         return json.loads(path.read_text(encoding="utf-8"))
 
-    def _select_issue(self, issues: List[Dict[str, Any]], index: int) -> Dict[str, Any]:
-        return issues[index]
-
+    def _get_next_output_path(self, base_path: Path) -> Path:
+        """Get the next available output path by incrementing a counter."""
+        if not base_path.exists():
+            return base_path
+        
+        stem = base_path.stem
+        suffix = base_path.suffix
+        parent = base_path.parent
+        
+        counter = 1
+        while True:
+            new_path = parent / f"{stem}_{counter}{suffix}"
+            if not new_path.exists():
+                return new_path
+            counter += 1
