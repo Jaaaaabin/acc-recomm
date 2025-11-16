@@ -16,7 +16,7 @@ suggestions:
   standard_suggestions: 1
   creative_suggestions: 2
   regulation_text: null
-  llm_model: google/gemini-2.5-flash
+  llm_model: ${LLM_MODEL:google/gemini-2.5-flash}
   temperature: 0.2
   max_iterations: 5
   verbose: false
