@@ -91,8 +91,14 @@ def get_suggestions_config(config: Optional[Dict[str, Any]] = None) -> Dict[str,
     case_name = get_case_name(cfg)
     suggestions = cfg["suggestions"].copy()
     
+    llm_model_name = suggestions.get("llm_model", "unknown_model")
+    llm_model_name_clean = re.sub(r'[^\w\-.]', '_', llm_model_name).strip('_')
+
+    base_filename = suggestions.get("output_filename", "suggestions.json")
+    name, ext = base_filename.rsplit(".", 1)
+    output_filename = f"{name}_{llm_model_name_clean}.{ext}"
+    
     suggestions["case_name"] = case_name
-    output_filename = suggestions.get("output_filename", "suggestions.json")
     suggestions["issues_path"] = (
         _project_root() / "data" / "processed" / "acc_result" / case_name / "issues" / "topics.json"
     ).resolve()

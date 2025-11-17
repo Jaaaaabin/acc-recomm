@@ -1,0 +1,759 @@
+[
+  {
+    "issue": {
+      "description": "IBC SECTION 1012 RAMPS 1012_2 Slope (part of means of egress).\nRamp slope is 10.0%. The maximum slope for the ramps is 8.0%.\n",
+      "ifc_guids": [
+        "2US5AV8qb0GwByJnlCSm4X"
+      ],
+      "title": "Too Steep Ramp: 10.0%",
+      "topic_id": "04238434-70ce-4f7c-82c9-0f77ad160d46"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\":\"2US5AV8qb0GwByJnlCSm4X\",\"type\":\"Ramp\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2US5AV8qb0GwByJnlCSm4X"
+        ],
+        "action": "Reduce ramp slope to 8.0%.",
+        "reasoning": "The current ramp slope of 10.0% exceeds the maximum allowable slope of 8.0% as per IBC Section 1012."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2US5AV8qb0GwByJnlCSm4X\",\"type\":\"Ramp\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2US5AV8qb0GwByJnlCSm4X"
+        ],
+        "action": "Implement a switchback design to reduce slope.",
+        "reasoning": "By redesigning the ramp as a switchback, we can maintain accessibility while adhering to the 8.0% slope requirement."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2US5AV8qb0GwByJnlCSm4X\",\"type\":\"Ramp\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2US5AV8qb0GwByJnlCSm4X"
+        ],
+        "action": "Add landings to break up the slope.",
+        "reasoning": "Incorporating landings at intervals will allow the ramp to comply with the maximum slope while providing resting points for users."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.2 Treads and Risers\nStair Stair.0.3 tread length is 0.20 m. The minimum length for the tread is 0.28 m.\n",
+      "ifc_guids": [
+        "2LQCcanLjFOuofCAdgIDUF"
+      ],
+      "title": "Stair.0.3: 0.20 M",
+      "topic_id": "0b544843-8368-406e-b60d-f96a1ef29dcb"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\":\"2LQCcanLjFOuofCAdgIDUF\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2LQCcanLjFOuofCAdgIDUF"
+        ],
+        "action": "Increase tread length to 0.28 m.",
+        "reasoning": "The current tread length of 0.20 m does not meet the minimum requirement of 0.28 m."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2LQCcanLjFOuofCAdgIDUF\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2LQCcanLjFOuofCAdgIDUF"
+        ],
+        "action": "Redesign stair with a curved tread for aesthetic appeal and compliance.",
+        "reasoning": "A curved tread can enhance the design while ensuring it meets the minimum length requirement."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2LQCcanLjFOuofCAdgIDUF\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2LQCcanLjFOuofCAdgIDUF"
+        ],
+        "action": "Incorporate a modular tread system to allow for adjustable lengths.",
+        "reasoning": "A modular system can provide flexibility in design and ensure compliance with tread length regulations."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "307.4 Reduced Vertical Clearance\nUnderside of stair should be shielded to protect visually impaired persons from accessing it inadvertently.\n",
+      "ifc_guids": [
+        "2LQCcanLjFOuofCAdgIDUF",
+        "3JOMyjK59Fgervz4z7Kgh9"
+      ],
+      "title": "Stair.0.3",
+      "topic_id": "0d309356-957f-4430-a72d-7f4e9b381760"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\":\"2523201\"}]",
+        "context_json": "[{\"id\":\"2684034\"},{\"id\":\"2684120\"},{\"id\":\"2684153\"},{\"id\":\"2684067\"}]",
+        "ids": [
+          "2523201",
+          "2684034",
+          "2684120",
+          "2684153",
+          "2684067"
+        ],
+        "action": "Install protective barriers beneath the stair.",
+        "reasoning": "To prevent visually impaired individuals from inadvertently accessing the stair area, a solid barrier should be installed beneath the stair."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2523201\"}]",
+        "context_json": "[{\"id\":\"2684034\"},{\"id\":\"2684120\"},{\"id\":\"2684153\"},{\"id\":\"2684067\"}]",
+        "ids": [
+          "2523201",
+          "2684034",
+          "2684120",
+          "2684153",
+          "2684067"
+        ],
+        "action": "Implement visual and tactile indicators on the stair's underside.",
+        "reasoning": "Using bright colors and textured surfaces will alert visually impaired individuals to the stair's presence and guide them away."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2523201\"}]",
+        "context_json": "[{\"id\":\"2684034\"},{\"id\":\"2684120\"},{\"id\":\"2684153\"},{\"id\":\"2684067\"}]",
+        "ids": [
+          "2523201",
+          "2684034",
+          "2684120",
+          "2684153",
+          "2684067"
+        ],
+        "action": "Redesign the stair for increased vertical clearance.",
+        "reasoning": "Modifying the stair design can enhance safety by reducing the risk of accidental access for visually impaired individuals."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "307.4 Reduced Vertical Clearance\nUnderside of stair should be shielded to protect visually impaired persons from accessing it inadvertently.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjMEN",
+        "2wwkhajRz9dOXaXiRcjNX8"
+      ],
+      "title": "Stair.3.2",
+      "topic_id": "103794a5-181f-45fe-a82b-b8e8dbd17cf8"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\":\"2684067\"},{\"id\":\"2684034\"},{\"id\":\"2684120\"},{\"id\":\"2684153\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2684067",
+          "2684034",
+          "2684120",
+          "2684153"
+        ],
+        "action": "Install protective barriers along the underside of the stair.",
+        "reasoning": "The stair's height poses a risk to visually impaired individuals; protective barriers will prevent inadvertent access."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2684067\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2684067"
+        ],
+        "action": "Implement visual and tactile indicators on the stair's underside.",
+        "reasoning": "Adding contrasting colors or textures will alert visually impaired individuals to the presence of the stair."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2684067\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2684067"
+        ],
+        "action": "Enhance lighting around the stair area.",
+        "reasoning": "Improved lighting will increase visibility of the stair, helping visually impaired individuals to navigate safely."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.2 Treads and Risers\nStair SStair.1448 has a landing with clear width of less than the required 0.90 m.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjNX8"
+      ],
+      "title": "Stair.3.2",
+      "topic_id": "1687f731-0a57-4213-8001-d06d269d1e59"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\":\"2684067\",\"type\":\"Stair\"},{\"id\":\"2512768\",\"type\":\"Wall\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2684067",
+          "2512768"
+        ],
+        "action": "Widen the landing to meet the required width of 0.90 m.",
+        "reasoning": "The current landing width is less than 0.90 m, necessitating modifications to the existing stair landing and adjacent wall."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2684067\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2684067"
+        ],
+        "action": "Install a folding staircase to save space.",
+        "reasoning": "A folding staircase can provide access while allowing for flexibility in space usage, addressing the width issue creatively."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2684067\",\"type\":\"Stair\"},{\"id\":\"2682922\",\"type\":\"Wall\"},{\"id\":\"2682923\",\"type\":\"Wall\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2684067",
+          "2682922",
+          "2682923"
+        ],
+        "action": "Install a ramp as an alternative access solution.",
+        "reasoning": "A ramp can provide compliant access while accommodating mobility needs, utilizing the space around the existing stairs."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.3 Open Risers\nStair SStair.1448 has a landing with clear width of less than the required 0.90 m.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjNX8"
+      ],
+      "title": "Stair.3.2",
+      "topic_id": "1a6bc087-fb2f-44b1-9c0a-8a0541232fcd"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\":\"2wwkhajRz9dOXaXiRcjNX8\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2wwkhajRz9dOXaXiRcjNX8"
+        ],
+        "action": "Widen the landing to meet the 0.90 m requirement.",
+        "reasoning": "The current landing width is less than the required 0.90 m, which violates safety standards."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2wwkhajRz9dOXaXiRcjNX8\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2wwkhajRz9dOXaXiRcjNX8"
+        ],
+        "action": "Redesign the stair landing as a curved shape to increase width without altering the overall footprint.",
+        "reasoning": "A curved landing can provide additional width while maintaining aesthetic appeal and functionality."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2wwkhajRz9dOXaXiRcjNX8\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2wwkhajRz9dOXaXiRcjNX8"
+        ],
+        "action": "Incorporate a foldable extension on the landing to temporarily increase width during peak usage.",
+        "reasoning": "A foldable extension can provide flexibility in space usage, allowing for compliance during high traffic times."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.2 Treads and Risers\nStair SStair.1456 has a landing with clear width of less than the required 0.90 m.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjNXf"
+      ],
+      "title": "Stair.2.2",
+      "topic_id": "1caff748-c3c7-4d62-a77d-3dd735766df3"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\":\"2684034\"},{\"id\":\"2512768\"}]",
+        "context_json": "[{\"id\":\"2684120\"},{\"id\":\"2682922\"}]",
+        "ids": [
+          "2684034",
+          "2512768",
+          "2684120",
+          "2682922"
+        ],
+        "action": "Widen the landing to at least 0.90 m.",
+        "reasoning": "The current landing width is less than the required 0.90 m, necessitating a modification to meet compliance."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2684034\"}]",
+        "context_json": "[{\"id\":\"2684120\"},{\"id\":\"2682922\"}]",
+        "ids": [
+          "2684034",
+          "2684120",
+          "2682922"
+        ],
+        "action": "Install a foldable landing extension.",
+        "reasoning": "A foldable extension can provide additional width when needed, allowing for compliance without permanent structural changes."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2684034\"}]",
+        "context_json": "[{\"id\":\"2684120\"},{\"id\":\"2682922\"}]",
+        "ids": [
+          "2684034",
+          "2684120",
+          "2682922"
+        ],
+        "action": "Add an adjacent stair or ramp for alternative access.",
+        "reasoning": "Providing an alternative route ensures compliance while accommodating the existing landing constraints."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.2 Treads and Risers\nStair Stair.0.1 riser height is 0.20 m. The maximum height for the risers is 0.18 m.\n",
+      "ifc_guids": [
+        "2LQCcanLjFOuofCAdgI2gY"
+      ],
+      "title": "Stair.0.1: 0.20 M",
+      "topic_id": "20844c1e-e02a-4d4d-9686-1818ffab5f15"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"ifc_guid\":\"2LQCcanLjFOuofCAdgI2gY\",\"id\":\"2522476\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2522476"
+        ],
+        "action": "Lower the riser height to 0.18 m.",
+        "reasoning": "The current riser height of 0.20 m exceeds the maximum allowable height of 0.18 m, necessitating a reduction to comply with building code 504.2."
+      },
+      {
+        "style": "standard",
+        "objects_json": "[{\"ifc_guid\":\"2LQCcanLjFOuofCAdgI2gY\",\"id\":\"2522476\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2522476"
+        ],
+        "action": "Add intermediate landings to the stair design.",
+        "reasoning": "Introducing landings would allow for a gradual ascent, breaking the height into smaller segments and ensuring compliance with the maximum riser height."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"ifc_guid\":\"2LQCcanLjFOuofCAdgI2gY\",\"id\":\"2522476\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2522476"
+        ],
+        "action": "Redesign the stair as a spiral staircase.",
+        "reasoning": "A spiral staircase can provide a compact solution that allows for compliance with riser height regulations while enhancing the aesthetic appeal of the space."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.2 Treads and Risers\nStair Stair.2.1 riser height is 0.20 m. The maximum height for the risers is 0.18 m.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjNWp"
+      ],
+      "title": "Stair.2.1: 0.20 M",
+      "topic_id": "23238706-2209-4a61-b5b5-8d2630319b61"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\":\"2wwkhajRz9dOXaXiRcjNWp\",\"type\":\"Stair\",\"properties\":{\"riser_height\":0.20}}]",
+        "context_json": "[]",
+        "ids": [
+          "2wwkhajRz9dOXaXiRcjNWp"
+        ],
+        "action": "Reduce the riser height to 0.18 m.",
+        "reasoning": "The current riser height of 0.20 m exceeds the maximum allowable height of 0.18 m as per building code 504.2."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2wwkhajRz9dOXaXiRcjNWp\",\"type\":\"Stair\",\"properties\":{\"riser_height\":0.20}}]",
+        "context_json": "[]",
+        "ids": [
+          "2wwkhajRz9dOXaXiRcjNWp"
+        ],
+        "action": "Install a stair lift for accessibility.",
+        "reasoning": "If reducing the riser height is not feasible, a stair lift can provide compliance and accessibility for users."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2wwkhajRz9dOXaXiRcjNWp\",\"type\":\"Stair\",\"properties\":{\"riser_height\":0.20}}]",
+        "context_json": "[]",
+        "ids": [
+          "2wwkhajRz9dOXaXiRcjNWp"
+        ],
+        "action": "Reconfigure the stair design to include a switchback.",
+        "reasoning": "A switchback design can reduce the height of each riser while maintaining the same vertical rise, ensuring compliance with the code."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.2 Treads and Risers\nStair Stair.3.2 riser height is 0.20 m. The maximum height for the risers is 0.18 m.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjNX8"
+      ],
+      "title": "Stair.3.2: 0.20 M",
+      "topic_id": "249ee9d3-6ca2-4344-81c9-9b8b74bed893"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\":\"2684067\",\"type\":\"Stair\",\"riser_height\":0.20}]",
+        "context_json": "[]",
+        "ids": [
+          "2684067"
+        ],
+        "action": "Modify the riser height to 0.18 m.",
+        "reasoning": "The current riser height of 0.20 m exceeds the maximum allowable height of 0.18 m."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2684067\",\"type\":\"Stair\"}]",
+        "context_json": "[{\"id\":\"2684034\",\"type\":\"Stair\"},{\"id\":\"2684120\",\"type\":\"Stair\"},{\"id\":\"2684153\",\"type\":\"Stair\"}]",
+        "ids": [
+          "2684067",
+          "2684034",
+          "2684120",
+          "2684153"
+        ],
+        "action": "Introduce an intermediate landing between treads.",
+        "reasoning": "Adding a landing can break the height into smaller increments, enhancing safety and accessibility."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2684067\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2684067"
+        ],
+        "action": "Install stair lifts or ramps alongside the stair.",
+        "reasoning": "This provides an alternative means of access for individuals with mobility challenges, ensuring compliance with accessibility standards."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.2 Treads and Risers\nStair Stair.2.2 riser height is 0.20 m. The maximum height for the risers is 0.18 m.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjNXf"
+      ],
+      "title": "Stair.2.2: 0.20 M",
+      "topic_id": "266c008a-36cf-4a43-af11-24ca7d33ccd2"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\":\"2wwkhajRz9dOXaXiRcjNXf\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2wwkhajRz9dOXaXiRcjNXf"
+        ],
+        "action": "Adjust riser height to 0.18 m",
+        "reasoning": "The current riser height of 0.20 m exceeds the maximum allowable height of 0.18 m."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2wwkhajRz9dOXaXiRcjNXf\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2wwkhajRz9dOXaXiRcjNXf"
+        ],
+        "action": "Install a ramp alongside the stairway",
+        "reasoning": "Adding a ramp would provide an alternative access route and enhance compliance with accessibility standards."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2wwkhajRz9dOXaXiRcjNXf\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2wwkhajRz9dOXaXiRcjNXf"
+        ],
+        "action": "Introduce landings at intervals",
+        "reasoning": "Landings can help break the height of the stairs, allowing for compliance with the maximum riser height requirement."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "307.4 Reduced Vertical Clearance\nStair SStair.1448 has a landing with clear width of less than the required 0.90 m.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjNX8"
+      ],
+      "title": "Stair.3.2",
+      "topic_id": "2aabf451-f593-4552-8ca1-234392522672"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\":\"2684067\",\"type\":\"Stair\"}]",
+        "context_json": "[{\"id\":\"2684034\",\"type\":\"Connected Stair\"},{\"id\":\"2684120\",\"type\":\"Connected Stair\"},{\"id\":\"2684153\",\"type\":\"Connected Stair\"}]",
+        "ids": [
+          "2684067",
+          "2684034",
+          "2684120",
+          "2684153"
+        ],
+        "action": "Increase landing width to 0.90 m.",
+        "reasoning": "The current landing width is less than the required 0.90 m, necessitating an increase to meet compliance."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2684067\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2684067"
+        ],
+        "action": "Install a folding landing for flexibility.",
+        "reasoning": "A folding landing can provide the required clearance when needed while maintaining design aesthetics."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2684067\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2684067"
+        ],
+        "action": "Add a secondary stair for compliance.",
+        "reasoning": "A secondary stair can provide an alternative route and ensure compliance with clearance requirements."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.3 Open Risers\nStair SStair.197 has a landing with clear width of less than the required 0.90 m.\n",
+      "ifc_guids": [
+        "2LQCcanLjFOuofCAdgI2gY"
+      ],
+      "title": "Stair.0.1",
+      "topic_id": "364d7e82-8bf1-416e-9412-b90c253badea"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\":\"2LQCcanLjFOuofCAdgI2gY\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2LQCcanLjFOuofCAdgI2gY"
+        ],
+        "action": "Widen the landing to meet the 0.90 m requirement.",
+        "reasoning": "The current landing width is less than the required 0.90 m, which does not comply with safety standards."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2LQCcanLjFOuofCAdgI2gY\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2LQCcanLjFOuofCAdgI2gY"
+        ],
+        "action": "Redesign the stair landing as a curved or angled shape to increase width.",
+        "reasoning": "A creative redesign can enhance the landing's width while maintaining aesthetic appeal."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2LQCcanLjFOuofCAdgI2gY\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2LQCcanLjFOuofCAdgI2gY"
+        ],
+        "action": "Incorporate a foldable or retractable landing extension.",
+        "reasoning": "This innovative solution allows for compliance with width requirements while providing flexibility in space usage."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "307.4 Reduced Vertical Clearance\nStair SStair.1114 has a landing with clear width of less than the required 0.90 m.\n",
+      "ifc_guids": [
+        "2LQCcanLjFOuofCAdgIDUF"
+      ],
+      "title": "Stair.0.3",
+      "topic_id": "366021e2-7542-496b-8897-d30b9d7014f4"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\":\"2LQCcanLjFOuofCAdgIDUF\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2LQCcanLjFOuofCAdgIDUF"
+        ],
+        "action": "Widen the landing to meet the 0.90 m requirement.",
+        "reasoning": "The current landing width is less than 0.90 m, which does not comply with the clearance requirement."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2LQCcanLjFOuofCAdgIDUF\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2LQCcanLjFOuofCAdgIDUF"
+        ],
+        "action": "Redesign the stair landing as a curved or angled shape to increase width.",
+        "reasoning": "A creative redesign can enhance the landing width while maintaining aesthetic appeal."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2LQCcanLjFOuofCAdgIDUF\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2LQCcanLjFOuofCAdgIDUF"
+        ],
+        "action": "Incorporate a foldable landing extension to temporarily increase width.",
+        "reasoning": "A foldable extension can provide flexibility and meet clearance requirements when needed."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.3 Open Risers\nStair SStair.1114 has a landing with clear width of less than the required 0.90 m.\n",
+      "ifc_guids": [
+        "2LQCcanLjFOuofCAdgIDUF"
+      ],
+      "title": "Stair.0.3",
+      "topic_id": "366cc8ac-f8dd-4fa2-a888-b18761b3ea9e"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\":\"2LQCcanLjFOuofCAdgIDUF\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2LQCcanLjFOuofCAdgIDUF"
+        ],
+        "action": "Widen the landing to meet the 0.90 m requirement.",
+        "reasoning": "The current landing width is less than 0.90 m, which does not comply with the regulations."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2LQCcanLjFOuofCAdgIDUF\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2LQCcanLjFOuofCAdgIDUF"
+        ],
+        "action": "Redesign the stair landing as a curved shape to increase width without altering the overall footprint.",
+        "reasoning": "A curved landing can provide additional width while maintaining aesthetic appeal and functionality."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2LQCcanLjFOuofCAdgIDUF\",\"type\":\"Stair\"}]",
+        "context_json": "[]",
+        "ids": [
+          "2LQCcanLjFOuofCAdgIDUF"
+        ],
+        "action": "Implement a tiered landing design to create usable space and meet width requirements.",
+        "reasoning": "Tiered landings can enhance usability and comply with width regulations by effectively utilizing vertical space."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "504.2 Treads and Risers\nStair Stair.3.1 riser height is 0.20 m. The maximum height for the risers is 0.18 m.\n",
+      "ifc_guids": [
+        "2wwkhajRz9dOXaXiRcjNWI"
+      ],
+      "title": "Stair.3.1: 0.20 M",
+      "topic_id": "3a9d7c8c-ef37-482b-b2c7-325315b282c9"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"id\":\"2684153\",\"type\":\"Stair\",\"riser_height\":0.20}]",
+        "context_json": "[]",
+        "ids": [
+          "2684153"
+        ],
+        "action": "Reduce the riser height to 0.18 m or lower.",
+        "reasoning": "The current riser height of 0.20 m exceeds the maximum allowable height of 0.18 m, posing safety risks."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2684153\",\"type\":\"Stair\",\"riser_height\":0.20}]",
+        "context_json": "[]",
+        "ids": [
+          "2684153"
+        ],
+        "action": "Install adjustable modular stair components.",
+        "reasoning": "Using modular components allows for on-site adjustments to ensure compliance with riser height regulations."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"id\":\"2684153\",\"type\":\"Stair\",\"riser_height\":0.20}]",
+        "context_json": "[]",
+        "ids": [
+          "2684153"
+        ],
+        "action": "Add stair nosing for visibility and safety.",
+        "reasoning": "Installing stair nosing enhances safety by making the risers more visible and providing better grip."
+      }
+    ]
+  },
+  {
+    "issue": {
+      "description": "405.2 Slope\nRamp length is 3.00 m and slope is 10.0%. The maximum length for this slope is 1.52 m.\n",
+      "ifc_guids": [
+        "2US5AV8qb0GwByJnlCSm4X"
+      ],
+      "title": "Ramp.0.1: 3.00 M",
+      "topic_id": "444d7216-583f-4ba0-8fb1-8f35f53fe8f8"
+    },
+    "suggestions": [
+      {
+        "style": "standard",
+        "objects_json": "[{\"IFC_GUID\":\"2US5AV8qb0GwByJnlCSm4X\",\"ID\":\"3.00 M Ramp\"},{\"IFC_GUID\":\"2wwkhajRz9dOXaXiRcjNtz\",\"ID\":\"Column\"},{\"IFC_GUID\":\"2wwkhajRz9dOXaXiRcjMhM\",\"ID\":\"Slab\"}]",
+        "context_json": "[{\"IFC_GUID\":\"2P0Clh2c952RPyuPFEYgcQ\",\"ID\":\"Door\"},{\"IFC_GUID\":\"1WNDqqV1rAAAY3T7Oc5Qcy\",\"ID\":\"Wall\"}]",
+        "ids": [
+          "2US5AV8qb0GwByJnlCSm4X",
+          "2wwkhajRz9dOXaXiRcjNtz",
+          "2wwkhajRz9dOXaXiRcjMhM",
+          "2P0Clh2c952RPyuPFEYgcQ",
+          "1WNDqqV1rAAAY3T7Oc5Qcy"
+        ],
+        "action": "Redesign the ramp to comply with slope regulations.",
+        "reasoning": "The current ramp length of 3.00 m exceeds the maximum allowable slope of 1.52 m, necessitating a redesign to ensure compliance."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"IFC_GUID\":\"2US5AV8qb0GwByJnlCSm4X\",\"ID\":\"3.00 M Ramp\"},{\"IFC_GUID\":\"2LQCcanLjFOuofCAdgI2gY\",\"ID\":\"Stair\"}]",
+        "context_json": "[{\"IFC_GUID\":\"2P0Clh2c952RPyuPFEYgcQ\",\"ID\":\"Door\"},{\"IFC_GUID\":\"1WNDqqV1rAAAY3T7Oc5Qcy\",\"ID\":\"Wall\"}]",
+        "ids": [
+          "2US5AV8qb0GwByJnlCSm4X",
+          "2LQCcanLjFOuofCAdgI2gY",
+          "2P0Clh2c952RPyuPFEYgcQ",
+          "1WNDqqV1rAAAY3T7Oc5Qcy"
+        ],
+        "action": "Incorporate landings along the ramp to reduce slope perception.",
+        "reasoning": "Adding landings would break up the slope, making it more manageable and compliant with accessibility standards."
+      },
+      {
+        "style": "creative",
+        "objects_json": "[{\"IFC_GUID\":\"2US5AV8qb0GwByJnlCSm4X\",\"ID\":\"3.00 M Ramp\"},{\"IFC_GUID\":\"3RD7PAHIz7R9lDzWO$cjQK\",\"ID\":\"Office Space\"}]",
+        "context_json": "[{\"IFC_GUID\":\"2P0Clh2c952RPyuPFEYgcQ\",\"ID\":\"Door\"},{\"IFC_GUID\":\"1WNDqqV1rAAAY3T7Oc5Qcy\",\"ID\":\"Wall\"}]",
+        "ids": [
+          "2US5AV8qb0GwByJnlCSm4X",
+          "3RD7PAHIz7R9lDzWO$cjQK",
+          "2P0Clh2c952RPyuPFEYgcQ",
+          "1WNDqqV1rAAAY3T7Oc5Qcy"
+        ],
+        "action": "Consider adding an elevator or lift as an alternative access solution.",
+        "reasoning": "If redesigning the ramp is not feasible, an elevator would provide necessary access for individuals with mobility challenges."
+      }
+    ]
+  }
+]
