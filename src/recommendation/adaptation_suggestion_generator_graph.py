@@ -186,6 +186,8 @@ class AdaptationSuggestionGeneratorGraph:
         
         return graph_cypher_qa
 
+
+    # SF: Dynamically retrieve the schema and all nodes from the graph db as input to the LLM prompt for generating cypher statements.
     def _build_cypher_tool(self, graph: Neo4jGraph, llm: ChatOpenAI) -> GraphCypherQAChain:
         schema_query = """
         CALL apoc.meta.schema() YIELD value

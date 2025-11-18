@@ -41,6 +41,15 @@ NEO4J_USER=neo4j
 NEO4J_PASSWORD=your_neo4j_password
 LLM_MODEL=XXXXXX
 XXXXX_API_KEY=your_api_key
+<!-- Preferred API -->
+OPENROUTER_API_KEY=your_api_key
+OPENROUTER_BASE_URL='https://openrouter.ai/api/v1'
+<!-- Enable Tracing -->
+LANGSMITH_TRACING=true
+LANGSMITH_ENDPOINT="https://api.smith.langchain.com"
+LANGSMITH_API_KEY=your_api_key
+LANGSMITH_PROJECT="acc-recomm"
+
 ```
 
 ## Pipeline Execution
