@@ -1,0 +1,27 @@
+[
+  {
+    "description": "IBC SECTION 1012 RAMPS 1012_2 Slope (part of means of egress).\nRamp slope is 10.0%. The maximum slope for the ramps is 8.0%.\n",
+    "ifc_guids": [
+      "2US5AV8qb0GwByJnlCSm4X"
+    ],
+    "title": "Too Steep Ramp: 10.0%",
+    "topic_id": "04238434-70ce-4f7c-82c9-0f77ad160d46"
+  },
+  {
+    "description": "504.2 Treads and Risers\nStair Stair.0.3 tread length is 0.20 m. The minimum length for the tread is 0.28 m.\n",
+    "ifc_guids": [
+      "2LQCcanLjFOuofCAdgIDUF"
+    ],
+    "title": "Stair.0.3: 0.20 M",
+    "topic_id": "0b544843-8368-406e-b60d-f96a1ef29dcb"
+  },
+  {
+    "description": "307.4 Reduced Vertical Clearance\nUnderside of stair should be shielded to protect visually impaired persons from accessing it inadvertently.\n",
+    "ifc_guids": [
+      "2LQCcanLjFOuofCAdgIDUF",
+      "3JOMyjK59Fgervz4z7Kgh9"
+    ],
+    "title": "Stair.0.3",
+    "topic_id": "0d309356-957f-4430-a72d-7f4e9b381760"
+  }
+]

@@ -36,14 +36,19 @@ uv sync
 
 2. **Create `.env` file** in project root:
 ```properties
+<!-- NEO4J Setup -->
 NEO4J_URI=bolt://localhost:7687
 NEO4J_USER=neo4j
 NEO4J_PASSWORD=your_neo4j_password
-LLM_MODEL=XXXXXX
-XXXXX_API_KEY=your_api_key
+
 <!-- Preferred API -->
 OPENROUTER_API_KEY=your_api_key
 OPENROUTER_BASE_URL='https://openrouter.ai/api/v1'
+
+<!-- LLM Model -->
+LLM_MODEL=XXXXXX #for graph query.
+LLM_MODEL_OUTPUT=XXXXXX #for structured output, openai models.
+
 <!-- Enable Tracing -->
 LANGSMITH_TRACING=true
 LANGSMITH_ENDPOINT="https://api.smith.langchain.com"
