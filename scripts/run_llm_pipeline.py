@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from recommendation.adaptation_suggestion_generator import AdaptationSuggestionGenerator
+# from recommendation.adaptation_suggestion_generator import AdaptationSuggestionGenerator
 from recommendation.adaptation_suggestion_generator_graph import AdaptationSuggestionGeneratorGraph
 from recommendation.configuration import (
     get_graph_config,

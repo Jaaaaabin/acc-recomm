@@ -119,7 +119,12 @@ class AdaptationSuggestionGeneratorGraph:
         issue_start_index = self._config["issue_start_index"]
         issue_processing_count = self._config["issue_processing_count"]
         results = []
+
+        # Create separate LLM for structured output (always GPT since of its structured output capabilities)
+        output_api_key = api_key
+        output_llm = self._create_output_llm(output_api_key)
         
+        # Process each issue 
         for issue in issues[issue_start_index:issue_start_index + issue_processing_count]:
             if len(issue["ifc_guids"]) > 10:
                 self._logger.info("Skipping issue with IFC GUIDs", extra={"issue": issue})
@@ -139,9 +144,9 @@ class AdaptationSuggestionGeneratorGraph:
             # Extract the final answer from the last AI message
             final_answer = self._extract_final_answer(final_state["messages"])
             
-            # Use structured output to format the response
-            structured_llm = llm.with_structured_output(AdaptationPlan)
-            plan = cast(AdaptationPlan, structured_llm.invoke(self._structured_prompt(issue, final_answer)))
+            # Use structured output to format the response, ensuring it matches AdaptationPlan (OpenAI models only)
+            structured_output_llm = output_llm.with_structured_output(AdaptationPlan)
+            plan = cast(AdaptationPlan, structured_output_llm.invoke(self._structured_prompt(issue, final_answer)))
             
             results.append({
                 "issue": issue,
@@ -155,8 +160,19 @@ class AdaptationSuggestionGeneratorGraph:
         return results
 
     def _create_llm(self, api_key: str) -> ChatOpenAI:
+        """Create the main LLM for the agent to do LangGraph Query."""
         return ChatOpenAI(  # type: ignore[arg-type]
             model=self._config["llm_model"],
+            temperature=self._config["temperature"],
+            api_key=SecretStr(api_key),
+            base_url=os.getenv("OPENROUTER_BASE_URL"),
+        )
+    
+    def _create_output_llm(self, api_key: str) -> ChatOpenAI:
+        """Create LLM specifically for structured output (always OpenAI)."""
+
+        return ChatOpenAI(  # type: ignore[arg-type]
+            model=self._config["structured_output_model"],
             temperature=self._config["temperature"],
             api_key=SecretStr(api_key),
             base_url=os.getenv("OPENROUTER_BASE_URL"),

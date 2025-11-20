@@ -16,7 +16,8 @@ suggestions:
   standard_suggestions: 1
   creative_suggestions: 2
   regulation_text: null
-  llm_model: ${LLM_MODEL:google/gemini-2.5-flash}
+  llm_model: ${LLM_MODEL:google/gemini-2.5-flash} # For graph querying 
+  structured_output_model: ${LLM_MODEL_OUTPUT:gpt-4o-mini}  # For structured output
   temperature: 0.2
   max_iterations: 5
   verbose: false
